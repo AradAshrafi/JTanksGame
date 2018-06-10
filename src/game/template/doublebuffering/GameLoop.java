@@ -1,5 +1,6 @@
 /*** In The Name of Allah ***/
-package src.game.template.doublebuffering;
+
+package game.template.doublebuffering; /*** In The Name of Allah ***/
 
 /**
  * A very simple structure for the main game loop.

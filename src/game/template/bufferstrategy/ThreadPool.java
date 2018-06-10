@@ -1,5 +1,5 @@
 /*** In The Name of Allah ***/
-package src.game.template.bufferstrategy;
+package game.template.bufferstrategy;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

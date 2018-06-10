@@ -1,4 +1,4 @@
-package src.game.template.doublebuffering; /*** In The Name of Allah ***/
+package game.template.doublebuffering; /*** In The Name of Allah ***/
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;

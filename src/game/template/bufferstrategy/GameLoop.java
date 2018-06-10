@@ -1,6 +1,6 @@
 /*** In The Name of Allah ***/
+package game.template.bufferstrategy;
 
-package src.game.template.bufferstrategy;
 
 /**
  * A very simple structure for the main game loop.

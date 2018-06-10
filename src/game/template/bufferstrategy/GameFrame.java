@@ -1,4 +1,4 @@
-package src.game.template.bufferstrategy; /*** In The Name of Allah ***/
+package game.template.bufferstrategy;
 
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
