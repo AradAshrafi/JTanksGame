@@ -1,5 +1,4 @@
-package src.game.sample.ball;
-
+package game.sample.ball;
 
 import java.awt.Color;
 import java.awt.Font;

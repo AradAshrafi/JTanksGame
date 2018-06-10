@@ -1,4 +1,4 @@
-package src.game.sample.ball; /*** In The Name of Allah ***/
+package game.sample.ball;
 
 /**
  * A very simple structure for the main game loop.

@@ -1,4 +1,4 @@
-package src.game.sample.ball; /*** In The Name of Allah ***/
+package game.sample.ball; /*** In The Name of Allah ***/
 
 
 import java.util.concurrent.ExecutorService;

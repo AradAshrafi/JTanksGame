@@ -1,7 +1,7 @@
-/*** In The Name of Allah ***/
+package game.sample.ball; /*** In The Name of Allah ***/
 
 
-package src.game.sample.ball;
+
 
 
 import java.awt.EventQueue;

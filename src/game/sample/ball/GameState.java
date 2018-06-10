@@ -1,5 +1,5 @@
-/*** In The Name of Allah ***/
-package src.game.sample.ball;
+package game.sample.ball; /*** In The Name of Allah ***/
+
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
