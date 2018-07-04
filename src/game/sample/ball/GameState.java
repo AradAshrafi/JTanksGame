@@ -27,8 +27,8 @@ public class GameState {
     private MouseHandler mouseHandler;
 
     public GameState() {
-        locX = 100;
-        locY = 100;
+        locX = 120;
+        locY = 120;
         diam = 32;
         gameOver = false;
         //

@@ -1,9 +1,6 @@
 package game.sample.ball;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,10 +22,15 @@ import javax.swing.JFrame;
 public class GameFrame extends JFrame {
 
     public static final int GAME_HEIGHT = 720;                  // 720p game resolution
-    public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;  // wide aspect ratio
+    public static final int GAME_WIDTH = 8 * GAME_HEIGHT / 6;  // wide aspect ratio
+    private Map map;
 
     //uncomment all /*...*/ in the class for using Tank icon instead of a simple circle
-    private BufferedImage image;
+    private BufferedImage tankImage;
+    private BufferedImage wallImage;
+    private BufferedImage groundImage;
+    private BufferedImage notDamagedBrickImage;
+    private BufferedImage damagedBrickImage;
 
     private long lastRender;
     private ArrayList<Float> fpsHistory;
@@ -36,13 +38,21 @@ public class GameFrame extends JFrame {
 
     public GameFrame(String title) {
         super(title);
+        map = new Map();
+        map.readMap();
+
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
         lastRender = -1;
         fpsHistory = new ArrayList<>(100);
 
         try {
-            image = ImageIO.read(new File("Icon.png"));
+            tankImage = ImageIO.read(new File("Icon.png"));
+            wallImage = ImageIO.read(new File("icons/Wall.png"));
+            groundImage = ImageIO.read(new File("icons/Soil.png"));
+            notDamagedBrickImage = ImageIO.read(new File("icons/Brick.png"));
+            damagedBrickImage = ImageIO.read(new File("icons/DamagedBrick.png"));
+
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -101,9 +111,8 @@ public class GameFrame extends JFrame {
         // Draw ball
         g2d.setColor(Color.BLACK);
 //        g2d.fillOval(state.locX, state.locY, state.diam, state.diam);
-
-        g2d.drawImage(image, state.locX, state.locY, null);
-
+        drawMap(g2d, state);
+        drawDynamics(g2d,state);
 
         // Print FPS info
         long currentRender = System.currentTimeMillis();
@@ -140,6 +149,39 @@ public class GameFrame extends JFrame {
             int strWidth = g2d.getFontMetrics().stringWidth(str);
             g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, GAME_HEIGHT / 2);
         }
+    }
+
+    private void drawMap(Graphics2D g2d, GameState state) {
+        int myTankLocX = state.locX;
+        int myTankLocY = state.locY;
+        String[][] map = this.map.getMap();
+        for (int i = myTankLocY / 120; i < myTankLocY / 120 + 6; i++) {
+            for (int j = myTankLocX / 120; j < myTankLocX / 120 + 8; j++) {
+                if (j == 11)
+                    break;
+                switch (map[i][j]) {
+                    case ("W"):
+                        g2d.drawImage(wallImage, j * 120, i * 120, null);
+                        break;
+                    case ("G"):
+                        g2d.drawImage(groundImage, j * 120, i * 120, null);
+                        break;
+                    case ("B"):
+                        g2d.drawImage(wallImage, j * 120, i * 120, null);
+                        break;
+                    case ("D"):
+                        g2d.drawImage(wallImage, j * 120, i * 120, null);
+                        break;
+                }
+            }
+            if (i == 30)
+                break;
+        }
+    }
+
+    private void drawDynamics(Graphics2D g2d, GameState state){
+        g2d.drawImage(tankImage, state.locX, state.locY, null);
+
     }
 
 }

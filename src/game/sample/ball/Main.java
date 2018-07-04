@@ -15,10 +15,6 @@ public class Main {
         // Initialize the global thread-pool
         ThreadPool.init();
 
-        Map map = new Map();
-        map.readMap();
-        map.print();
-
         // Show the game menu ...
 
         // After the player clicks 'PLAY' ...
