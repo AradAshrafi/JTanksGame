@@ -1,8 +1,10 @@
 package game.sample.ball; /*** In The Name of Allah ***/
 
-
-import java.awt.EventQueue;
+import java.awt.*;
 import javax.swing.JFrame;
+
+import static java.awt.Robot.*;
+import static javafx.scene.input.KeyCode.R;
 
 /**
  * Program start.
@@ -13,6 +15,13 @@ public class Main {
 
     public static void main(String[] args) {
         // Initialize the global thread-pool
+        try {
+            Robot r = new Robot();
+            r.mouseMove(12, 16);
+
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
         ThreadPool.init();
 
         // Show the game menu ...

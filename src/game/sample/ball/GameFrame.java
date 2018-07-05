@@ -23,7 +23,7 @@ public class GameFrame extends JFrame {
 
     public static final int GAME_HEIGHT = 720;                  // 720p game resolution
     public static final int GAME_WIDTH = 8 * GAME_HEIGHT / 6;  // wide aspect ratio
-    private Map map;
+    private Map gameMap;
 
     //uncomment all /*...*/ in the class for using Tank icon instead of a simple circle
     private BufferedImage tankImage;
@@ -38,8 +38,8 @@ public class GameFrame extends JFrame {
 
     public GameFrame(String title) {
         super(title);
-        map = new Map();
-        map.readMap();
+        gameMap = new Map();
+        gameMap.readMap();
 
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -152,14 +152,27 @@ public class GameFrame extends JFrame {
     }
 
     private void drawMap(Graphics2D g2d, GameState state) {
+
         int myTankLocX = state.locX;
         int myTankLocY = state.locY;
-        String[][] map = this.map.getMap();
-        for (int i = myTankLocY / 120; i < myTankLocY / 120 + 6; i++) {
-            for (int j = myTankLocX / 120; j < myTankLocX / 120 + 8; j++) {
-                if (j == 11)
-                    break;
-                switch (map[i][j]) {
+        int myMouseX = state.mouseX;
+        int myMouseY = state.mouseY;
+        int tankLocXPrime = myTankLocX;
+        int tankLocYPrime = myTankLocY;
+
+        String[][] staticMap = this.gameMap.getMap();
+        String[][] dynamicMap = new String[6][8];
+
+        for (int i = 0; i  < 6; i++){
+            for (int j = 0; j < 8; j++){
+                dynamicMap[i][j] = staticMap[i + state.windowNorthBorder/120][j + state.windowWestBorder/120];
+            }
+        }
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 8; j++) {
+
+                switch (dynamicMap[i][j]) {
                     case ("W"):
                         g2d.drawImage(wallImage, j * 120, i * 120, null);
                         break;
@@ -174,8 +187,6 @@ public class GameFrame extends JFrame {
                         break;
                 }
             }
-            if (i == 30)
-                break;
         }
     }
 
