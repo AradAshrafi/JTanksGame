@@ -356,7 +356,7 @@ public class GameState {
             /**
              * will be completed in future to remove bullet if its passing forbidden part of map
              */
-            
+
 //            if(currentObject instanceof Bullet){
 //                if(currentObject.getLocX() || currentObject.getLocY() )
 //            }
