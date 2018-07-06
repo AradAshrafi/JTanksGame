@@ -1,11 +1,14 @@
 package game.gameSchematic;
 
+import game.gameObjects.GameObject;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
@@ -112,7 +115,7 @@ public class GameFrame extends JFrame {
         g2d.setColor(Color.BLACK);
 //        g2d.fillOval(state.locX, state.locY, state.diam, state.diam);
         drawMap(g2d, state);
-        drawDynamics(g2d,state);
+        drawDynamics(g2d, state);
 
         // Print FPS info
         long currentRender = System.currentTimeMillis();
@@ -163,9 +166,9 @@ public class GameFrame extends JFrame {
         String[][] staticMap = this.gameMap.getMap();
         String[][] dynamicMap = new String[6][8];
 
-        for (int i = 0; i  < 6; i++){
-            for (int j = 0; j < 8; j++){
-                dynamicMap[i][j] = staticMap[i + state.windowNorthBorder/120][j + state.windowWestBorder/120];
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 8; j++) {
+                dynamicMap[i][j] = staticMap[i + state.windowNorthBorder / 120][j + state.windowWestBorder / 120];
             }
         }
 
@@ -190,9 +193,14 @@ public class GameFrame extends JFrame {
         }
     }
 
-    private void drawDynamics(Graphics2D g2d, GameState state){
+    private void drawDynamics(Graphics2D g2d, GameState state) {
         g2d.drawImage(tankImage, state.locX, state.locY, null);
-
+        ArrayList<GameObject> gameObjects = state.getGameObjects();
+        Iterator<GameObject> it = gameObjects.iterator();
+        while (it.hasNext()) {
+            GameObject currentObject = it.next();
+            currentObject.paint(g2d);
+        }
     }
 
 }

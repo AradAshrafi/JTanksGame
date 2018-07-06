@@ -1,6 +1,9 @@
 package game.gameSchematic; /*** In The Name of Allah ***/
 
 
+import game.gameObjects.Bullet;
+import game.gameObjects.GameObject;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,6 +11,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * This class holds the state of game and all of its elements.
@@ -16,6 +21,8 @@ import java.awt.event.MouseMotionListener;
  * @author Seyed Mohammad Ghaffarian
  */
 public class GameState {
+
+    private ArrayList<GameObject> gameObjects;
 
     public int locX, locY, diam;
     public int locXPrime, locYPrime;
@@ -35,10 +42,11 @@ public class GameState {
     private MouseHandler mouseHandler;
 
     public GameState() {
+        gameObjects = new ArrayList<>();
         locX = 120;
         locY = 480;
         locXPrime = locX;
-        locYPrime = locY + (Map.HEIGHT-1)*120;
+        locYPrime = locY + (Map.HEIGHT - 1) * 120;
 
         diam = 120;
         gameOver = false;
@@ -66,78 +74,78 @@ public class GameState {
 
     }
 
-    public void setPositionMode(){
-        if (locX < mouseX){
+    public ArrayList<GameObject> getGameObjects() {
+        return gameObjects;
+    }
+
+    public void setPositionMode() {
+        if (locX < mouseX) {
             if (locY < mouseY) positionMode = 1;
             else if (locY > mouseY) positionMode = 2;
             else positionMode = 3;
-        }
-        else if (locX > mouseX){
+        } else if (locX > mouseX) {
             if (locY < mouseY) positionMode = 4;
             else if (locY > mouseY) positionMode = 5;
             else positionMode = 6;
-        }
-        else {
+        } else {
             if (locY < mouseY) positionMode = 7;
             else if (locY > mouseY) positionMode = 8;
             else positionMode = 9;
         }
     }
 
-    public void setBorders(){
+    public void setBorders() {
 
         int innerRectangleWidth = Math.abs(locX - mouseX);
         int innerRectangleHeight = Math.abs(locY - mouseY);
-        int innerXSpace = (int)0.5*(GameFrame.GAME_WIDTH - innerRectangleWidth);
-        int innerYSpace = (int)0.5*(GameFrame.GAME_HEIGHT - innerRectangleHeight);
+        int innerXSpace = (int) 0.5 * (GameFrame.GAME_WIDTH - innerRectangleWidth);
+        int innerYSpace = (int) 0.5 * (GameFrame.GAME_HEIGHT - innerRectangleHeight);
 
-        switch (positionMode){
-            case 1 :
-                windowSouthBorder = Math.max(GameFrame.GAME_HEIGHT, Math.min(mouseYPrime + innerYSpace, Map.HEIGHT*120));
+        switch (positionMode) {
+            case 1:
+                windowSouthBorder = Math.max(GameFrame.GAME_HEIGHT, Math.min(mouseYPrime + innerYSpace, Map.HEIGHT * 120));
                 windowNorthBorder = windowSouthBorder - GameFrame.HEIGHT;
-                windowEastBorder = Math.max(GameFrame.WIDTH, Math.min(mouseXPrime + innerXSpace, Map.WIDTH*120));
+                windowEastBorder = Math.max(GameFrame.WIDTH, Math.min(mouseXPrime + innerXSpace, Map.WIDTH * 120));
                 windowWestBorder = windowEastBorder - GameFrame.WIDTH;
                 break;
 
 
-            case 2 :
-                windowNorthBorder = Math.min((Map.HEIGHT - 1)*120 ,Math.max(mouseYPrime - innerYSpace, 0));
+            case 2:
+                windowNorthBorder = Math.min((Map.HEIGHT - 1) * 120, Math.max(mouseYPrime - innerYSpace, 0));
                 windowSouthBorder = windowNorthBorder + GameFrame.GAME_HEIGHT;
-                windowEastBorder = Math.max(GameFrame.WIDTH, Math.min(mouseXPrime + innerXSpace, Map.WIDTH*120));
+                windowEastBorder = Math.max(GameFrame.WIDTH, Math.min(mouseXPrime + innerXSpace, Map.WIDTH * 120));
                 windowWestBorder = windowEastBorder - GameFrame.WIDTH;
                 break;
 
 
-            case 4 :
-                windowSouthBorder = Math.max(GameFrame.GAME_HEIGHT, Math.min(mouseYPrime + innerYSpace, Map.HEIGHT*120));
+            case 4:
+                windowSouthBorder = Math.max(GameFrame.GAME_HEIGHT, Math.min(mouseYPrime + innerYSpace, Map.HEIGHT * 120));
                 windowNorthBorder = windowSouthBorder - GameFrame.HEIGHT;
-                windowWestBorder = Math.max(Math.min(mouseXPrime - innerXSpace, (Map.WIDTH-1)*120), 0);
+                windowWestBorder = Math.max(Math.min(mouseXPrime - innerXSpace, (Map.WIDTH - 1) * 120), 0);
                 windowEastBorder = windowWestBorder + GameFrame.WIDTH;
                 break;
 
-            case 5 :
-                windowNorthBorder = Math.min((Map.HEIGHT - 1)*120 ,Math.max(mouseYPrime - innerYSpace, 0));
+            case 5:
+                windowNorthBorder = Math.min((Map.HEIGHT - 1) * 120, Math.max(mouseYPrime - innerYSpace, 0));
                 windowSouthBorder = windowNorthBorder + GameFrame.GAME_HEIGHT;
-                windowWestBorder = Math.max(Math.min(mouseXPrime - innerXSpace, (Map.WIDTH-1)*120), 0);
+                windowWestBorder = Math.max(Math.min(mouseXPrime - innerXSpace, (Map.WIDTH - 1) * 120), 0);
                 windowEastBorder = windowWestBorder + GameFrame.WIDTH;
                 break;
         }
     }
 
-    public void setPositionArea(){
-        if (windowNorthBorder == 0){
+    public void setPositionArea() {
+        if (windowNorthBorder == 0) {
             if (windowWestBorder == 0) positionArea = 6;
-            else if (windowEastBorder == Map.WIDTH*120) positionArea = 7;
+            else if (windowEastBorder == Map.WIDTH * 120) positionArea = 7;
             else positionArea = 2;
-        }
-        else if (windowSouthBorder == Map.HEIGHT*120){
+        } else if (windowSouthBorder == Map.HEIGHT * 120) {
             if (windowWestBorder == 0) positionArea = 9;
-            else if (windowEastBorder == Map.WIDTH*120) positionArea = 8;
+            else if (windowEastBorder == Map.WIDTH * 120) positionArea = 8;
             else positionArea = 4;
-        }
-        else {
+        } else {
             if (windowWestBorder == 0) positionArea = 5;
-            else if (windowEastBorder == Map.WIDTH*120) positionArea = 3;
+            else if (windowEastBorder == Map.WIDTH * 120) positionArea = 3;
             else positionArea = 1;
         }
     }
@@ -152,17 +160,18 @@ public class GameState {
         System.out.println("locX : " + locX + "locY : " + locY);
 
         if (mousePress) {
-            locY = mouseY - diam / 2;
-            locX = mouseX - diam / 2;
+            Bullet newBullet = new Bullet(locX, locY, "icons/HeavyBullet.png", mouseX, mouseY, 20);
+            gameObjects.add(newBullet);
         }
+
         if (keyUP) {
-            switch (positionArea){
-                case 1 :
+            switch (positionArea) {
+                case 1:
                     locYPrime -= 4;
                     mouseY0 -= 4;
                     break;
 
-                case 2 :
+                case 2:
                     locY -= 4;
                     locYPrime -= 4;
                     break;
@@ -204,12 +213,12 @@ public class GameState {
             }
         }
         if (keyDOWN) {
-            switch (positionArea){
-                case 1 :
+            switch (positionArea) {
+                case 1:
                     locYPrime += 4;
                     mouseY0 += 4;
                     break;
-                case 2 :
+                case 2:
                     locY += 4;
                     locYPrime += 4;
                     break;
@@ -244,12 +253,12 @@ public class GameState {
             }
         }
         if (keyLEFT) {
-            switch (positionArea){
-                case 1 :
+            switch (positionArea) {
+                case 1:
                     locXPrime -= 4;
                     mouseX0 -= 4;
                     break;
-                case 2 :
+                case 2:
                     locXPrime -= 4;
                     mouseX0 -= 4;
                     break;
@@ -284,12 +293,12 @@ public class GameState {
             }
         }
         if (keyRIGHT) {
-            switch (positionArea){
-                case 1 :
+            switch (positionArea) {
+                case 1:
                     locXPrime += 4;
                     mouseX0 += 4;
                     break;
-                case 2 :
+                case 2:
                     locXPrime += 4;
                     mouseX0 += 4;
                     break;
@@ -328,16 +337,33 @@ public class GameState {
         mouseYPrime = mouseY + mouseY0;
 
         locXPrime = Math.max(locXPrime, 0);
-        locXPrime = Math.min(locXPrime, 8*GameFrame.GAME_WIDTH - diam);
+        locXPrime = Math.min(locXPrime, 8 * GameFrame.GAME_WIDTH - diam);
         locYPrime = Math.max(locYPrime, 0);
-        locYPrime = Math.min(locYPrime, 6*GameFrame.GAME_HEIGHT - diam);
+        locYPrime = Math.min(locYPrime, 6 * GameFrame.GAME_HEIGHT - diam);
+
 
         setPositionMode();
         setBorders();
         setPositionArea();
+        updateGameObjects();
 
     }
 
+    private void updateGameObjects() {
+        Iterator<GameObject> it = gameObjects.iterator();
+        while (it.hasNext()) {
+            GameObject currentObject = it.next();
+            /**
+             * will be completed in future to remove bullet if its passing forbidden part of map
+             */
+            
+//            if(currentObject instanceof Bullet){
+//                if(currentObject.getLocX() || currentObject.getLocY() )
+//            }
+            currentObject.update();
+        }
+
+    }
 
     public KeyListener getKeyListener() {
         return keyHandler;
