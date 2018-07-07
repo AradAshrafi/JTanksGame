@@ -1,5 +1,7 @@
 package game.gameObjects;
 
+import game.FileOperation.Map;
+
 public class CannonFill extends GameObject implements UpdatableObjects {
 
     public CannonFill(int locX, int locY, String pathName) {
@@ -11,8 +13,8 @@ public class CannonFill extends GameObject implements UpdatableObjects {
         /**
          * updating relative amounts
          */
-        setRelativeLocY((getLocY() - cameraNorthBorder) / 120 * 120);
-        setRelativeLocX(((getLocX() - cameraWestBorder) / 120) * 120);
+        setRelativeLocY(getLocY() - cameraNorthBorder/ Map.UNIT_PIXELS_NUMBER *Map.UNIT_PIXELS_NUMBER);
+        setRelativeLocX(getLocX() - cameraWestBorder/Map.UNIT_PIXELS_NUMBER *Map.UNIT_PIXELS_NUMBER);
 
     }
 }

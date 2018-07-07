@@ -7,6 +7,7 @@ import game.gameSchematic.betweenObjectRelation.OperationsDone;
 import java.awt.*;
 
 
+
 public class GameCameraAndMyTank {
 
     private int cameraNorthBorder, cameraSouthBorder, cameraWestBorder, cameraEastBorder;
@@ -227,27 +228,22 @@ public class GameCameraAndMyTank {
                 case 1:
                     necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
                     mouseX0 -= 8;
-                    System.out.println("here1");
                     break;
                 case 2:
                     necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
                     mouseX0 -= 8;
-                    System.out.println("here2");
                     break;
                 case 3:
                     necessaryLocations.setRelativeTankLocX(necessaryLocations.getRelativeTankLocX() - 8);
                     necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
-                    System.out.println("here3");
                     break;
                 case 4:
                     necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
                     mouseX0 -= 8;
-                    System.out.println("here4");
                     break;
                 case 5:
                     necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
                     mouseX0 -= 8;
-                    System.out.println("here5");
                     System.out.println("cWB:" + cameraWestBorder);
                     System.out.println("cNB:" + cameraWestBorder);
 
@@ -255,22 +251,18 @@ public class GameCameraAndMyTank {
                 case 6:
                     necessaryLocations.setRelativeTankLocX(necessaryLocations.getRelativeTankLocX() - 8);
                     necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
-                    System.out.println("here6");
                     break;
                 case 7:
                     necessaryLocations.setRelativeTankLocX(necessaryLocations.getRelativeTankLocX() - 8);
                     necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
-                    System.out.println("here7");
                     break;
                 case 8:
                     necessaryLocations.setRelativeTankLocX(necessaryLocations.getRelativeTankLocX() - 8);
                     necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
-                    System.out.println("here8");
                     break;
                 case 9:
                     necessaryLocations.setRelativeTankLocX(necessaryLocations.getRelativeTankLocX() - 8);
                     necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
-                    System.out.println("here9");
                     break;
             }
         }
