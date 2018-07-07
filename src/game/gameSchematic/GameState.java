@@ -39,7 +39,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
     private MouseHandler mouseHandler;
 
     public GameState() {
-        myTank = new Tank(120, 120, "icons/myTank.png", 20);
+        myTank = new Tank(240, 480, "icons/myTank.png", 20);
         camera = new GameCamera((LocationsPlacement) (this), (OperationsDone) (this));
         gameObjects = new ArrayList<>();
 

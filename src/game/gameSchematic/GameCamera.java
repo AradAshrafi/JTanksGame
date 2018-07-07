@@ -24,6 +24,7 @@ public class GameCamera {
         try {
             Robot r = new Robot();
             for (int i = 0; i < 10; i++) {
+                System.out.println("mouseX" + necessaryLocations.getMouseLocX() + "mouseY" + necessaryLocations.getTankLocY());
                 r.mouseMove(288 + necessaryLocations.getMouseLocX(), 47 + necessaryLocations.getMouseLocY());
             }
 
@@ -143,7 +144,7 @@ public class GameCamera {
                     break;
 
                 case 2:
-                    necessaryLocations.setTankLocY(-8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() - 8);
                     locYPrime -= 8;
                     break;
 
@@ -153,7 +154,7 @@ public class GameCamera {
                     break;
 
                 case 4:
-                    necessaryLocations.setTankLocY(-8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() - 8);
                     locYPrime -= 8;
                     break;
 
@@ -163,21 +164,21 @@ public class GameCamera {
                     break;
 
                 case 6:
-                    necessaryLocations.setTankLocY(-8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() - 8);
                     locYPrime -= 8;
                     break;
 
                 case 7:
-                    necessaryLocations.setTankLocY(-8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() - 8);
                     locYPrime -= 8;
                     break;
 
                 case 8:
-                    necessaryLocations.setTankLocY(-8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() - 8);
                     locYPrime -= 8;
                     break;
                 case 9:
-                    necessaryLocations.setTankLocY(-8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() - 8);
                     locYPrime -= 8;
                     break;
 
@@ -190,7 +191,7 @@ public class GameCamera {
                     mouseY0 += 8;
                     break;
                 case 2:
-                    necessaryLocations.setTankLocY(+8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() + 8);
                     locYPrime += 8;
                     break;
                 case 3:
@@ -198,7 +199,7 @@ public class GameCamera {
                     mouseY0 += 8;
                     break;
                 case 4:
-                    necessaryLocations.setTankLocY(+8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() + 8);
                     locYPrime += 8;
                     break;
                 case 5:
@@ -206,19 +207,19 @@ public class GameCamera {
                     mouseY0 += 8;
                     break;
                 case 6:
-                    necessaryLocations.setTankLocY(+8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() + 8);
                     locYPrime += 8;
                     break;
                 case 7:
-                    necessaryLocations.setTankLocY(+8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() + 8);
                     locYPrime += 8;
                     break;
                 case 8:
-                    necessaryLocations.setTankLocY(+8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() + 8);
                     locYPrime += 8;
                     break;
                 case 9:
-                    necessaryLocations.setTankLocY(+8);
+                    necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() + 8);
                     locYPrime += 8;
                     break;
             }
@@ -236,7 +237,7 @@ public class GameCamera {
                     System.out.println("here2");
                     break;
                 case 3:
-                    necessaryLocations.setTankLocX(-8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
                     locXPrime -= 8;
                     System.out.println("here3");
                     break;
@@ -254,22 +255,22 @@ public class GameCamera {
 
                     break;
                 case 6:
-                    necessaryLocations.setTankLocX(-8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
                     locXPrime -= 8;
                     System.out.println("here6");
                     break;
                 case 7:
-                    necessaryLocations.setTankLocX(-8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
                     locXPrime -= 8;
                     System.out.println("here7");
                     break;
                 case 8:
-                    necessaryLocations.setTankLocX(-8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
                     locXPrime -= 8;
                     System.out.println("here8");
                     break;
                 case 9:
-                    necessaryLocations.setTankLocX(-8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
                     locXPrime -= 8;
                     System.out.println("here9");
                     break;
@@ -286,7 +287,7 @@ public class GameCamera {
                     mouseX0 += 8;
                     break;
                 case 3:
-                    necessaryLocations.setTankLocX(+8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() + 8);
                     locXPrime += 8;
                     break;
                 case 4:
@@ -294,23 +295,23 @@ public class GameCamera {
                     mouseX0 += 8;
                     break;
                 case 5:
-                    necessaryLocations.setTankLocX(+8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() + 8);
                     locXPrime += 8;
                     break;
                 case 6:
-                    necessaryLocations.setTankLocX(+8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() + 8);
                     locXPrime += 8;
                     break;
                 case 7:
-                    necessaryLocations.setTankLocX(+8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() + 8);
                     locXPrime += 8;
                     break;
                 case 8:
-                    necessaryLocations.setTankLocX(+8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() + 8);
                     locXPrime += 8;
                     break;
                 case 9:
-                    necessaryLocations.setTankLocX(+8);
+                    necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() + 8);
                     locXPrime += 8;
                     break;
             }
