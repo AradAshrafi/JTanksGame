@@ -43,6 +43,7 @@ public class GameFrame extends JFrame {
         super(title);
         gameMap = new Map();
         gameMap.readMap();
+        gameMap.print();
 
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -50,7 +51,7 @@ public class GameFrame extends JFrame {
         fpsHistory = new ArrayList<>(100);
 
         try {
-            tankImage = ImageIO.read(new File("Icon.png"));
+            tankImage = ImageIO.read(new File("icons/Icon.png"));
             wallImage = ImageIO.read(new File("icons/Wall.png"));
             groundImage = ImageIO.read(new File("icons/Soil.png"));
             notDamagedBrickImage = ImageIO.read(new File("icons/Brick.png"));
@@ -155,26 +156,20 @@ public class GameFrame extends JFrame {
     }
 
     private void drawMap(Graphics2D g2d, GameState state) {
-
-        int myTankLocX = state.locX;
-        int myTankLocY = state.locY;
-        int myMouseX = state.mouseX;
-        int myMouseY = state.mouseY;
-        int tankLocXPrime = myTankLocX;
-        int tankLocYPrime = myTankLocY;
+        System.out.println("north " + state.getCameraNorthBorder() + " west" + state.getCameraWestBorder());
 
         String[][] staticMap = this.gameMap.getMap();
         String[][] dynamicMap = new String[6][8];
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 8; j++) {
-                dynamicMap[i][j] = staticMap[i + state.windowNorthBorder / 120][j + state.windowWestBorder / 120];
+                dynamicMap[i][j] = staticMap[i + state.getCameraNorthBorder() / 120][j + state.getCameraWestBorder() / 120];
+                System.out.println(dynamicMap[i][j]);
             }
         }
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 8; j++) {
-
                 switch (dynamicMap[i][j]) {
                     case ("W"):
                         g2d.drawImage(wallImage, j * 120, i * 120, null);
@@ -183,10 +178,10 @@ public class GameFrame extends JFrame {
                         g2d.drawImage(groundImage, j * 120, i * 120, null);
                         break;
                     case ("B"):
-                        g2d.drawImage(wallImage, j * 120, i * 120, null);
+                        g2d.drawImage(notDamagedBrickImage, j * 120, i * 120, null);
                         break;
                     case ("D"):
-                        g2d.drawImage(wallImage, j * 120, i * 120, null);
+                        g2d.drawImage(damagedBrickImage, j * 120, i * 120, null);
                         break;
                 }
             }
@@ -194,7 +189,7 @@ public class GameFrame extends JFrame {
     }
 
     private void drawDynamics(Graphics2D g2d, GameState state) {
-        g2d.drawImage(tankImage, state.locX, state.locY, null);
+        g2d.drawImage(tankImage, state.getMyTankLocX(), state.getMyTankLocY(), null);
         ArrayList<GameObject> gameObjects = state.getGameObjects();
         Iterator<GameObject> it = gameObjects.iterator();
         while (it.hasNext()) {

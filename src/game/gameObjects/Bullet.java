@@ -1,6 +1,9 @@
 package game.gameObjects;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 
 public class Bullet extends DynamicObject {
     private int aimPositionX;
@@ -32,8 +35,21 @@ public class Bullet extends DynamicObject {
     }
 
     @Override
+
+    /**
+     * first rotate bullet to correct angle
+     * then paint it
+     */
     public void paint(Graphics2D g2d) {
-        g2d.drawImage(this.getObjectImage(), this.getLocX(), this.getLocY(), null);
+        //-----> rotating bullet image
+        BufferedImage buffer = this.getObjectImage();
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(Math.asin(sin), buffer.getWidth() / 2, buffer.getHeight() / 2);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        buffer = op.filter(buffer, null);
+        // <---------rotating finished
+
+        g2d.drawImage(buffer, this.getLocX(), this.getLocY(), null);
     }
 
 }
