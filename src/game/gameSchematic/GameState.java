@@ -30,8 +30,8 @@ public class GameState implements LocationsPlacement, OperationsDone {
     private GameCameraAndMyTank cameraAndMyTank;
 
     public boolean gameOver;
-    private int mouseX;
-    private int mouseY;
+    private int relativeMouseX;
+    private int relativeMouseY;
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
     private boolean mousePress;
     private boolean mouseMoved;
@@ -40,13 +40,13 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
     public GameState() {
         gameObjects = new ArrayList<>();
-        myTank = new Tank(240, 30 * 120 - 240, "icons/myTank.png", 20);
-        myTank.setRelativeLocX(240);
+        myTank = new Tank(120, 30 * 120 - 240, "icons/myTank.png", 20);
+        myTank.setRelativeLocX(120);
         myTank.setRelativeLocY(240);
         gameObjects.add(myTank);
 
-        mouseX = 360;
-        mouseY = 360;
+        relativeMouseX = 360;
+        relativeMouseY = 360;
         cameraAndMyTank = new GameCameraAndMyTank((LocationsPlacement) (this), (OperationsDone) (this));
 
         gameOver = false;
@@ -70,11 +70,11 @@ public class GameState implements LocationsPlacement, OperationsDone {
      */
     public void update() {
         if (mousePress) {
-            Bullet newBullet = new Bullet(myTank.getLocX(), myTank.getLocY(), "icons/HeavyBullet.png", mouseX, mouseY, 20);
+            Bullet newBullet = new Bullet(myTank.getLocX(), myTank.getLocY(), "icons/HeavyBullet.png", relativeMouseX, relativeMouseY, 20);
             gameObjects.add(newBullet);
         }
-        cameraAndMyTank.updateByKeys();
-        cameraAndMyTank.updateByMouse();
+        cameraAndMyTank.update();
+       // cameraAndMyTank.updateByMouse();
         updateGameObjects(cameraAndMyTank.getCameraNorthBorder(), cameraAndMyTank.getCameraWestBorder());
     }
 
@@ -159,8 +159,8 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            mouseX = e.getX();
-            mouseY = e.getY();
+            relativeMouseX = e.getX();
+            relativeMouseY = e.getY();
             mousePress = true;
         }
 
@@ -171,14 +171,15 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            mouseX = e.getX();
-            mouseY = e.getY();
+            relativeMouseX = e.getX();
+            relativeMouseY = e.getY();
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            mouseX = e.getX();
-            mouseY = e.getY();
+            relativeMouseX = e.getX();
+            relativeMouseY = e.getY();
+            setMouseMoved(true);
         }
     }
 
@@ -196,13 +197,13 @@ public class GameState implements LocationsPlacement, OperationsDone {
     }
 
     @Override
-    public int getMouseLocX() {
-        return mouseX;
+    public int getRelativeMouseX() {
+        return relativeMouseX;
     }
 
     @Override
-    public int getMouseLocY() {
-        return mouseY;
+    public int getRelativeMouseY() {
+        return relativeMouseY;
     }
 
     @Override

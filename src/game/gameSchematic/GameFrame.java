@@ -156,7 +156,6 @@ public class GameFrame extends JFrame {
     }
 
     private void drawMap(Graphics2D g2d, GameState state) {
-        System.out.println("north " + state.getCameraNorthBorder() + " west" + state.getCameraWestBorder());
 
         String[][] staticMap = this.gameMap.getMap();
         String[][] dynamicMap = new String[6][8];
