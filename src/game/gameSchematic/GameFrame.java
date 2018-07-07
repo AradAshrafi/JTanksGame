@@ -29,7 +29,7 @@ public class GameFrame extends JFrame {
     private Map gameMap;
 
     //uncomment all /*...*/ in the class for using Tank icon instead of a simple circle
-    private BufferedImage tankImage;
+//    private BufferedImage tankImage;
     private BufferedImage wallImage;
     private BufferedImage groundImage;
     private BufferedImage notDamagedBrickImage;
@@ -51,7 +51,7 @@ public class GameFrame extends JFrame {
         fpsHistory = new ArrayList<>(100);
 
         try {
-            tankImage = ImageIO.read(new File("icons/Icon.png"));
+//            tankImage = ImageIO.read(new File("icons/myTank.png"));
             wallImage = ImageIO.read(new File("icons/Wall.png"));
             groundImage = ImageIO.read(new File("icons/Soil.png"));
             notDamagedBrickImage = ImageIO.read(new File("icons/Brick.png"));
@@ -164,7 +164,6 @@ public class GameFrame extends JFrame {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 8; j++) {
                 dynamicMap[i][j] = staticMap[i + state.getCameraNorthBorder() / 120][j + state.getCameraWestBorder() / 120];
-                System.out.println(dynamicMap[i][j]);
             }
         }
 
@@ -189,7 +188,7 @@ public class GameFrame extends JFrame {
     }
 
     private void drawDynamics(Graphics2D g2d, GameState state) {
-        g2d.drawImage(tankImage, state.getMyTankLocX(), state.getMyTankLocY(), null);
+//        g2d.drawImage(tankImage, state.getTankLocX(), state.getTankLocY(), null);
         ArrayList<GameObject> gameObjects = state.getGameObjects();
         Iterator<GameObject> it = gameObjects.iterator();
         while (it.hasNext()) {

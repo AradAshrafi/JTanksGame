@@ -27,7 +27,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
     private ArrayList<GameObject> gameObjects;
     private Tank myTank;
-    private GameCamera camera;
+    private GameCameraAndMyTank cameraAndMyTank;
 
     public boolean gameOver;
     private int mouseX;
@@ -39,9 +39,15 @@ public class GameState implements LocationsPlacement, OperationsDone {
     private MouseHandler mouseHandler;
 
     public GameState() {
-        myTank = new Tank(240, 480, "icons/myTank.png", 20);
-        camera = new GameCamera((LocationsPlacement) (this), (OperationsDone) (this));
         gameObjects = new ArrayList<>();
+        myTank = new Tank(240, 30 * 120 - 240, "icons/myTank.png", 20);
+        myTank.setRelativeLocX(240);
+        myTank.setRelativeLocY(240);
+        gameObjects.add(myTank);
+
+        mouseX = 360;
+        mouseY = 360;
+        cameraAndMyTank = new GameCameraAndMyTank((LocationsPlacement) (this), (OperationsDone) (this));
 
         gameOver = false;
         //
@@ -51,8 +57,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
         keyLEFT = false;
         //
         mousePress = false;
-        mouseX = 360;
-        mouseY = 360;
+
 
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
@@ -68,13 +73,13 @@ public class GameState implements LocationsPlacement, OperationsDone {
             Bullet newBullet = new Bullet(myTank.getLocX(), myTank.getLocY(), "icons/HeavyBullet.png", mouseX, mouseY, 20);
             gameObjects.add(newBullet);
         }
-        camera.updateByKeys();
-        camera.updateByMouse();
-        updateGameObjects();
+        cameraAndMyTank.updateByKeys();
+        cameraAndMyTank.updateByMouse();
+        updateGameObjects(cameraAndMyTank.getCameraNorthBorder(), cameraAndMyTank.getCameraWestBorder());
     }
 
 
-    private void updateGameObjects() {
+    private void updateGameObjects(int cameraNorthBorder, int cameraWestBorder) {
         Iterator<GameObject> it = gameObjects.iterator();
         while (it.hasNext()) {
             GameObject currentObject = it.next();
@@ -85,7 +90,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
 //            if(currentObject instanceof Bullet){
 //                if(currentObject.getLocX() || currentObject.getLocY() )
 //            }
-            currentObject.update();
+            currentObject.update(cameraNorthBorder, cameraWestBorder);
         }
 
     }
@@ -182,28 +187,12 @@ public class GameState implements LocationsPlacement, OperationsDone {
         return gameObjects;
     }
 
-    public int getMyTankLocX() {
-        return myTank.getLocX();
-    }
-
-    public int getMyTankLocY() {
-        return myTank.getLocY();
-    }
-
-    public int getMouseX() {
-        return mouseX;
-    }
-
-    public int getMouseY() {
-        return mouseY;
-    }
-
     public int getCameraNorthBorder() {
-        return camera.getCameraNorthBorder();
+        return cameraAndMyTank.getCameraNorthBorder();
     }
 
     public int getCameraWestBorder() {
-        return camera.getCameraWestBorder();
+        return cameraAndMyTank.getCameraWestBorder();
     }
 
     @Override
@@ -234,6 +223,26 @@ public class GameState implements LocationsPlacement, OperationsDone {
     @Override
     public void setTankLocY(int amount) {
         myTank.setLocY(amount);
+    }
+
+    @Override
+    public int getRelativeTankLocX() {
+        return myTank.getRelativeLocX();
+    }
+
+    @Override
+    public int getRelativeTankLocY() {
+        return myTank.getRelativeLocY();
+    }
+
+    @Override
+    public void setRelativeTankLocX(int amount) {
+        myTank.setRelativeLocX(amount);
+    }
+
+    @Override
+    public void setRelativeTankLocY(int amount) {
+        myTank.setRelativeLocY(amount);
     }
 
 

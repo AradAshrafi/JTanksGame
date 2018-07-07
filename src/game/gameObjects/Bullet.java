@@ -23,15 +23,21 @@ public class Bullet extends DynamicObject {
 
     }
 
+
     @Override
-    /**
-     * update bullet location based on it's speed and it's angle
-     */
-    public void update() {
+    public void update(int cameraNorthBorder, int cameraWestBorder) {
+        /**
+         * updating relative coordination
+         */
+        setRelativeLocY(getLocY() - cameraNorthBorder);
+        setRelativeLocX(getLocX() - cameraWestBorder);
+
+        /**
+         * updating real coordination
+         */
         this.setLocX(Math.round(this.getLocX() + speed * cos));
         this.setLocY(Math.round(this.getLocY() + speed * sin));
         System.out.println("im here");
-
     }
 
     @Override
@@ -41,15 +47,17 @@ public class Bullet extends DynamicObject {
      * then paint it
      */
     public void paint(Graphics2D g2d) {
-        //-----> rotating bullet image
-        BufferedImage buffer = this.getObjectImage();
-        AffineTransform tx = new AffineTransform();
-        tx.rotate(Math.asin(sin), buffer.getWidth() / 2, buffer.getHeight() / 2);
-        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        buffer = op.filter(buffer, null);
-        // <---------rotating finished
+        if ((this.getRelativeLocX() >= 0 && this.getRelativeLocX() <= 960) && ((this.getRelativeLocY() >= 0 && this.getRelativeLocX() <= 720))) {
+            //-----> rotating bullet image
+            BufferedImage buffer = this.getObjectImage();
+            AffineTransform tx = new AffineTransform();
+            tx.rotate(Math.asin(sin), buffer.getWidth() / 2, buffer.getHeight() / 2);
+            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+            buffer = op.filter(buffer, null);
+            // <---------rotating finished
 
-        g2d.drawImage(buffer, this.getLocX(), this.getLocY(), null);
+            g2d.drawImage(buffer, this.getLocX(), this.getLocY(), null);
+        }
     }
 
 }
