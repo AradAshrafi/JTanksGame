@@ -1,15 +1,14 @@
 package game.gameSchematic;
 
+import game.FileOperation.Map;
 import game.gameObjects.GameObject;
+import game.gameObjects.UpdatableObjects;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 /**
@@ -26,7 +25,6 @@ public class GameFrame extends JFrame {
 
     public static final int GAME_HEIGHT = 720;                  // 720p game resolution
     public static final int GAME_WIDTH = 8 * GAME_HEIGHT / 6;  // wide aspect ratio
-    private Map gameMap;
 
     //uncomment all /*...*/ in the class for using Tank icon instead of a simple circle
 //    private BufferedImage tankImage;
@@ -41,25 +39,11 @@ public class GameFrame extends JFrame {
 
     public GameFrame(String title) {
         super(title);
-        gameMap = new Map();
-        gameMap.readMap();
-        gameMap.print();
 
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
         lastRender = -1;
         fpsHistory = new ArrayList<>(100);
-
-        try {
-//            tankImage = ImageIO.read(new File("icons/myTank.png"));
-            wallImage = ImageIO.read(new File("icons/Wall.png"));
-            groundImage = ImageIO.read(new File("icons/Soil.png"));
-            notDamagedBrickImage = ImageIO.read(new File("icons/Brick.png"));
-            damagedBrickImage = ImageIO.read(new File("icons/DamagedBrick.png"));
-
-        } catch (IOException e) {
-            System.out.println(e);
-        }
     }
 
     /**
@@ -116,7 +100,7 @@ public class GameFrame extends JFrame {
         g2d.setColor(Color.BLACK);
 //        g2d.fillOval(state.locX, state.locY, state.diam, state.diam);
         drawMap(g2d, state);
-        drawDynamics(g2d, state);
+        drawItems(g2d, state);
 
         // Print FPS info
         long currentRender = System.currentTimeMillis();
@@ -156,42 +140,27 @@ public class GameFrame extends JFrame {
     }
 
     private void drawMap(Graphics2D g2d, GameState state) {
-
-        String[][] staticMap = this.gameMap.getMap();
-        String[][] dynamicMap = new String[6][8];
-
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 8; j++) {
-                dynamicMap[i][j] = staticMap[i + state.getCameraNorthBorder() / 120][j + state.getCameraWestBorder() / 120];
-            }
-        }
+        //get map from game state
+        GameObject[][] map = state.getMap();
+        GameObject[][] currentPartOfMap = new GameObject[6][8];
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 8; j++) {
-                switch (dynamicMap[i][j]) {
-                    case ("W"):
-                        g2d.drawImage(wallImage, j * 120, i * 120, null);
-                        break;
-                    case ("G"):
-                        g2d.drawImage(groundImage, j * 120, i * 120, null);
-                        break;
-                    case ("B"):
-                        g2d.drawImage(notDamagedBrickImage, j * 120, i * 120, null);
-                        break;
-                    case ("D"):
-                        g2d.drawImage(damagedBrickImage, j * 120, i * 120, null);
-                        break;
-                }
+                currentPartOfMap[i][j] = map[i + state.getCameraNorthBorder() / 120][j + state.getCameraWestBorder() / 120];
+                currentPartOfMap[i][j].setRelativeLocX(j * Map.UNIT_PIXELS_NUMBER);
+                currentPartOfMap[i][j].setRelativeLocY(i * Map.UNIT_PIXELS_NUMBER);
+                currentPartOfMap[i][j].paint(g2d);
             }
         }
     }
 
-    private void drawDynamics(Graphics2D g2d, GameState state) {
-//        g2d.drawImage(tankImage, state.getTankLocX(), state.getTankLocY(), null);
-        ArrayList<GameObject> gameObjects = state.getGameObjects();
-        Iterator<GameObject> it = gameObjects.iterator();
+    private void drawItems(Graphics2D g2d, GameState state) {
+        //get items from gameState
+        ArrayList<UpdatableObjects> itemsInMap = state.getItemsInMap();
+
+        Iterator<UpdatableObjects> it = itemsInMap.iterator();
         while (it.hasNext()) {
-            GameObject currentObject = it.next();
+            UpdatableObjects currentObject = it.next();
             currentObject.paint(g2d);
         }
     }

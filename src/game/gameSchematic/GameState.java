@@ -1,9 +1,9 @@
 package game.gameSchematic; /*** In The Name of Allah ***/
 
 
-import game.gameObjects.Bullet;
-import game.gameObjects.GameObject;
-import game.gameObjects.Tank;
+import game.FileOperation.Map;
+import game.gameObjects.*;
+import game.gameObjects.CannonBullet;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
@@ -25,7 +25,12 @@ import java.util.Iterator;
  */
 public class GameState implements LocationsPlacement, OperationsDone {
 
-    private ArrayList<GameObject> gameObjects;
+    private GameObject[][] map;
+    //things like brick,prizes and ... -->
+    private ArrayList<UpdatableObjects> itemsInMap;
+    //<--
+
+
     private Tank myTank;
     private GameCameraAndMyTank cameraAndMyTank;
 
@@ -38,12 +43,14 @@ public class GameState implements LocationsPlacement, OperationsDone {
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
 
-    public GameState() {
-        gameObjects = new ArrayList<>();
+    public GameState(Map mapOperation) {
+        map = mapOperation.getMap();
+        itemsInMap = mapOperation.getItemsInMap();
+
         myTank = new Tank(120, 30 * 120 - 240, "icons/myTank.png", 20);
         myTank.setRelativeLocX(120);
         myTank.setRelativeLocY(240);
-        gameObjects.add(myTank);
+        itemsInMap.add(myTank);
 
         relativeMouseX = 360;
         relativeMouseY = 360;
@@ -70,19 +77,21 @@ public class GameState implements LocationsPlacement, OperationsDone {
      */
     public void update() {
         if (mousePress) {
-            Bullet newBullet = new Bullet(myTank.getLocX(), myTank.getLocY(), "icons/HeavyBullet.png", relativeMouseX, relativeMouseY, 20);
-            gameObjects.add(newBullet);
+            CannonBullet newCannonBullet = new CannonBullet(myTank.getLocX(), myTank.getLocY(), "icons/HeavyBullet.png", getCameraWestBorder() + relativeMouseX, getCameraNorthBorder() + relativeMouseY, 20);
+//            System.out.println(myTank.getLocX() + "  " + myTank.getLocY() + "  " + (getCameraWestBorder() + relativeMouseX) + "  " + (getCameraNorthBorder() + relativeMouseY) + "  ");
+            itemsInMap.add(newCannonBullet);
+            mousePress = false;
         }
         cameraAndMyTank.update();
-       // cameraAndMyTank.updateByMouse();
+        // cameraAndMyTank.updateByMouse();
         updateGameObjects(cameraAndMyTank.getCameraNorthBorder(), cameraAndMyTank.getCameraWestBorder());
     }
 
 
     private void updateGameObjects(int cameraNorthBorder, int cameraWestBorder) {
-        Iterator<GameObject> it = gameObjects.iterator();
+        Iterator<UpdatableObjects> it = itemsInMap.iterator();
         while (it.hasNext()) {
-            GameObject currentObject = it.next();
+            UpdatableObjects currentObject = it.next();
             /**
              * will be completed in future to remove bullet if its passing forbidden part of map
              */
@@ -159,9 +168,11 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            relativeMouseX = e.getX();
-            relativeMouseY = e.getY();
-            mousePress = true;
+            if (!mousePress) {
+                relativeMouseX = e.getX();
+                relativeMouseY = e.getY();
+                mousePress = true;
+            }
         }
 
         @Override
@@ -184,8 +195,12 @@ public class GameState implements LocationsPlacement, OperationsDone {
     }
 
 
-    public ArrayList<GameObject> getGameObjects() {
-        return gameObjects;
+    public ArrayList<UpdatableObjects> getItemsInMap() {
+        return itemsInMap;
+    }
+
+    public GameObject[][] getMap() {
+        return map;
     }
 
     public int getCameraNorthBorder() {
@@ -275,6 +290,11 @@ public class GameState implements LocationsPlacement, OperationsDone {
     @Override
     public void setMouseMoved(boolean trueOrFalse) {
         mouseMoved = trueOrFalse;
+    }
+
+    @Override
+    public boolean getMouseMoved() {
+        return mouseMoved;
     }
 }
 

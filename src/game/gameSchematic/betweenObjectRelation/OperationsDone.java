@@ -13,4 +13,6 @@ public interface OperationsDone {
 
     void setMouseMoved(boolean sth);
 
+    boolean getMouseMoved();
+
 }

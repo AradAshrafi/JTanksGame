@@ -2,7 +2,7 @@ package game.gameObjects;
 
 import java.awt.*;
 
-public class Tank extends DynamicObject {
+public class Tank extends GameObject implements UpdatableObjects {
 
     private int bulletSpeed;
 
@@ -10,7 +10,6 @@ public class Tank extends DynamicObject {
         super(locX, locY, pathName);
         this.bulletSpeed = bulletSpeed;
     }
-
 
     @Override
     public void update(int cameraNorthBorder, int cameraWestBorder) {
@@ -20,13 +19,11 @@ public class Tank extends DynamicObject {
 
         setRelativeLocY(getLocY() - cameraNorthBorder);
         setRelativeLocX(getLocX() - cameraWestBorder);
-
     }
 
     @Override
     public void paint(Graphics2D g2d) {
         if ((this.getRelativeLocX() >= 0 && this.getRelativeLocX() <= 960) && ((this.getRelativeLocY() >= 0 && this.getRelativeLocY() <= 720)))
             g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
-
     }
 }

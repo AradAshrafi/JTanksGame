@@ -20,7 +20,6 @@ public abstract class GameObject {
         this.relativeLocX = -1;
         this.relativeLocY = -1;
         try {
-
             this.objectImage = ImageIO.read(new File(pathName));
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,8 +62,14 @@ public abstract class GameObject {
         return objectImage;
     }
 
+    /**
+     * for non smart objects we set their relative position directly
+     * --- for smart ones we set their relative position with their update method (check SmartObject Class for more details) ---
+     *
+     * @param g2d
+     */
+    public void paint(Graphics2D g2d) {
+        g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
+    }
 
-    public abstract void update(int cameraNorthBorder, int cameraWestBorder);
-
-    public abstract void paint(Graphics2D g2d);
 }

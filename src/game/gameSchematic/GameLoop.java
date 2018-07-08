@@ -1,5 +1,7 @@
 package game.gameSchematic;
 
+import game.FileOperation.Map;
+
 /**
  * A very simple structure for the main game loop.
  * THIS IS NOT PERFECT, but works for most situations.
@@ -24,6 +26,7 @@ public class GameLoop implements Runnable {
 
     private GameFrame canvas;
     private GameState state;
+    private Map mapOperation;
 
     public GameLoop(GameFrame frame) {
         canvas = frame;
@@ -33,7 +36,10 @@ public class GameLoop implements Runnable {
      * This must be called before the game loop starts.
      */
     public void init() {
-        state = new GameState();
+        mapOperation = new Map();
+        mapOperation.readMap();
+
+        state = new GameState(mapOperation);
         canvas.addKeyListener(state.getKeyListener());
         canvas.addMouseListener(state.getMouseListener());
         canvas.addMouseMotionListener(state.getMouseMotionListener());

@@ -5,14 +5,14 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-public class Bullet extends DynamicObject {
+public class CannonBullet extends GameObject implements UpdatableObjects {
     private int aimPositionX;
     private int aimPositionY;
     private int speed;
     private float cos;
     private float sin;
 
-    public Bullet(int locX, int locY, String pathName, int aimPositionX, int aimPositionY, int speed) {
+    public CannonBullet(int locX, int locY, String pathName, int aimPositionX, int aimPositionY, int speed) {
         super(locX, locY, pathName);
         this.aimPositionX = aimPositionX;
         this.aimPositionY = aimPositionY;
@@ -37,7 +37,7 @@ public class Bullet extends DynamicObject {
          */
         this.setLocX(Math.round(this.getLocX() + speed * cos));
         this.setLocY(Math.round(this.getLocY() + speed * sin));
-        System.out.println("im here");
+
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Bullet extends DynamicObject {
      * then paint it
      */
     public void paint(Graphics2D g2d) {
-        if ((this.getRelativeLocX() >= 0 && this.getRelativeLocX() <= 960) && ((this.getRelativeLocY() >= 0 && this.getRelativeLocX() <= 720))) {
+        if ((this.getRelativeLocX() >= 0 && this.getRelativeLocX() <= 960) && ((this.getRelativeLocY() >= 0 && this.getRelativeLocY() <= 720))) {
             //-----> rotating bullet image
             BufferedImage buffer = this.getObjectImage();
             AffineTransform tx = new AffineTransform();
@@ -56,7 +56,7 @@ public class Bullet extends DynamicObject {
             buffer = op.filter(buffer, null);
             // <---------rotating finished
 
-            g2d.drawImage(buffer, this.getLocX(), this.getLocY(), null);
+            g2d.drawImage(buffer, this.getRelativeLocX(), this.getRelativeLocY(), null);
         }
     }
 

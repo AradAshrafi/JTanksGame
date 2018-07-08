@@ -1,5 +1,6 @@
 package game.gameSchematic;
 
+import game.FileOperation.Map;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
@@ -52,15 +53,18 @@ public class GameCameraAndMyTank {
     public void setPositionMode() {
         if (necessaryLocations.getRelativeTankLocX() < necessaryLocations.getRelativeMouseX()) {
             if (necessaryLocations.getRelativeTankLocY() < necessaryLocations.getRelativeMouseY()) positionMode = 1;
-            else if (necessaryLocations.getRelativeTankLocY() > necessaryLocations.getRelativeMouseY()) positionMode = 2;
+            else if (necessaryLocations.getRelativeTankLocY() > necessaryLocations.getRelativeMouseY())
+                positionMode = 2;
             else positionMode = 3;
         } else if (necessaryLocations.getRelativeTankLocX() > necessaryLocations.getRelativeMouseX()) {
             if (necessaryLocations.getRelativeTankLocY() < necessaryLocations.getRelativeMouseY()) positionMode = 4;
-            else if (necessaryLocations.getRelativeTankLocY() > necessaryLocations.getRelativeMouseY()) positionMode = 5;
+            else if (necessaryLocations.getRelativeTankLocY() > necessaryLocations.getRelativeMouseY())
+                positionMode = 5;
             else positionMode = 6;
         } else {
             if (necessaryLocations.getRelativeTankLocY() < necessaryLocations.getRelativeMouseY()) positionMode = 7;
-            else if (necessaryLocations.getRelativeTankLocY() > necessaryLocations.getRelativeMouseY()) positionMode = 8;
+            else if (necessaryLocations.getRelativeTankLocY() > necessaryLocations.getRelativeMouseY())
+                positionMode = 8;
             else positionMode = 9;
         }
     }
@@ -325,6 +329,11 @@ public class GameCameraAndMyTank {
         setBorders();
         setPositionArea();
 
+        if (userOperations.getMouseMoved()) {
+            printParameters();
+            userOperations.setMouseMoved(false);
+        }
+
     }
 
 
@@ -336,8 +345,8 @@ public class GameCameraAndMyTank {
         return cameraWestBorder;
     }
 
-    public void printParameters(){
-        System.out.println("innerXSpace" + innerXSpace + "innerYSpace" + innerYSpace );
+    public void printParameters() {
+        System.out.println("innerXSpace" + innerXSpace + "innerYSpace" + innerYSpace);
         System.out.println("innerRectangleWidth" + innerRectangleWidth + innerRectangleHeight + "innerRectangleHeight");
         System.out.println("relativeMouseX :" + necessaryLocations.getRelativeMouseX() + "relativeMouseY + " + necessaryLocations.getRelativeMouseY());
         System.out.println("tankLocX : " + necessaryLocations.getTankLocX() + "tankLocY :" + necessaryLocations.getTankLocY());
