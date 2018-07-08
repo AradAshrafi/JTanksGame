@@ -6,6 +6,10 @@ import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import java.awt.*;
 
+/**
+ * This class calculates and holds camera borders which is needed in the map loading and drawing.
+ * @author Seyed Mohammad Hosseini Mojahed.
+ */
 
 public class GameCameraAndMyTank {
 
@@ -15,16 +19,23 @@ public class GameCameraAndMyTank {
     private int mouseY0;
     private int positionArea = 9; // a number in range 1-9
     private int positionMode = 9;//a number in range 1-9
-    private LocationsPlacement necessaryLocations;
-    private OperationsDone userOperations;
     private int innerRectangleWidth;
     private int innerRectangleHeight;
     private int innerXSpace;
     private int innerYSpace;
+    private final int SIDE_LENGTH = 120;
+    private LocationsPlacement necessaryLocations;
+    private OperationsDone userOperations;
 
     public GameCameraAndMyTank(LocationsPlacement importantLocations, OperationsDone userOperations) {
         necessaryLocations = importantLocations;
         this.userOperations = userOperations;
+
+
+        /*
+         * the below try and catch block set the mouse location at the firs point with the coordinate relativeMouseX and relativeMouseY.
+         */
+
         try {
             Robot r = new Robot();
             for (int i = 0; i < 10; i++) {
@@ -49,6 +60,10 @@ public class GameCameraAndMyTank {
     }
 
 
+    /**
+     *This method set the position mode due to relative tank and mouse location.
+     */
+
     public void setPositionMode() {
         if (necessaryLocations.getRelativeTankLocX() < necessaryLocations.getRelativeMouseX()) {
             if (necessaryLocations.getRelativeTankLocY() < necessaryLocations.getRelativeMouseY()) positionMode = 1;
@@ -65,15 +80,10 @@ public class GameCameraAndMyTank {
         }
     }
 
-
-    /**
-     *This method set the position mode due to relative tank and mouse location.
-     */
-
-
     /**
      * to set north and south camera borders due to the position mode .
      */
+
     public void setHorizontalBorders(){
         switch (positionMode){
             case 1: case 4:
@@ -122,6 +132,9 @@ public class GameCameraAndMyTank {
 
     }
 
+    /**
+     * This method set positionArea due to camera borders.
+     */
 
     public void setPositionArea() {
 
@@ -139,6 +152,11 @@ public class GameCameraAndMyTank {
             else positionArea = 1;
         }
     }
+
+    /**
+     * updating relative and real location of mouse and tank due to the position area of camera
+     * in four state key up, down, left or right pressed.
+     */
 
     public void update() {
 
@@ -336,12 +354,11 @@ public class GameCameraAndMyTank {
         mouseX = necessaryLocations.getRelativeMouseX() + mouseX0;
         mouseY = necessaryLocations.getRelativeMouseY() + mouseY0;
 
-        /*
-        locX = Math.max(locX, 0);
-        locX = Math.min(locX, Map.MAP_WIDTH - diam);
-        locY = Math.max(locY, 0);
-        locY = Math.min(locY, Map.MAP_HEIGHT - diam);
-        */
+        necessaryLocations.setRelativeTankLocX(Math.max(necessaryLocations.getRelativeTankLocX(), 0));
+        necessaryLocations.setRelativeTankLocX(Math.min(necessaryLocations.getRelativeTankLocX(), Map.MAP_WIDTH - SIDE_LENGTH));
+        necessaryLocations.setRelativeTankLocY(Math.max(necessaryLocations.getRelativeTankLocY(), 0));
+        necessaryLocations.setRelativeTankLocY(Math.min(necessaryLocations.getRelativeTankLocY(), Map.MAP_HEIGHT - SIDE_LENGTH));
+
         setPositionMode();
         setBorders();
         setPositionArea();
@@ -356,6 +373,11 @@ public class GameCameraAndMyTank {
     public int getCameraWestBorder() {
         return cameraWestBorder;
     }
+
+
+    /**
+     * this method prints the parameters need for debugging the camera updating.
+     */
 
     public void  print(){
         System.out.println("innerRectangleWidth" + innerRectangleWidth + innerRectangleHeight + "innerRectangleHeight");
