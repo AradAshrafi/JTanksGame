@@ -2,9 +2,9 @@ package game.gameObjects;
 
 import game.FileOperation.Map;
 
-public class Brick extends GameObject implements UpdatableObjects {
-    public Brick(int locX, int locY) {
-        super(locX, locY, "icons/Brick.png");
+public class MachineGunFill extends GameObject implements UpdatableObjects {
+    public MachineGunFill(int locX, int locY) {
+        super(locX, locY, "icons/MachineGunFood.png");
     }
 
     @Override

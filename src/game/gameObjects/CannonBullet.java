@@ -12,8 +12,8 @@ public class CannonBullet extends GameObject implements UpdatableObjects {
     private float cos;
     private float sin;
 
-    public CannonBullet(int locX, int locY, String pathName, int aimPositionX, int aimPositionY, int speed) {
-        super(locX, locY, pathName);
+    public CannonBullet(int locX, int locY, int aimPositionX, int aimPositionY, int speed) {
+        super(locX, locY, "icons/HeavyBullet.png");
         this.aimPositionX = aimPositionX;
         this.aimPositionY = aimPositionY;
         this.speed = speed;

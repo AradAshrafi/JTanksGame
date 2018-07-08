@@ -2,9 +2,9 @@ package game.gameObjects;
 
 import game.FileOperation.Map;
 
-public class Brick extends GameObject implements UpdatableObjects {
-    public Brick(int locX, int locY) {
-        super(locX, locY, "icons/Brick.png");
+public class CannonUpdate extends GameObject implements UpdatableObjects {
+    public CannonUpdate(int locX, int locY) {
+        super(locX, locY, "icons/CannonUpdate.png");
     }
 
     @Override
@@ -14,6 +14,6 @@ public class Brick extends GameObject implements UpdatableObjects {
          */
         setRelativeLocY(getLocY() - cameraNorthBorder / Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
         setRelativeLocX(getLocX() - cameraWestBorder / Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
-
     }
+
 }

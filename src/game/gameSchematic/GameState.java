@@ -33,6 +33,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
     private Tank myTank;
     private GameCameraAndMyTank cameraAndMyTank;
+    private boolean gunType;
 
     public boolean gameOver;
     private int relativeMouseX;
@@ -47,7 +48,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
         map = mapOperation.getMap();
         itemsInMap = mapOperation.getItemsInMap();
 
-        myTank = new Tank(120, 30 * 120 - 240, "icons/myTank.png", 20);
+        myTank = new Tank(120, 30 * 120 - 240, "icons/MyTank.png", 20);
         myTank.setRelativeLocX(120);
         myTank.setRelativeLocY(240);
         itemsInMap.add(myTank);
@@ -77,7 +78,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
      */
     public void update() {
         if (mousePress) {
-            CannonBullet newCannonBullet = new CannonBullet(myTank.getLocX(), myTank.getLocY(), "icons/HeavyBullet.png", getCameraWestBorder() + relativeMouseX, getCameraNorthBorder() + relativeMouseY, 20);
+            CannonBullet newCannonBullet = new CannonBullet(myTank.getLocX(), myTank.getLocY(), getCameraWestBorder() + relativeMouseX, getCameraNorthBorder() + relativeMouseY, 20);
 //            System.out.println(myTank.getLocX() + "  " + myTank.getLocY() + "  " + (getCameraWestBorder() + relativeMouseX) + "  " + (getCameraNorthBorder() + relativeMouseY) + "  ");
             itemsInMap.add(newCannonBullet);
             mousePress = false;

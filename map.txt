@@ -13,11 +13,11 @@ W W W W W W G G G G W
 W W W W G G G P G W W
 W W W W G G G P G G W
 W W W W G G G P G W W
-W W W W G G G W W W W
-W W W G G G L W W W W
+W W W W G G P W W W W
+W W W G G G P W W W W
 W W W G G G G W W W W
 W W G G G G G W W W W
-W W V V B B V V W W W
+W W W B B B B W W W W
 W W G G G G G G G W W
 W W W G G G G G G W W
 W W W W W G G G G G W

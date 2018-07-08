@@ -19,8 +19,8 @@ public class Tank extends GameObject implements UpdatableObjects {
          * updating relative amounts
          */
 
-        setRelativeLocY(getLocY() - cameraNorthBorder/ Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
-        setRelativeLocX(getLocX() - cameraWestBorder/ Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
+        setRelativeLocY(getLocY() - cameraNorthBorder / Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
+        setRelativeLocX(getLocX() - cameraWestBorder / Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
     }
 
     @Override

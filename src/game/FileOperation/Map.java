@@ -54,25 +54,52 @@ public class Map {
         for (int j = 0; j < MAP_COLUMNS_NUMBER; j++) {
             switch (characters[j]) {
                 case ("W"):
-                    Wall wall = new Wall(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/Wall.png");
+                    Wall wall = new Wall(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     map[row][j] = wall;
                     break;
                 case ("G"):
-                    Ground ground = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/Ground.png");
+                    Ground ground = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     map[row][j] = ground;
                     break;
                 case ("B"):
-                    Ground groundUnderBrick = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/Ground.png");
-                    Brick brick = new Brick(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/Brick.png");
+                    Ground groundUnderBrick = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    Brick brick = new Brick(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     map[row][j] = groundUnderBrick;
                     itemsInMap.add(brick);
                     break;
                 case ("C"):
-                    System.out.println("Cannon babyyyy");
-                    Ground groundUnderCannonFill = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/Ground.png");
-                    CannonFill cannonFill = new CannonFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/CannonFood.png");
+                    Ground groundUnderCannonFill = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    CannonFill cannonFill = new CannonFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     map[row][j] = groundUnderCannonFill;
                     itemsInMap.add(cannonFill);
+                    break;
+                case ("D"):
+                    Ground groundUnderMachineGunFill = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    MachineGunFill machineGunFill = new MachineGunFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    map[row][j] = groundUnderMachineGunFill;
+                    itemsInMap.add(machineGunFill);
+                    break;
+                case ("P"):
+                    Plant plant = new Plant(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    map[row][j] = plant;
+                    break;
+                case ("U"):
+                    CannonUpdate cannonUpdate = new CannonUpdate(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    Ground groundUnderCannonUpdate = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    map[row][j] = groundUnderCannonUpdate;
+                    itemsInMap.add(cannonUpdate);
+                    break;
+                case ("1"):
+                    break;
+                case ("2"):
+                    break;
+                case ("3"):
+                    Ground groundUnderEnemyTank = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    Tank enemyTank = new Tank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
+                    map[row][j] = groundUnderEnemyTank;
+                    itemsInMap.add(enemyTank);
+                    break;
+                case ("4"):
                     break;
             }
         }
@@ -87,12 +114,4 @@ public class Map {
         return itemsInMap;
     }
 
-//    public void print() {
-//        for (int i = 0; i < 30; i++) {
-//            for (int j = 0; j < 11; j++) {
-//                System.out.print(map[i][j]);
-//            }
-//            System.out.println();
-//        }
-//    }
 }
