@@ -1,5 +1,7 @@
 package game.gameObjects;
 
+import game.FileOperation.Map;
+
 import java.awt.*;
 
 public class Tank extends GameObject implements UpdatableObjects {
@@ -17,8 +19,8 @@ public class Tank extends GameObject implements UpdatableObjects {
          * updating relative amounts
          */
 
-        setRelativeLocY(getLocY() - cameraNorthBorder);
-        setRelativeLocX(getLocX() - cameraWestBorder);
+        setRelativeLocY(getLocY() - cameraNorthBorder/ Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
+        setRelativeLocX(getLocX() - cameraWestBorder/ Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
     }
 
     @Override
