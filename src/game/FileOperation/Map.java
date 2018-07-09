@@ -8,20 +8,20 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Map {
-    private final String inputPath = "map.txt";
-    private GameObject[][] map;
 
-    //things like brick,prizes and ... -->
-    private ArrayList<UpdatableObjects> itemsInMap;
-    //<--
+    private final String inputPath = "map.txt";
+    private ArrayList<GameObject> mapObjects;
+    private ArrayList<GameObject> underLayerObjects;
+    private ArrayList<GameObject> upperLayerObjects;
 
     public static final int UNIT_PIXELS_NUMBER = 120;
-    private static final int MAP_ROWS_NUMBER = 30, MAP_COLUMNS_NUMBER = 11;
+    public static final int MAP_ROWS_NUMBER = 30, MAP_COLUMNS_NUMBER = 11;
     public static final int MAP_WIDTH = MAP_COLUMNS_NUMBER * UNIT_PIXELS_NUMBER, MAP_HEIGHT = MAP_ROWS_NUMBER * UNIT_PIXELS_NUMBER;
 
     public Map() {
-        map = new GameObject[MAP_ROWS_NUMBER][MAP_COLUMNS_NUMBER];
-        itemsInMap = new ArrayList<>();
+        mapObjects = new ArrayList<>();
+        underLayerObjects = new ArrayList<>();
+        upperLayerObjects = new ArrayList<>();
     }
 
     /**
@@ -39,9 +39,13 @@ public class Map {
                 buildNthRowOfMap(counter, line);
                 counter++;
             }
+
+            buildMap();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+       // print();
     }
 
     /**
@@ -50,68 +54,86 @@ public class Map {
      * @param row
      * @param characters
      */
-    private void buildNthRowOfMap(int row, String[] characters) {
+    private void buildNthRowOfUnderLayer(int row, String[] characters) {
         for (int j = 0; j < MAP_COLUMNS_NUMBER; j++) {
             switch (characters[j]) {
                 case ("W"):
                     Wall wall = new Wall(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    map[row][j] = wall;
+                    underLayerObjects.add(wall);
                     break;
                 case ("G"):
                     Ground ground = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    map[row][j] = ground;
+                    underLayerObjects.add(ground);
                     break;
+                default:
+                    Ground groundUnderObjects = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    underLayerObjects.add(groundUnderObjects);
+            }
+        }
+    }
+
+    private void buildNthRowOfUpperLayer(int row, String[] characters){
+        for (int j = 0; j<MAP_COLUMNS_NUMBER; j++){
+            switch (characters[j]){
                 case ("B"):
-                    Ground groundUnderBrick = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     Brick brick = new Brick(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    map[row][j] = groundUnderBrick;
-                    itemsInMap.add(brick);
+                    upperLayerObjects.add(brick);
                     break;
                 case ("C"):
-                    Ground groundUnderCannonFill = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     CannonFill cannonFill = new CannonFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    map[row][j] = groundUnderCannonFill;
-                    itemsInMap.add(cannonFill);
+                    upperLayerObjects.add(cannonFill);
                     break;
                 case ("D"):
-                    Ground groundUnderMachineGunFill = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     MachineGunFill machineGunFill = new MachineGunFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    map[row][j] = groundUnderMachineGunFill;
-                    itemsInMap.add(machineGunFill);
+                    upperLayerObjects.add(machineGunFill);
                     break;
                 case ("P"):
                     Plant plant = new Plant(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    map[row][j] = plant;
+                    upperLayerObjects.add(plant);
                     break;
                 case ("U"):
                     CannonUpdate cannonUpdate = new CannonUpdate(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    Ground groundUnderCannonUpdate = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    map[row][j] = groundUnderCannonUpdate;
-                    itemsInMap.add(cannonUpdate);
+                    upperLayerObjects.add(cannonUpdate);
                     break;
-                case ("1"):
+                case ("1"): case ("2"): case ("4"):
+                    Ground tmp = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    upperLayerObjects.add(tmp);
                     break;
-                case ("2"):
-                    break;
+
                 case ("3"):
-                    Ground groundUnderEnemyTank = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    Tank enemyTank = new Tank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
-                    map[row][j] = groundUnderEnemyTank;
-                    itemsInMap.add(enemyTank);
-                    break;
-                case ("4"):
+                    Tank dynamicEnemyTankType1 = new Tank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
+                    underLayerObjects.add(dynamicEnemyTankType1);
                     break;
             }
         }
     }
 
+    public void buildNthRowOfMap(int row, String[] characters){
 
-    public GameObject[][] getMap() {
-        return map;
+        buildNthRowOfUnderLayer(row, characters);
+        buildNthRowOfUpperLayer(row, characters);
     }
 
-    public ArrayList<UpdatableObjects> getItemsInMap() {
-        return itemsInMap;
+    public void buildMap(){
+        for (int i  = 0; i<underLayerObjects.size(); i++){
+            mapObjects.add(underLayerObjects.get(i));
+        }
+        for (int j = 0; j <upperLayerObjects.size(); j++){
+            mapObjects.add(upperLayerObjects.get(j));
+        }
     }
 
+
+
+    public ArrayList<GameObject> getMap() {
+        return mapObjects;
+    }
+
+    public ArrayList<GameObject> getUnderLayerObjects() {
+        return underLayerObjects;
+    }
+
+    public ArrayList<GameObject> getUpperLayerObjects() {
+        return upperLayerObjects;
+    }
 }

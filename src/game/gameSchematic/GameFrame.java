@@ -2,7 +2,6 @@ package game.gameSchematic;
 
 import game.FileOperation.Map;
 import game.gameObjects.GameObject;
-import game.gameObjects.UpdatableObjects;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -36,6 +35,7 @@ public class GameFrame extends JFrame {
     private long lastRender;
     private ArrayList<Float> fpsHistory;
     private BufferStrategy bufferStrategy;
+    boolean enough = false;
 
     public GameFrame(String title) {
         super(title);
@@ -100,8 +100,6 @@ public class GameFrame extends JFrame {
         g2d.setColor(Color.BLACK);
 //        g2d.fillOval(state.locX, state.locY, state.diam, state.diam);
         drawMap(g2d, state);
-        drawItems(g2d, state);
-
         // Print FPS info
         long currentRender = System.currentTimeMillis();
         if (lastRender > 0) {
@@ -141,28 +139,8 @@ public class GameFrame extends JFrame {
 
     private void drawMap(Graphics2D g2d, GameState state) {
         //get map from game state
-        GameObject[][] map = state.getMap();
-        GameObject[][] currentPartOfMap = new GameObject[6][8];
+        ArrayList<GameObject> map = state.getMap();
 
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 8; j++) {
-                currentPartOfMap[i][j] = map[i + state.getCameraNorthBorder() / 120][j + state.getCameraWestBorder() / 120];
-                currentPartOfMap[i][j].setRelativeLocX(j * Map.UNIT_PIXELS_NUMBER);
-                currentPartOfMap[i][j].setRelativeLocY(i * Map.UNIT_PIXELS_NUMBER);
-                currentPartOfMap[i][j].paint(g2d);
-            }
-        }
+        for (int k = 0; k < map.size(); k++) { map.get(k).paint(g2d); }
     }
-
-    private void drawItems(Graphics2D g2d, GameState state) {
-        //get items from gameState
-        ArrayList<UpdatableObjects> itemsInMap = state.getItemsInMap();
-
-        Iterator<UpdatableObjects> it = itemsInMap.iterator();
-        while (it.hasNext()) {
-            UpdatableObjects currentObject = it.next();
-            currentObject.paint(g2d);
-        }
-    }
-
 }

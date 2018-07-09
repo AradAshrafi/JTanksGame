@@ -1,5 +1,7 @@
 package game.gameObjects;
 
+import game.FileOperation.Map;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -7,12 +9,12 @@ import java.io.File;
 import java.io.IOException;
 
 public abstract class GameObject {
+
     private int locX;
     private int locY;
     private int relativeLocX;
     private int relativeLocY;
     private BufferedImage objectImage;
-
 
     public GameObject(int locX, int locY, String pathName) {
         this.locX = locX;
@@ -69,7 +71,14 @@ public abstract class GameObject {
      * @param g2d
      */
     public void paint(Graphics2D g2d) {
-        g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
+        if (relativeLocX > (0-Map.UNIT_PIXELS_NUMBER) && relativeLocX < Map.MAP_WIDTH
+                && relativeLocY > (0-Map.UNIT_PIXELS_NUMBER) && relativeLocY < Map.MAP_HEIGHT)
+         g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
+    }
+
+    public void update(int cameraNorthBorder, int cameraWestBorder) {
+        setRelativeLocY(getLocY() - cameraNorthBorder);
+        setRelativeLocX(getLocX() - cameraWestBorder);
     }
 
 }

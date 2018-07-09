@@ -4,9 +4,10 @@ import game.FileOperation.Map;
 
 import java.awt.*;
 
-public class Tank extends GameObject implements UpdatableObjects {
+public class Tank extends GameObject {
 
     private int bulletSpeed;
+    private final int SIDE_LENGTH = 120;
 
     public Tank(int locX, int locY, String pathName, int bulletSpeed) {
         super(locX, locY, pathName);
@@ -14,18 +15,18 @@ public class Tank extends GameObject implements UpdatableObjects {
     }
 
     @Override
-    public void update(int cameraNorthBorder, int cameraWestBorder) {
-        /**
-         * updating relative amounts
-         */
-
-        setRelativeLocY(getLocY() - cameraNorthBorder / Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
-        setRelativeLocX(getLocX() - cameraWestBorder / Map.UNIT_PIXELS_NUMBER * Map.UNIT_PIXELS_NUMBER);
+    public void paint(Graphics2D g2d) {
+        if ((this.getRelativeLocX() >= 0 && this.getRelativeLocX() <= Map.MAP_WIDTH) &&
+                ((this.getRelativeLocY() >= 0 && this.getRelativeLocY() <= Map.MAP_HEIGHT)))
+            g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
     }
 
     @Override
-    public void paint(Graphics2D g2d) {
-        if ((this.getRelativeLocX() >= 0 && this.getRelativeLocX() <= 960) && ((this.getRelativeLocY() >= 0 && this.getRelativeLocY() <= 720)))
-            g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
+    public void update(int cameraNorthBorder, int cameraWestBorder) {
+        super.update(cameraNorthBorder, cameraWestBorder);
+        setRelativeLocX(Math.max(getRelativeLocX(), 0));
+        setRelativeLocX(Math.min(getRelativeLocX(), Map.MAP_WIDTH - SIDE_LENGTH));
+        setRelativeLocY(Math.max(getRelativeLocY(), 0));
+        setRelativeLocY(Math.min(getRelativeLocY(), Map.MAP_HEIGHT - SIDE_LENGTH));
     }
 }

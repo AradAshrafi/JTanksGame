@@ -5,7 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-public class CannonBullet extends GameObject implements UpdatableObjects {
+public class CannonBullet extends GameObject {
     private int aimPositionX;
     private int aimPositionY;
     private int speed;
@@ -22,7 +22,6 @@ public class CannonBullet extends GameObject implements UpdatableObjects {
         this.sin = (aimPositionY - this.getLocY()) / hypotenuse;
 
     }
-
 
     @Override
     public void update(int cameraNorthBorder, int cameraWestBorder) {
@@ -41,7 +40,6 @@ public class CannonBullet extends GameObject implements UpdatableObjects {
     }
 
     @Override
-
     /**
      * first rotate bullet to correct angle
      * then paint it

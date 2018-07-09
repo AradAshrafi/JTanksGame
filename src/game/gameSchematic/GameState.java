@@ -17,6 +17,8 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static game.gameSchematic.GameCamera.*;
+
 /**
  * This class holds the state of game and all of its elements.
  * This class also handles user inputs, which affect the game state.
@@ -25,37 +27,31 @@ import java.util.Iterator;
  */
 public class GameState implements LocationsPlacement, OperationsDone {
 
-    private GameObject[][] map;
+    private ArrayList<GameObject> map;
     //things like brick,prizes and ... -->
-    private ArrayList<UpdatableObjects> itemsInMap;
-    //<--
-
 
     private Tank myTank;
-    private GameCameraAndMyTank cameraAndMyTank;
+    private GameCamera camera;
     private boolean gunType;
-
     public boolean gameOver;
     private int relativeMouseX;
     private int relativeMouseY;
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
-    private boolean mousePress;
+    private boolean mousePressed;
     private boolean mouseMoved;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
 
     public GameState(Map mapOperation) {
+
         map = mapOperation.getMap();
-        itemsInMap = mapOperation.getItemsInMap();
-
         myTank = new Tank(120, 30 * 120 - 240, "icons/MyTank.png", 20);
-        myTank.setRelativeLocX(120);
-        myTank.setRelativeLocY(240);
-        itemsInMap.add(myTank);
-
-        relativeMouseX = 360;
-        relativeMouseY = 360;
-        cameraAndMyTank = new GameCameraAndMyTank((LocationsPlacement) (this), (OperationsDone) (this));
+        myTank.setRelativeLocX(Map.UNIT_PIXELS_NUMBER);
+        myTank.setRelativeLocY(2*Map.UNIT_PIXELS_NUMBER);
+        map.add(myTank);
+        relativeMouseX = 3*Map.UNIT_PIXELS_NUMBER;
+        relativeMouseY = 3*Map.UNIT_PIXELS_NUMBER;
+        camera = new GameCamera((LocationsPlacement) (this), (OperationsDone) (this));
 
         gameOver = false;
         //
@@ -64,9 +60,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
         keyRIGHT = false;
         keyLEFT = false;
         //
-        mousePress = false;
-
-
+        mousePressed = false;
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
 
@@ -77,22 +71,22 @@ public class GameState implements LocationsPlacement, OperationsDone {
      * The method which updates the game state.
      */
     public void update() {
-        if (mousePress) {
+        if (mousePressed) {
             CannonBullet newCannonBullet = new CannonBullet(myTank.getLocX(), myTank.getLocY(), getCameraWestBorder() + relativeMouseX, getCameraNorthBorder() + relativeMouseY, 20);
 //            System.out.println(myTank.getLocX() + "  " + myTank.getLocY() + "  " + (getCameraWestBorder() + relativeMouseX) + "  " + (getCameraNorthBorder() + relativeMouseY) + "  ");
-            itemsInMap.add(newCannonBullet);
-            mousePress = false;
+            map.add(newCannonBullet);
+            mousePressed = false;
         }
-        cameraAndMyTank.update();
+        camera.update();
         // cameraAndMyTank.updateByMouse();
-        updateGameObjects(cameraAndMyTank.getCameraNorthBorder(), cameraAndMyTank.getCameraWestBorder());
+        updateGameObjects(camera.getCameraNorthBorder(), camera.getCameraWestBorder());
     }
 
 
     private void updateGameObjects(int cameraNorthBorder, int cameraWestBorder) {
-        Iterator<UpdatableObjects> it = itemsInMap.iterator();
+        Iterator<GameObject> it = map.iterator();
         while (it.hasNext()) {
-            UpdatableObjects currentObject = it.next();
+            GameObject currentObject = it.next();
             /**
              * will be completed in future to remove bullet if its passing forbidden part of map
              */
@@ -101,8 +95,9 @@ public class GameState implements LocationsPlacement, OperationsDone {
 //                if(currentObject.getLocX() || currentObject.getLocY() )
 //            }
             currentObject.update(cameraNorthBorder, cameraWestBorder);
+            //System.out.println(currentObject.getLocX() + "," + currentObject.getLocY()+ "");
         }
-
+        myTank.update(cameraNorthBorder, cameraWestBorder);
     }
 
     public KeyListener getKeyListener() {
@@ -169,16 +164,16 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if (!mousePress) {
+            if (!mousePressed) {
                 relativeMouseX = e.getX();
                 relativeMouseY = e.getY();
-                mousePress = true;
+                mousePressed = true;
             }
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            mousePress = false;
+            mousePressed = false;
         }
 
         @Override
@@ -196,20 +191,21 @@ public class GameState implements LocationsPlacement, OperationsDone {
     }
 
 
-    public ArrayList<UpdatableObjects> getItemsInMap() {
-        return itemsInMap;
-    }
 
-    public GameObject[][] getMap() {
+    public ArrayList<GameObject> getMap() {
         return map;
     }
 
+    public Tank getMyTank() {
+        return myTank;
+    }
+
     public int getCameraNorthBorder() {
-        return cameraAndMyTank.getCameraNorthBorder();
+        return camera.getCameraNorthBorder();
     }
 
     public int getCameraWestBorder() {
-        return cameraAndMyTank.getCameraWestBorder();
+        return camera.getCameraWestBorder();
     }
 
     @Override

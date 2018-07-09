@@ -26,7 +26,7 @@ public class GameLoop implements Runnable {
 
     private GameFrame canvas;
     private GameState state;
-    private Map mapOperation;
+    private Map gameMap;
 
     public GameLoop(GameFrame frame) {
         canvas = frame;
@@ -36,10 +36,10 @@ public class GameLoop implements Runnable {
      * This must be called before the game loop starts.
      */
     public void init() {
-        mapOperation = new Map();
-        mapOperation.readMap();
+        gameMap = new Map();
+        gameMap.readMap();
 
-        state = new GameState(mapOperation);
+        state = new GameState(gameMap);
         canvas.addKeyListener(state.getKeyListener());
         canvas.addMouseListener(state.getMouseListener());
         canvas.addMouseMotionListener(state.getMouseMotionListener());
