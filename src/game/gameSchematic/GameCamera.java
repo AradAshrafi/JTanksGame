@@ -80,7 +80,7 @@ public class GameCamera {
 
     public void setHorizontalBorders(){
         switch (positionMode){
-            case 1: case 3: case 4: case 6: case 7:
+            case 1: case 3: case 4: case 6: case 7: case9:
                 cameraSouthBorder = Math.min(Map.MAP_HEIGHT, Math.max(GameFrame.GAME_HEIGHT, mouseY + innerYSpace));
                 cameraNorthBorder = cameraSouthBorder - GameFrame.GAME_HEIGHT;
                 break;
@@ -98,7 +98,7 @@ public class GameCamera {
 
     public void setVerticalBorders(){
         switch (positionMode) {
-            case 1:case 2: case 3: case 7: case 8:
+            case 1:case 2: case 3: case 7: case 8: case9:
                 cameraEastBorder = Math.min(Map.MAP_WIDTH, Math.max(GameFrame.GAME_WIDTH, mouseX + innerXSpace));
                 cameraWestBorder = cameraEastBorder - GameFrame.GAME_WIDTH;
                 break;

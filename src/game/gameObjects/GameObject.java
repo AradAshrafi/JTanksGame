@@ -76,9 +76,8 @@ public abstract class GameObject {
          g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
     }
 
+
     public void update(int cameraNorthBorder, int cameraWestBorder) {
-        setRelativeLocY(getLocY() - cameraNorthBorder);
-        setRelativeLocX(getLocX() - cameraWestBorder);
     }
 
 }

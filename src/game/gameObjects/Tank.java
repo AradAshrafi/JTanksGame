@@ -4,7 +4,7 @@ import game.FileOperation.Map;
 
 import java.awt.*;
 
-public class Tank extends GameObject {
+public class Tank extends DynamicObject {
 
     private int bulletSpeed;
     private final int SIDE_LENGTH = 120;
@@ -12,13 +12,6 @@ public class Tank extends GameObject {
     public Tank(int locX, int locY, String pathName, int bulletSpeed) {
         super(locX, locY, pathName);
         this.bulletSpeed = bulletSpeed;
-    }
-
-    @Override
-    public void paint(Graphics2D g2d) {
-        if ((this.getRelativeLocX() >= 0 && this.getRelativeLocX() <= Map.MAP_WIDTH) &&
-                ((this.getRelativeLocY() >= 0 && this.getRelativeLocY() <= Map.MAP_HEIGHT)))
-            g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
     }
 
     @Override

@@ -5,7 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-public class CannonBullet extends GameObject {
+public class CannonBullet extends DynamicObject {
     private int aimPositionX;
     private int aimPositionY;
     private int speed;

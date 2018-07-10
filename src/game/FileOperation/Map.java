@@ -13,6 +13,7 @@ public class Map {
     private ArrayList<GameObject> mapObjects;
     private ArrayList<GameObject> underLayerObjects;
     private ArrayList<GameObject> upperLayerObjects;
+    private ArrayList<GameObject> occupierObjects;
 
     public static final int UNIT_PIXELS_NUMBER = 120;
     public static final int MAP_ROWS_NUMBER = 30, MAP_COLUMNS_NUMBER = 11;
@@ -22,6 +23,7 @@ public class Map {
         mapObjects = new ArrayList<>();
         underLayerObjects = new ArrayList<>();
         upperLayerObjects = new ArrayList<>();
+        occupierObjects = new ArrayList<>();
     }
 
     /**
@@ -60,6 +62,7 @@ public class Map {
                 case ("W"):
                     Wall wall = new Wall(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     underLayerObjects.add(wall);
+                    occupierObjects.add(wall);
                     break;
                 case ("G"):
                     Ground ground = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
@@ -78,6 +81,7 @@ public class Map {
                 case ("B"):
                     Brick brick = new Brick(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(brick);
+                    occupierObjects.add(brick);
                     break;
                 case ("C"):
                     CannonFill cannonFill = new CannonFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
@@ -98,11 +102,13 @@ public class Map {
                 case ("1"): case ("2"): case ("4"):
                     Ground tmp = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(tmp);
+                    occupierObjects.add(tmp);
                     break;
 
                 case ("3"):
                     Tank dynamicEnemyTankType1 = new Tank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
                     underLayerObjects.add(dynamicEnemyTankType1);
+                    occupierObjects.add(dynamicEnemyTankType1);
                     break;
             }
         }
@@ -129,11 +135,7 @@ public class Map {
         return mapObjects;
     }
 
-    public ArrayList<GameObject> getUnderLayerObjects() {
-        return underLayerObjects;
-    }
-
-    public ArrayList<GameObject> getUpperLayerObjects() {
-        return upperLayerObjects;
+    public ArrayList<GameObject> getOccupierObjects() {
+        return occupierObjects;
     }
 }
