@@ -8,6 +8,7 @@ import java.awt.*;
 
 /**
  * This class calculates and holds camera borders which is needed in the map loading and drawing.
+ *
  * @author Seyed Mohammad Hosseini Mojahed.
  */
 
@@ -20,8 +21,6 @@ public class GameCamera {
     private int innerRectangleHeight;
     private int innerXSpace;
     private int innerYSpace;
-    private int relativeLocXPrime;
-    private int relativeLocYPrime;
     private LocationsPlacement necessaryLocations;
     private OperationsDone userOperations;
 
@@ -55,7 +54,7 @@ public class GameCamera {
 
 
     /**
-     *This method set the position mode due to relative tank and mouse location.
+     * This method set the position mode due to relative tank and mouse location.
      */
 
     public void setPositionMode() {
@@ -78,14 +77,21 @@ public class GameCamera {
      * to set north and south camera borders due to the position mode .
      */
 
-    public void setHorizontalBorders(){
-        switch (positionMode){
-            case 1: case 3: case 4: case 6: case 7: case9:
+    public void setHorizontalBorders() {
+        switch (positionMode) {
+            case 1:
+            case 3:
+            case 4:
+            case 6:
+            case 7:
+                case9:
                 cameraSouthBorder = Math.min(Map.MAP_HEIGHT, Math.max(GameFrame.GAME_HEIGHT, mouseY + innerYSpace));
                 cameraNorthBorder = cameraSouthBorder - GameFrame.GAME_HEIGHT;
                 break;
 
-            case 2: case 5: case 8:
+            case 2:
+            case 5:
+            case 8:
                 cameraNorthBorder = Math.min(Map.MAP_HEIGHT - GameFrame.GAME_HEIGHT, Math.max(mouseY - innerYSpace, 0));
                 cameraSouthBorder = cameraNorthBorder + GameFrame.GAME_HEIGHT;
                 break;
@@ -96,14 +102,21 @@ public class GameCamera {
      * to set west and east camera borders due to the position mode
      */
 
-    public void setVerticalBorders(){
+    public void setVerticalBorders() {
         switch (positionMode) {
-            case 1:case 2: case 3: case 7: case 8: case9:
+            case 1:
+            case 2:
+            case 3:
+            case 7:
+            case 8:
+                case9:
                 cameraEastBorder = Math.min(Map.MAP_WIDTH, Math.max(GameFrame.GAME_WIDTH, mouseX + innerXSpace));
                 cameraWestBorder = cameraEastBorder - GameFrame.GAME_WIDTH;
                 break;
 
-            case 4:case 5: case 6:
+            case 4:
+            case 5:
+            case 6:
                 cameraWestBorder = Math.min(Map.MAP_WIDTH - GameFrame.GAME_WIDTH, Math.max(mouseX - innerXSpace, 0));
                 cameraEastBorder = cameraWestBorder + GameFrame.GAME_WIDTH;
                 break;
@@ -111,19 +124,16 @@ public class GameCamera {
     }
 
     /**
-     *to set all camera borders by calling setHorizontalBorder() and setVerticalBorder().
+     * to set all camera borders by calling setHorizontalBorder() and setVerticalBorder().
      */
 
     public void setBorders() {
-
         innerRectangleWidth = Math.abs(necessaryLocations.getTankLocX() - mouseX);
         innerRectangleHeight = Math.abs(necessaryLocations.getTankLocY() - mouseY);
         innerXSpace = (int) (0.5 * (GameFrame.GAME_WIDTH - innerRectangleWidth));
         innerYSpace = (int) (0.5 * (GameFrame.GAME_HEIGHT - innerRectangleHeight));
-
         setHorizontalBorders();
         setVerticalBorders();
-
     }
 
     /**
@@ -132,35 +142,12 @@ public class GameCamera {
      */
 
     public void update() {
-
-        if (userOperations.isKeyUpPressed()) {
-            necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() - 8);
-            innerUpdate();
-            print();
-        }
-
-        if (userOperations.isKeyDownPressed()) {
-            necessaryLocations.setTankLocY(necessaryLocations.getTankLocY() + 8);
-            innerUpdate();
-            print();
-        }
-
-        if (userOperations.isKeyLeftPressed()) {
-            necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() - 8);
-            innerUpdate();
-            print();
-        }
-
-        if (userOperations.isKeyRightPressed()) {
-            necessaryLocations.setTankLocX(necessaryLocations.getTankLocX() + 8);
-            innerUpdate();
-            print();
-        }
-
-        if (userOperations.getMouseMoved()){
-            innerUpdate();
-            print();
+        if (userOperations.isKeyRightPressed() || userOperations.isKeyLeftPressed() || userOperations.isKeyDownPressed() || userOperations.isKeyUpPressed() || userOperations.getMouseMoved()) {
             userOperations.setMouseMoved(false);
+            updateMouseLocation();
+            setPositionMode();
+            setBorders();
+            print();
         }
     }
 
@@ -172,15 +159,9 @@ public class GameCamera {
         return cameraWestBorder;
     }
 
-    public void updateMouseLocation(){
+    public void updateMouseLocation() {
         mouseX = necessaryLocations.getRelativeMouseX() + cameraWestBorder;
         mouseY = necessaryLocations.getRelativeMouseY() + cameraNorthBorder;
-    }
-
-    public void innerUpdate(){
-        updateMouseLocation();
-        setPositionMode();
-        setBorders();
     }
 
 
@@ -188,9 +169,9 @@ public class GameCamera {
      * this method prints the parameters need for debugging the camera updating.
      */
 
-    public void  print(){
+    public void print() {
         System.out.println("innerRectangleWidth" + innerRectangleWidth + innerRectangleHeight + "innerRectangleHeight");
-        System.out.println("innerXSpace" + innerXSpace + "innerYSpace" + innerYSpace );
+        System.out.println("innerXSpace" + innerXSpace + "innerYSpace" + innerYSpace);
         System.out.println("relativeMouseX :" + necessaryLocations.getRelativeMouseX() + "relativeMouseY + " + necessaryLocations.getRelativeMouseY());
         System.out.println("mouseX = " + mouseX + "mouseY" + mouseY);
         System.out.println("tankLocX : " + necessaryLocations.getTankLocX() + "tankLocY :" + necessaryLocations.getTankLocY());

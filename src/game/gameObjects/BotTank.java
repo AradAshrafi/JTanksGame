@@ -2,14 +2,19 @@ package game.gameObjects;
 
 import game.FileOperation.Map;
 
-import java.awt.*;
-
-public class Tank extends DynamicObject {
+public class BotTank extends DynamicObject {
 
     private int bulletSpeed;
     private final int SIDE_LENGTH = 120;
+    private Gun tankGun;
 
-    public Tank(int locX, int locY, String pathName, int bulletSpeed) {
+    /**
+     * @param locX
+     * @param locY
+     * @param pathName
+     * @param bulletSpeed
+     */
+    public BotTank(int locX, int locY, String pathName, int bulletSpeed) {
         super(locX, locY, pathName);
         this.bulletSpeed = bulletSpeed;
     }

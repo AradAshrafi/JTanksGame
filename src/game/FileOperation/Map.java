@@ -47,7 +47,7 @@ public class Map {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-       // print();
+        // print();
     }
 
     /**
@@ -75,9 +75,9 @@ public class Map {
         }
     }
 
-    private void buildNthRowOfUpperLayer(int row, String[] characters){
-        for (int j = 0; j<MAP_COLUMNS_NUMBER; j++){
-            switch (characters[j]){
+    private void buildNthRowOfUpperLayer(int row, String[] characters) {
+        for (int j = 0; j < MAP_COLUMNS_NUMBER; j++) {
+            switch (characters[j]) {
                 case ("B"):
                     Brick brick = new Brick(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(brick);
@@ -99,14 +99,16 @@ public class Map {
                     CannonUpdate cannonUpdate = new CannonUpdate(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(cannonUpdate);
                     break;
-                case ("1"): case ("2"): case ("4"):
+                case ("1"):
+                case ("2"):
+                case ("4"):
                     Ground tmp = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(tmp);
                     occupierObjects.add(tmp);
                     break;
 
                 case ("3"):
-                    Tank dynamicEnemyTankType1 = new Tank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
+                    BotTank dynamicEnemyTankType1 = new BotTank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
                     underLayerObjects.add(dynamicEnemyTankType1);
                     occupierObjects.add(dynamicEnemyTankType1);
                     break;
@@ -114,21 +116,20 @@ public class Map {
         }
     }
 
-    public void buildNthRowOfMap(int row, String[] characters){
+    public void buildNthRowOfMap(int row, String[] characters) {
 
         buildNthRowOfUnderLayer(row, characters);
         buildNthRowOfUpperLayer(row, characters);
     }
 
-    public void buildMap(){
-        for (int i  = 0; i<underLayerObjects.size(); i++){
+    public void buildMap() {
+        for (int i = 0; i < underLayerObjects.size(); i++) {
             mapObjects.add(underLayerObjects.get(i));
         }
-        for (int j = 0; j <upperLayerObjects.size(); j++){
+        for (int j = 0; j < upperLayerObjects.size(); j++) {
             mapObjects.add(upperLayerObjects.get(j));
         }
     }
-
 
 
     public ArrayList<GameObject> getMap() {
