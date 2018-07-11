@@ -4,6 +4,7 @@ package game.gameSchematic; /*** In The Name of Allah ***/
 import game.FileOperation.Map;
 import game.gameObjects.*;
 import game.gameObjects.CannonBullet;
+import game.gameSchematic.betweenObjectRelation.GameCheatCode;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
@@ -41,6 +42,21 @@ public class GameState implements LocationsPlacement, OperationsDone {
     private boolean mouseMoved;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
+    //new fields
+    private GameCheatCode cheatCode;
+
+// Initialize the global thread-pool
+        /*
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("Some text");
+        stringBuilder.append("Some text");
+        stringBuilder.append("Some text");
+
+
+        String finalString = stringBuilder.toString();
+        System.out.println(finalString);
+        */
 
     public GameState(Map mapOperation) {
 
@@ -53,7 +69,6 @@ public class GameState implements LocationsPlacement, OperationsDone {
         relativeMouseX = 3 * Map.UNIT_PIXELS_NUMBER;
         relativeMouseY = 3 * Map.UNIT_PIXELS_NUMBER;
         camera = new GameCamera((LocationsPlacement) (this), (OperationsDone) (this));
-
         gameOver = false;
         //
         keyUP = false;
@@ -64,7 +79,8 @@ public class GameState implements LocationsPlacement, OperationsDone {
         mousePressed = false;
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
-
+        //
+        cheatCode = new GameCheatCode();
     }
 
 
@@ -72,6 +88,8 @@ public class GameState implements LocationsPlacement, OperationsDone {
      * The method which updates the game state.
      */
     public void update() {
+
+       // cheatCode.update(kE);
         if (mousePressed) {
             CannonBullet newCannonBullet = new CannonBullet(playerTank.getLocX(), playerTank.getLocY(),
                     camera.getCameraWestBorder() + relativeMouseX, camera.getCameraNorthBorder() + relativeMouseY, 20);
@@ -132,6 +150,8 @@ public class GameState implements LocationsPlacement, OperationsDone {
                 case KeyEvent.VK_ESCAPE:
                     gameOver = true;
                     break;
+                default:
+                    break;
             }
         }
 
@@ -151,6 +171,11 @@ public class GameState implements LocationsPlacement, OperationsDone {
                     keyRIGHT = false;
                     break;
             }
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            cheatCode.update(e);
         }
     }
 
@@ -246,7 +271,6 @@ public class GameState implements LocationsPlacement, OperationsDone {
     public void setRelativeTankLocY(int amount) {
         playerTank.setRelativeLocY(amount);
     }
-
 
     @Override
     public boolean isKeyUpPressed() {
