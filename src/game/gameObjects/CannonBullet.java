@@ -49,7 +49,17 @@ public class CannonBullet extends DynamicObject {
             //-----> rotating bullet image
             BufferedImage buffer = this.getObjectImage();
             AffineTransform tx = new AffineTransform();
-            tx.rotate(Math.asin(sin), buffer.getWidth() / 2, buffer.getHeight() / 2);
+            if ((sin > 0 && cos > 0) || sin < 0 && cos > 0) {
+                tx.rotate(Math.asin(sin), buffer.getWidth() / 2, buffer.getHeight() / 2);
+                System.out.println(sin + "   " + cos);
+            }
+//          ( sin < 0 && cos < 0 || sin > 0 && cos < 0 )
+            // in case sin<0 && cos<0  : Math.PI - Math.asin(sin)) is equal to Math.PI + | Math.asin(sin) |
+            else {
+                tx.rotate((Math.PI - Math.asin(sin)), buffer.getWidth() / 2, buffer.getHeight() / 2);
+                System.out.println(sin + "   " + cos);
+            }
+
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
             buffer = op.filter(buffer, null);
             // <---------rotating finished
