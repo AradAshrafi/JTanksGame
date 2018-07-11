@@ -1,6 +1,7 @@
 package game.gameObjects;
 
 import game.FileOperation.Map;
+import net.coobird.thumbnailator.Thumbnails;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -71,13 +72,21 @@ public abstract class GameObject {
      * @param g2d
      */
     public void paint(Graphics2D g2d) {
-        if (relativeLocX > (0-Map.UNIT_PIXELS_NUMBER) && relativeLocX < Map.MAP_WIDTH
-                && relativeLocY > (0-Map.UNIT_PIXELS_NUMBER) && relativeLocY < Map.MAP_HEIGHT)
-         g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
+        if (relativeLocX > (0 - Map.UNIT_PIXELS_NUMBER) && relativeLocX < Map.MAP_WIDTH
+                && relativeLocY > (0 - Map.UNIT_PIXELS_NUMBER) && relativeLocY < Map.MAP_HEIGHT)
+            g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
     }
 
 
     public void update(int cameraNorthBorder, int cameraWestBorder) {
+    }
+
+    protected void resizeImage(int newW, int newH) {
+        try {
+            objectImage = Thumbnails.of(this.objectImage).forceSize(newW, newH).asBufferedImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -51,10 +51,10 @@ public class CannonBullet extends DynamicObject {
             AffineTransform tx = new AffineTransform();
             if ((sin > 0 && cos > 0) || sin < 0 && cos > 0) {
                 tx.rotate(Math.asin(sin), buffer.getWidth() / 2, buffer.getHeight() / 2);
-                System.out.println(sin + "   " + cos);
             }
-//          ( sin < 0 && cos < 0 || sin > 0 && cos < 0 )
-            // in case sin<0 && cos<0  : Math.PI - Math.asin(sin)) is equal to Math.PI + | Math.asin(sin) |
+            /** ( sin < 0 && cos < 0 || sin > 0 && cos < 0 )
+             in case sin<0 && cos<0  : Math.PI - Math.asin(sin)) is equal to Math.PI + | Math.asin(sin) |
+             */
             else {
                 tx.rotate((Math.PI - Math.asin(sin)), buffer.getWidth() / 2, buffer.getHeight() / 2);
                 System.out.println(sin + "   " + cos);

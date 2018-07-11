@@ -17,14 +17,19 @@ public class BotTank extends DynamicObject {
     public BotTank(int locX, int locY, String pathName, int bulletSpeed) {
         super(locX, locY, pathName);
         this.bulletSpeed = bulletSpeed;
+        this.tankGun = new Gun(locX + SIDE_LENGTH / 2, locY + SIDE_LENGTH / 2, "icons/BigEnemyGun.png");
     }
 
     @Override
     public void update(int cameraNorthBorder, int cameraWestBorder) {
         super.update(cameraNorthBorder, cameraWestBorder);
+        tankGun.update(cameraNorthBorder, cameraWestBorder);
         setRelativeLocX(Math.max(getRelativeLocX(), 0));
         setRelativeLocX(Math.min(getRelativeLocX(), Map.MAP_WIDTH - SIDE_LENGTH));
         setRelativeLocY(Math.max(getRelativeLocY(), 0));
         setRelativeLocY(Math.min(getRelativeLocY(), Map.MAP_HEIGHT - SIDE_LENGTH));
     }
+
+
+
 }

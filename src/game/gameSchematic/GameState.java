@@ -62,7 +62,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
         map = mapOperation.getMap();
         mapOccupierObjects = mapOperation.getOccupierObjects();
-        playerTank = new PlayerTank(120, 30 * 120 - 240, "icons/MyTank.png", 20, (OperationsDone) (this));
+        playerTank = new PlayerTank(120, 30 * 120 - 240, "icons/PlayerTank.png", 20, (OperationsDone) (this));
         playerTank.setRelativeLocX(Map.UNIT_PIXELS_NUMBER);
         playerTank.setRelativeLocY(2 * Map.UNIT_PIXELS_NUMBER);
         map.add(playerTank);
