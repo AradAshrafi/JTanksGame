@@ -11,21 +11,21 @@ import java.util.concurrent.Executors;
  */
 public class ThreadPool {
 
-    private static ExecutorService executor;
+    private ExecutorService executor;
 
     /**
      * Initializes a new CachedThreadPool.
      *
      * @see java.util.concurrent.Executors#newCachedThreadPool()
      */
-    public static void init() {
+    public void init() {
         executor = Executors.newCachedThreadPool();
     }
 
     /**
      * {@link java.util.concurrent.ExecutorService#execute(java.lang.Runnable)}
      */
-    public static void execute(Runnable r) {
+    public void execute(Runnable r) {
         if (executor == null)
             init();
         executor.execute(r);
@@ -34,14 +34,14 @@ public class ThreadPool {
     /**
      * {@link java.util.concurrent.ExecutorService#shutdown()}
      */
-    public static void shutdown() {
+    public void shutdown() {
         executor.shutdown();
     }
 
     /**
      * {@link java.util.concurrent.ExecutorService#shutdownNow()}
      */
-    public static void shutdownNow() {
+    public void shutdownNow() {
         executor.shutdownNow();
     }
 }

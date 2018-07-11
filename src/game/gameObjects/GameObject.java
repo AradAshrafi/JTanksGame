@@ -66,8 +66,7 @@ public abstract class GameObject {
     }
 
     /**
-     * for non smart objects we set their relative position directly
-     * --- for smart ones we set their relative position with their update method (check SmartObject Class for more details) ---
+     * for non smart objects we set their relative position directly* --- for smart ones we set their relative position with their update method (check SmartObject Class for more details) ---
      *
      * @param g2d
      */

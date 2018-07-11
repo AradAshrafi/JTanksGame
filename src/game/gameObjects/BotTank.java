@@ -1,6 +1,5 @@
 package game.gameObjects;
 
-import game.FileOperation.Map;
 
 public class BotTank extends DynamicObject {
 
@@ -23,13 +22,7 @@ public class BotTank extends DynamicObject {
     @Override
     public void update(int cameraNorthBorder, int cameraWestBorder) {
         super.update(cameraNorthBorder, cameraWestBorder);
+        setLocY(getLocY() + 1);
         tankGun.update(cameraNorthBorder, cameraWestBorder);
-        setRelativeLocX(Math.max(getRelativeLocX(), 0));
-        setRelativeLocX(Math.min(getRelativeLocX(), Map.MAP_WIDTH - SIDE_LENGTH));
-        setRelativeLocY(Math.max(getRelativeLocY(), 0));
-        setRelativeLocY(Math.min(getRelativeLocY(), Map.MAP_HEIGHT - SIDE_LENGTH));
     }
-
-
-
 }

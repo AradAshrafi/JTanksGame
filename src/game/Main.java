@@ -16,14 +16,9 @@ public class Main {
 
     public static void main(String[] args) {
         // Initialize the global thread-pool
-        try {
-            Robot r = new Robot();
-            r.mouseMove(12, 16);
-
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
-        ThreadPool.init();
+//        ThreadPool.init();
+        ThreadPool baseThread = new ThreadPool();
+        baseThread.init();
 
         // Show the game menu ...
 
@@ -39,7 +34,7 @@ public class Main {
                 // Create and execute the game-loop
                 GameLoop game = new GameLoop(frame);
                 game.init();
-                ThreadPool.execute(game);
+                baseThread.execute(game);
                 // and the game starts ...
             }
         });

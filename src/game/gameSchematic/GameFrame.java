@@ -24,14 +24,6 @@ public class GameFrame extends JFrame {
 
     public static final int GAME_HEIGHT = 720;                  // 720p game resolution
     public static final int GAME_WIDTH = 8 * GAME_HEIGHT / 6;  // wide aspect ratio
-
-    //uncomment all /*...*/ in the class for using Tank icon instead of a simple circle
-//    private BufferedImage tankImage;
-    private BufferedImage wallImage;
-    private BufferedImage groundImage;
-    private BufferedImage notDamagedBrickImage;
-    private BufferedImage damagedBrickImage;
-
     private long lastRender;
     private ArrayList<Float> fpsHistory;
     private BufferStrategy bufferStrategy;
@@ -96,9 +88,6 @@ public class GameFrame extends JFrame {
         // Draw background
         g2d.setColor(Color.GRAY);
         g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        // Draw ball
-        g2d.setColor(Color.BLACK);
-//        g2d.fillOval(state.locX, state.locY, state.diam, state.diam);
         drawMap(g2d, state);
         // Print FPS info
         long currentRender = System.currentTimeMillis();
@@ -141,6 +130,8 @@ public class GameFrame extends JFrame {
         //get map from game state
         ArrayList<GameObject> map = state.getMap();
 
-        for (int k = 0; k < map.size(); k++) { map.get(k).paint(g2d); }
+        for (int k = 0; k < map.size(); k++) {
+            map.get(k).paint(g2d);
+        }
     }
 }

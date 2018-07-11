@@ -63,8 +63,6 @@ public class GameState implements LocationsPlacement, OperationsDone {
         map = mapOperation.getMap();
         mapOccupierObjects = mapOperation.getOccupierObjects();
         playerTank = new PlayerTank(120, 30 * 120 - 240, "icons/PlayerTank.png", 20, (OperationsDone) (this));
-        playerTank.setRelativeLocX(Map.UNIT_PIXELS_NUMBER);
-        playerTank.setRelativeLocY(2 * Map.UNIT_PIXELS_NUMBER);
         map.add(playerTank);
         relativeMouseX = 3 * Map.UNIT_PIXELS_NUMBER;
         relativeMouseY = 3 * Map.UNIT_PIXELS_NUMBER;
@@ -89,7 +87,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
      */
     public void update() {
 
-       // cheatCode.update(kE);
+        // cheatCode.update(kE);
         if (mousePressed) {
             CannonBullet newCannonBullet = new CannonBullet(playerTank.getLocX(), playerTank.getLocY(),
                     camera.getCameraWestBorder() + relativeMouseX, camera.getCameraNorthBorder() + relativeMouseY, 20);

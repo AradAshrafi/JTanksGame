@@ -1,6 +1,7 @@
 package game.FileOperation;
 
 import game.gameObjects.*;
+import game.gameSchematic.ThreadPool;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,12 +15,15 @@ public class Map {
     private ArrayList<GameObject> underLayerObjects;
     private ArrayList<GameObject> upperLayerObjects;
     private ArrayList<GameObject> occupierObjects;
+    private ThreadPool dynamicObjectsThreadPool = new ThreadPool();
+    private int botCounter = 0;
 
     public static final int UNIT_PIXELS_NUMBER = 120;
     public static final int MAP_ROWS_NUMBER = 30, MAP_COLUMNS_NUMBER = 11;
     public static final int MAP_WIDTH = MAP_COLUMNS_NUMBER * UNIT_PIXELS_NUMBER, MAP_HEIGHT = MAP_ROWS_NUMBER * UNIT_PIXELS_NUMBER;
 
     public Map() {
+        dynamicObjectsThreadPool.init();
         mapObjects = new ArrayList<>();
         underLayerObjects = new ArrayList<>();
         upperLayerObjects = new ArrayList<>();
@@ -109,8 +113,10 @@ public class Map {
 
                 case ("3"):
                     BotTank dynamicEnemyTankType1 = new BotTank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
-                    underLayerObjects.add(dynamicEnemyTankType1);
+                    upperLayerObjects.add(dynamicEnemyTankType1);
                     occupierObjects.add(dynamicEnemyTankType1);
+//                    botCounter++;
+                    dynamicObjectsThreadPool.execute(dynamicEnemyTankType1);
                     break;
             }
         }
@@ -123,12 +129,8 @@ public class Map {
     }
 
     public void buildMap() {
-        for (int i = 0; i < underLayerObjects.size(); i++) {
-            mapObjects.add(underLayerObjects.get(i));
-        }
-        for (int j = 0; j < upperLayerObjects.size(); j++) {
-            mapObjects.add(upperLayerObjects.get(j));
-        }
+        mapObjects.addAll(underLayerObjects);
+        mapObjects.addAll(upperLayerObjects);
     }
 
 

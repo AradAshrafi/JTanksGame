@@ -7,8 +7,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-public abstract class DynamicObject extends GameObject {
+public abstract class DynamicObject extends GameObject implements Runnable {
     private int currentDegree;
+    private int health = 3;
 
     public DynamicObject(int locX, int locY, String pathName) {
         super(locX, locY, pathName);
@@ -122,11 +123,24 @@ public abstract class DynamicObject extends GameObject {
         buffer = op.filter(buffer, null);
         // <---------rotating finished
 
-        g2d.drawImage(buffer, this.
+        g2d.drawImage(buffer, this.getRelativeLocX(), this.getRelativeLocY(), null);
+    }
 
-                getRelativeLocX(), this.
+    @Override
+    public void run() {
+        try {
+            while (health > 0) {
+                long start = System.currentTimeMillis();
+                long delay = (15 - (System.currentTimeMillis() - start));
+                if (delay > 0) {
+                    Thread.sleep(delay);
+                    System.out.println(getLocX() + "   asdfas" + getLocY());
+                }
+            }
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
 
-                getRelativeLocY(), null);
     }
 }
 
