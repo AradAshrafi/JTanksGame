@@ -6,7 +6,6 @@ public abstract class StaticObject extends GameObject {
         super(locX, locY, pathName);
     }
 
-    @Override
     public void update(int cameraNorthBorder, int cameraWestBorder) {
         setRelativeLocY(getLocY() - cameraNorthBorder);
         setRelativeLocX(getLocX() - cameraWestBorder);

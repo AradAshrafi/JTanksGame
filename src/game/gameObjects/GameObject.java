@@ -1,13 +1,14 @@
 package game.gameObjects;
 
 import game.FileOperation.Map;
-import net.coobird.thumbnailator.Thumbnails;
+//import net.coobird.thumbnailator.Thumbnails;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public abstract class GameObject {
 
@@ -77,9 +78,10 @@ public abstract class GameObject {
     }
 
 
-    public void update(int cameraNorthBorder, int cameraWestBorder) {
-    }
+    public void update(int cameraNorthBorder, int cameraWestBorder) { }
+    public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) { }
 
+    /*
     protected void resizeImage(int newW, int newH) {
         try {
             objectImage = Thumbnails.of(this.objectImage).forceSize(newW, newH).asBufferedImage();
@@ -87,5 +89,6 @@ public abstract class GameObject {
             e.printStackTrace();
         }
     }
+    */
 
 }

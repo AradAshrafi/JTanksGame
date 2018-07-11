@@ -6,24 +6,46 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public abstract class DynamicObject extends GameObject implements Runnable {
     private int currentDegree;
-    private int health = 3;
+    protected int cameraNorthBorder, cameraWestBorder;
+    protected ArrayList<GameObject> occupierObjects;
+    protected int nextLocX, nextLocY;
 
     public DynamicObject(int locX, int locY, String pathName) {
         super(locX, locY, pathName);
+        nextLocX = locX;
+        nextLocY = locY;
         currentDegree = 0;
     }
 
-    public void movementControl(int nextLocX, int nextLocY) {
-
+    public void movementControl() {
+        boolean movementIsAllowed = true;
+        System.out.println("nxLX"+nextLocX+"nxLY"+nextLocY);
+        for (int i = 0; i < occupierObjects.size(); i++){
+            if (((nextLocX > (occupierObjects.get(i).getLocX()-100) && nextLocX < (occupierObjects.get(i).getLocX() + 120))
+                && (nextLocY > (occupierObjects.get(i).getLocY()-100) && nextLocY < (occupierObjects.get(i).getLocY() + 120)))
+                    && !(occupierObjects.get(i) == this)){
+                System.out.println("i"+i + "oLX"+occupierObjects.get(i).getLocX() +"oLY"+occupierObjects.get(i).getLocY());
+                movementIsAllowed = false;
+                System.out.println("movementIsAllowed :"+movementIsAllowed );
+                break;
+            }
+        }
+        if (movementIsAllowed) {
+            setLocY(nextLocY);
+            setLocX(nextLocX);
+        }
     }
 
     @Override
-    public void update(int cameraNorthBorder, int cameraWestBorder) {
-        setRelativeLocY(getLocY() - cameraNorthBorder);
-        setRelativeLocX(getLocX() - cameraWestBorder);
+    public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
+
+        this.cameraNorthBorder = cameraNorthBorder;
+        this.cameraWestBorder = cameraWestBorder;
+        this.occupierObjects = occupierObjects;
     }
 
 
@@ -42,7 +64,7 @@ public abstract class DynamicObject extends GameObject implements Runnable {
             currentDegree = 2 * 5 + currentDegree; //is equal to ->  2 * Math.PI - |currentDegree|
 
 
-        System.out.println(direction + "  " + currentDegree);
+        //System.out.println(direction + "  " + currentDegree);
         /**
          * !direction means North or South
          * direction means West or East
@@ -128,18 +150,18 @@ public abstract class DynamicObject extends GameObject implements Runnable {
 
     @Override
     public void run() {
-        try {
-            while (health > 0) {
-                long start = System.currentTimeMillis();
-                long delay = (15 - (System.currentTimeMillis() - start));
-                if (delay > 0) {
-                    Thread.sleep(delay);
-                    System.out.println(getLocX() + "   asdfas" + getLocY());
-                }
-            }
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+//        try {
+//            while (health > 0) {
+//                long start = System.currentTimeMillis();
+//                long delay = (15 - (System.currentTimeMillis() - start));
+//                if (delay > 0) {
+//                    Thread.sleep(delay);
+//                    System.out.println(getLocX() + "   asdfas" + getLocY());
+//                }
+//            }
+//        } catch (InterruptedException ex) {
+//            ex.printStackTrace();
+//        }
 
     }
 }

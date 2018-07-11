@@ -141,4 +141,8 @@ public class Map {
     public ArrayList<GameObject> getOccupierObjects() {
         return occupierObjects;
     }
+
+    public ThreadPool getDynamicObjectsThreadPool() {
+        return dynamicObjectsThreadPool;
+    }
 }

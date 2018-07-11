@@ -28,6 +28,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
     private ArrayList<GameObject> map;
     private ArrayList<GameObject> mapOccupierObjects;
+    private ThreadPool dynamicObjectsThreadPool;
 
     //things like brick,prizes and ... -->
 
@@ -60,9 +61,11 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
     public GameState(Map mapOperation) {
 
+        dynamicObjectsThreadPool = mapOperation.getDynamicObjectsThreadPool();
         map = mapOperation.getMap();
         mapOccupierObjects = mapOperation.getOccupierObjects();
         playerTank = new PlayerTank(120, 30 * 120 - 240, "icons/PlayerTank.png", 20, (OperationsDone) (this));
+        dynamicObjectsThreadPool.execute(playerTank);
         map.add(playerTank);
         relativeMouseX = 3 * Map.UNIT_PIXELS_NUMBER;
         relativeMouseY = 3 * Map.UNIT_PIXELS_NUMBER;
@@ -109,7 +112,9 @@ public class GameState implements LocationsPlacement, OperationsDone {
 //            if(currentObject instanceof Bullet){
 //                if(currentObject.getLocX() || currentObject.getLocY() )
 //            }
+            if (currentObject instanceof DynamicObject) currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
             currentObject.update(cameraNorthBorder, cameraWestBorder);
+
         }
     }
 

@@ -24,5 +24,23 @@ public class BotTank extends DynamicObject {
         super.update(cameraNorthBorder, cameraWestBorder);
         setLocY(getLocY() + 1);
         tankGun.update(cameraNorthBorder, cameraWestBorder);
+        setRelativeLocY(getLocY() - cameraNorthBorder);
+        setRelativeLocX(getLocX() - cameraWestBorder);
+    }
+    @Override
+    public void run(){
+//        System.out.println("hellooooooooooooooooooooooooooo");
+//        try {
+//            while (true) {
+//                long start = System.currentTimeMillis();
+//                long delay = (15 - (System.currentTimeMillis() - start));
+//                if (delay > 0) {
+//                    Thread.sleep(delay);
+//                    System.out.println("Hello");
+//                }
+//            }
+//        } catch (InterruptedException ex) {
+//            ex.printStackTrace();
+//        }
     }
 }

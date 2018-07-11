@@ -1,6 +1,7 @@
 package game.gameSchematic.betweenObjectRelation;
 
 public interface OperationsDone {
+
     boolean isKeyUpPressed();
 
     boolean isKeyDownPressed();

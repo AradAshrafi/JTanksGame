@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class CannonBullet extends DynamicObject {
     private int aimPositionX;
@@ -24,10 +25,13 @@ public class CannonBullet extends DynamicObject {
     }
 
     @Override
-    public void update(int cameraNorthBorder, int cameraWestBorder) {
+    public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
         /**
          * updating relative coordination
          */
+        super.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
+
+
         setRelativeLocY(getLocY() - cameraNorthBorder);
         setRelativeLocX(getLocX() - cameraWestBorder);
 
@@ -57,7 +61,7 @@ public class CannonBullet extends DynamicObject {
              */
             else {
                 tx.rotate((Math.PI - Math.asin(sin)), buffer.getWidth() / 2, buffer.getHeight() / 2);
-                System.out.println(sin + "   " + cos);
+               // System.out.println(sin + "   " + cos);
             }
 
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);

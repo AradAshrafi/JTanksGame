@@ -22,7 +22,7 @@ public class GameCheatCode {
 
     public void setInputCode(KeyEvent e){
         inputCode += e.getKeyChar();
-        System.out.println(inputCode);
+        //System.out.println(inputCode);
     }
 
 
@@ -39,7 +39,6 @@ public class GameCheatCode {
     public void applyCheatCode(int currentCheatCodeNumber){
         switch (currentCheatCodeNumber){
             case 0:
-
                 System.out.println(currentCheatCodeNumber);
                 break;
             case 1:
@@ -62,7 +61,7 @@ public class GameCheatCode {
         if (cheatMode){
             setInputCode(e);
             setCurrentCheatCodeNumber();
-            applyCheatCode(currentCheatCodeNumber);
+            //applyCheatCode(currentCheatCodeNumber);
         }
     }
 }

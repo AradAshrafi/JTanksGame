@@ -10,6 +10,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class PlayerTank extends DynamicObject {
 
@@ -21,6 +22,8 @@ public class PlayerTank extends DynamicObject {
     private BufferedImage machineGun;
     private boolean currentGun;
     private Gun tankGun;
+    private int health = 5;
+
     /**
      * 0 (false) -> North - South
      * 1 (true) -> East - West
@@ -35,7 +38,7 @@ public class PlayerTank extends DynamicObject {
      */
     public PlayerTank(int locX, int locY, String pathName, int bulletSpeed, OperationsDone userOperations) {
         super(locX, locY, pathName);
-        this.resizeImage(100, 100);
+        //this.resizeImage(100, 100);
         this.bulletSpeed = bulletSpeed;
         this.userOperations = userOperations;
         this.direction = true;
@@ -46,36 +49,44 @@ public class PlayerTank extends DynamicObject {
             e.printStackTrace();
         }
         this.tankGun = new Gun(locX + SIDE_LENGTH / 4, locY + SIDE_LENGTH / 4, "icons/TankCannon.png");
+        secondaryUpdate();
     }
 
     @Override
-    public void update(int cameraNorthBorder, int cameraWestBorder) {
-        super.update(cameraNorthBorder, cameraWestBorder);
+    public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
+        super.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
+
 //        setRelativeLocX(Math.max(getRelativeLocX(), 0));
 //        setRelativeLocX(Math.min(getRelativeLocX(), Map.MAP_WIDTH - SIDE_LENGTH));
 //        setRelativeLocY(Math.max(getRelativeLocY(), 0));
 //        setRelativeLocY(Math.min(getRelativeLocY(), Map.MAP_HEIGHT - SIDE_LENGTH));
 //        System.out.println(this.getObjectImage().getWidth() + "  " + this.getObjectImage().getHeight());
+        //secondaryUpdate();
 
+        nextLocX = getLocX();
+        nextLocY = getLocY();
         if (userOperations.isKeyUpPressed()) {
-            setLocY(getLocY() - tankSpeed);
+//            setLocY(getLocY() - tankSpeed);
+            nextLocY -= tankSpeed;
             direction = false;
         }
         if (userOperations.isKeyDownPressed()) {
-            setLocY(getLocY() + tankSpeed);
+//            setLocY(getLocY() + tankSpeed);
+            nextLocY += tankSpeed;
             direction = false;
         }
         if (userOperations.isKeyLeftPressed()) {
-            setLocX(getLocX() - tankSpeed);
+//            setLocX(getLocX() - tankSpeed);
+            nextLocX -= tankSpeed;
             direction = true;
         }
         if (userOperations.isKeyRightPressed()) {
-            setLocX(getLocX() + tankSpeed);
+//            setLocX(getLocX() + tankSpeed);
+            nextLocX += tankSpeed;
             direction = true;
         }
 
-
-        tankGun.update(cameraNorthBorder, cameraWestBorder, getLocX(), getLocY(), SIDE_LENGTH);
+        tankGun.update(cameraNorthBorder, cameraWestBorder, getLocX(), getLocY(), SIDE_LENGTH, occupierObjects);
     }
 
 
@@ -88,4 +99,31 @@ public class PlayerTank extends DynamicObject {
 
     }
 
+    public void secondaryUpdate(){
+
+      //  System.out.println("im here");
+        setRelativeLocY(getLocY() - cameraNorthBorder);
+        setRelativeLocX(getLocX() - cameraWestBorder);
+    //    System.out.println("rLY : " + getRelativeLocY() + "rLX : " + getRelativeLocX());
+    }
+
+    @Override
+    public void run() {
+        try {
+            Thread.sleep(120);
+            while (health > 0) {
+                long start = System.currentTimeMillis();
+                long delay = (15 - (System.currentTimeMillis() - start));
+                //System.out.println("delay is : " + delay);
+                if (delay > 0) {
+                    Thread.sleep(delay);
+                    movementControl();
+                    secondaryUpdate();
+                }
+            }
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+    }
 }

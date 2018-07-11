@@ -3,6 +3,7 @@ package game.gameObjects;
 import game.FileOperation.Map;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Gun extends DynamicObject {
 
@@ -10,8 +11,12 @@ public class Gun extends DynamicObject {
         super(locX, locY, pathName);
     }
 
-    public void update(int cameraNorthBorder, int cameraWestBorder, int tankLocX, int tankLocY, int TankLength) {
-        super.update(cameraNorthBorder, cameraWestBorder);
+    public void update(int cameraNorthBorder, int cameraWestBorder, int tankLocX, int tankLocY
+            , int TankLength, ArrayList<GameObject> occupierObjects) {
+        super.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
+
+        setRelativeLocY(getLocY() - cameraNorthBorder);
+        setRelativeLocX(getLocX() - cameraWestBorder);
         setLocX(tankLocX + TankLength / 4);
         setLocY(tankLocY + TankLength / 4);
         setRelativeLocX(Math.max(getRelativeLocX(), 0));
