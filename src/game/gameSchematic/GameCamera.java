@@ -48,7 +48,7 @@ public class GameCamera {
 
         setPositionMode();
         setBorders();
-        print();
+//        print();
 
     }
 
@@ -147,7 +147,7 @@ public class GameCamera {
             updateMouseLocation();
             setPositionMode();
             setBorders();
-            print();
+//            print();
         }
     }
 
@@ -169,16 +169,16 @@ public class GameCamera {
      * this method prints the parameters need for debugging the camera updating.
      */
 
-    public void print() {
-        System.out.println("innerRectangleWidth" + innerRectangleWidth + innerRectangleHeight + "innerRectangleHeight");
-        System.out.println("innerXSpace" + innerXSpace + "innerYSpace" + innerYSpace);
-        System.out.println("relativeMouseX :" + necessaryLocations.getRelativeMouseX() + "relativeMouseY + " + necessaryLocations.getRelativeMouseY());
-        System.out.println("mouseX = " + mouseX + "mouseY" + mouseY);
-        System.out.println("tankLocX : " + necessaryLocations.getTankLocX() + "tankLocY :" + necessaryLocations.getTankLocY());
-        System.out.println("relativeLocX" + necessaryLocations.getRelativeTankLocX() + ", relativeLocY" + necessaryLocations.getRelativeTankLocY());
-        System.out.println("positionMode" + positionMode);
-        System.out.println("cameraWestB = " + cameraWestBorder + "cameraNorthB = " + cameraNorthBorder);
-    }
+//    public void print() {
+//        System.out.println("innerRectangleWidth" + innerRectangleWidth + innerRectangleHeight + "innerRectangleHeight");
+//        System.out.println("innerXSpace" + innerXSpace + "innerYSpace" + innerYSpace);
+//        System.out.println("relativeMouseX :" + necessaryLocations.getRelativeMouseX() + "relativeMouseY + " + necessaryLocations.getRelativeMouseY());
+//        System.out.println("mouseX = " + mouseX + "mouseY" + mouseY);
+//        System.out.println("tankLocX : " + necessaryLocations.getTankLocX() + "tankLocY :" + necessaryLocations.getTankLocY());
+//        System.out.println("relativeLocX" + necessaryLocations.getRelativeTankLocX() + ", relativeLocY" + necessaryLocations.getRelativeTankLocY());
+//        System.out.println("positionMode" + positionMode);
+//        System.out.println("cameraWestB = " + cameraWestBorder + "cameraNorthB = " + cameraNorthBorder);
+//    }
 }
 
 

@@ -25,10 +25,16 @@ public class PlayerTank extends DynamicObject {
     private int health = 5;
 
     /**
-     * 0 (false) -> North - South
-     * 1 (true) -> East - West
+     * 1 -> West
+     * 2 -> North West
+     * 3 -> North
+     * 4 -> North East
+     * 5 -> East
+     * 6 -> South East
+     * 7 -> South
+     * 8 -> South West
      */
-    private boolean direction;
+    private int direction;
 
     /**
      * @param locX
@@ -41,7 +47,7 @@ public class PlayerTank extends DynamicObject {
         //this.resizeImage(100, 100);
         this.bulletSpeed = bulletSpeed;
         this.userOperations = userOperations;
-        this.direction = true;
+        this.direction = 5;
         try {
             this.cannonGun = ImageIO.read(new File("icons/TankCannon.png"));
             this.machineGun = ImageIO.read(new File("icons/TankMachineGun.png"));
@@ -56,34 +62,35 @@ public class PlayerTank extends DynamicObject {
     public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
         super.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
 
-//        setRelativeLocX(Math.max(getRelativeLocX(), 0));
-//        setRelativeLocX(Math.min(getRelativeLocX(), Map.MAP_WIDTH - SIDE_LENGTH));
-//        setRelativeLocY(Math.max(getRelativeLocY(), 0));
-//        setRelativeLocY(Math.min(getRelativeLocY(), Map.MAP_HEIGHT - SIDE_LENGTH));
-//        System.out.println(this.getObjectImage().getWidth() + "  " + this.getObjectImage().getHeight());
-        //secondaryUpdate();
-
         nextLocX = getLocX();
         nextLocY = getLocY();
         if (userOperations.isKeyUpPressed()) {
-//            setLocY(getLocY() - tankSpeed);
             nextLocY -= tankSpeed;
-            direction = false;
+            direction = 3;
         }
         if (userOperations.isKeyDownPressed()) {
-//            setLocY(getLocY() + tankSpeed);
             nextLocY += tankSpeed;
-            direction = false;
+            direction = 7;
         }
         if (userOperations.isKeyLeftPressed()) {
-//            setLocX(getLocX() - tankSpeed);
             nextLocX -= tankSpeed;
-            direction = true;
+            direction = 1;
         }
         if (userOperations.isKeyRightPressed()) {
-//            setLocX(getLocX() + tankSpeed);
             nextLocX += tankSpeed;
-            direction = true;
+            direction = 5;
+        }
+        if (userOperations.isKeyUpPressed() && userOperations.isKeyLeftPressed()) {
+            direction = 2;
+        }
+        if (userOperations.isKeyUpPressed() && userOperations.isKeyRightPressed()) {
+            direction = 4;
+        }
+        if (userOperations.isKeyDownPressed() && userOperations.isKeyRightPressed()) {
+            direction = 6;
+        }
+        if (userOperations.isKeyDownPressed() && userOperations.isKeyLeftPressed()) {
+            direction = 8;
         }
 
         tankGun.update(cameraNorthBorder, cameraWestBorder, getLocX(), getLocY(), SIDE_LENGTH, occupierObjects);
@@ -91,26 +98,22 @@ public class PlayerTank extends DynamicObject {
 
 
     public void paint(Graphics2D g2d) {
-//        if (getRelativeLocX() > (0-Map.UNIT_PIXELS_NUMBER) && relativeLocX < Map.MAP_WIDTH
-//                && relativeLocY > (0-Map.UNIT_PIXELS_NUMBER) && relativeLocY < Map.MAP_HEIGHT)
-//        g2d.drawImage(this.getObjectImage(), this.getRelativeLocX(), this.getRelativeLocY(), null);
         rotateImageAndPaint(direction, g2d, userOperations);
         this.tankGun.rotateImageAndPaint(direction, g2d, userOperations);
 
     }
 
-    public void secondaryUpdate(){
+    public void secondaryUpdate() {
 
-      //  System.out.println("im here");
+        //  System.out.println("im here");
         setRelativeLocY(getLocY() - cameraNorthBorder);
         setRelativeLocX(getLocX() - cameraWestBorder);
-    //    System.out.println("rLY : " + getRelativeLocY() + "rLX : " + getRelativeLocX());
+        //    System.out.println("rLY : " + getRelativeLocY() + "rLX : " + getRelativeLocX());
     }
 
     @Override
     public void run() {
         try {
-            Thread.sleep(120);
             while (health > 0) {
                 long start = System.currentTimeMillis();
                 long delay = (15 - (System.currentTimeMillis() - start));

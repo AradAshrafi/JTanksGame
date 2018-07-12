@@ -16,6 +16,7 @@ public abstract class DynamicObject extends GameObject implements Runnable {
 
     public DynamicObject(int locX, int locY, String pathName) {
         super(locX, locY, pathName);
+        occupierObjects = new ArrayList<>();
         nextLocX = locX;
         nextLocY = locY;
         currentDegree = 0;
@@ -23,14 +24,11 @@ public abstract class DynamicObject extends GameObject implements Runnable {
 
     public void movementControl() {
         boolean movementIsAllowed = true;
-        System.out.println("nxLX"+nextLocX+"nxLY"+nextLocY);
-        for (int i = 0; i < occupierObjects.size(); i++){
-            if (((nextLocX > (occupierObjects.get(i).getLocX()-100) && nextLocX < (occupierObjects.get(i).getLocX() + 120))
-                && (nextLocY > (occupierObjects.get(i).getLocY()-100) && nextLocY < (occupierObjects.get(i).getLocY() + 120)))
-                    && !(occupierObjects.get(i) == this)){
-                System.out.println("i"+i + "oLX"+occupierObjects.get(i).getLocX() +"oLY"+occupierObjects.get(i).getLocY());
+        for (int i = 0; i < occupierObjects.size(); i++) {
+            if (((nextLocX > (occupierObjects.get(i).getLocX() - 100) && nextLocX < (occupierObjects.get(i).getLocX() + 120))
+                    && (nextLocY > (occupierObjects.get(i).getLocY() - 100) && nextLocY < (occupierObjects.get(i).getLocY() + 120)))
+                    && !(occupierObjects.get(i) == this)) {
                 movementIsAllowed = false;
-                System.out.println("movementIsAllowed :"+movementIsAllowed );
                 break;
             }
         }
@@ -50,96 +48,48 @@ public abstract class DynamicObject extends GameObject implements Runnable {
 
 
     /**
-     * 1 -> North - South
-     * 2 -> East -  West
+     * 1 -> West
+     * 2 -> North West
+     * 3 -> North
+     * 4 -> North East
+     * 5 -> East
+     * 6 -> South East
+     * 7 -> South
+     * 8 -> South West
      */
-    void rotateImageAndPaint(boolean direction, Graphics2D g2d, OperationsDone userOperation) {
+    void rotateImageAndPaint(int direction, Graphics2D g2d, OperationsDone userOperation) {
         //-> rotating start
         BufferedImage buffer = this.getObjectImage();
         AffineTransform tx = new AffineTransform();
-        if (currentDegree > 5) {
-            currentDegree = (2 * 5 - currentDegree) * -1;
+        int coefficientOfRotation = 0;
+
+        switch (direction) {
+            case 1:
+                coefficientOfRotation = 4;
+                break;
+            case 2:
+                coefficientOfRotation = -3;
+                break;
+            case 3:
+                coefficientOfRotation = -2;
+                break;
+            case 4:
+                coefficientOfRotation = -1;
+                break;
+            case 5:
+                coefficientOfRotation = 0;
+                break;
+            case 6:
+                coefficientOfRotation = 1;
+                break;
+            case 7:
+                coefficientOfRotation = 2;
+                break;
+            case 8:
+                coefficientOfRotation = 3;
+                break;
         }
-        if (currentDegree < -5)
-            currentDegree = 2 * 5 + currentDegree; //is equal to ->  2 * Math.PI - |currentDegree|
-
-
-        //System.out.println(direction + "  " + currentDegree);
-        /**
-         * !direction means North or South
-         * direction means West or East
-         */
-        if (userOperation.isKeyDownPressed() || userOperation.isKeyUpPressed() || userOperation.isKeyLeftPressed() || userOperation.isKeyRightPressed())
-            if (!direction) {
-                if (!(currentDegree == -2 || currentDegree == 2)) {
-                    // Y >0
-                    if (Math.abs(currentDegree - Math.PI / 2) < Math.abs(currentDegree + Math.PI / 2)) {
-                        // X > 0
-                        if (currentDegree < Math.PI / 2) {
-//                        tx.rotate(Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-                            currentDegree++;
-                        }
-                        // X < 0
-                        else {
-//                        tx.rotate(-Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-                            currentDegree--;
-                        }
-                    }
-                    // Y<0
-                    else {
-                        // X > 0
-                        if (currentDegree > -Math.PI / 2) {
-//                        tx.rotate(-Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-                            currentDegree--;
-                        }
-                        // X < 0
-                        else {
-//                        tx.rotate(Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-                            currentDegree++;
-                        }
-                    }
-                }
-
-            } else {
-                if (!(currentDegree == 0 || currentDegree == 5 || currentDegree == -5)) {
-                    System.out.println("here");
-                    // X > 0
-                    if (Math.abs(currentDegree) < Math.abs(currentDegree - Math.PI)) {
-                        // Y < 0
-                        if (currentDegree < 0) {
-//                        tx.rotate(Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-                            currentDegree++;
-                        }
-                        // Y > 0
-                        else {
-//                        tx.rotate(-Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-                            currentDegree--;
-
-                        }
-                    }
-                    // X < 0
-                    else {
-                        // Y > 0
-                        if (currentDegree < Math.PI && currentDegree > 0) {
-//                        tx.rotate(Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-                            currentDegree++;
-
-                        }
-                        // Y < 0
-                        else {
-//                        tx.rotate(-Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-                            currentDegree--;
-
-                        }
-                    }
-                }
-            }
-        if (currentDegree > 0)
-            tx.rotate((currentDegree + 1) * Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-        else if (currentDegree < 0)
-            tx.rotate((currentDegree - 1) * Math.PI / 3, buffer.getWidth() / 2, buffer.getHeight() / 2);
-        else
-            tx.rotate(0, buffer.getWidth() / 2, buffer.getHeight() / 2);
+        tx.rotate(coefficientOfRotation * Math.PI / 4, buffer.getWidth() / 2, buffer.getHeight() / 2);
 
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         buffer = op.filter(buffer, null);
