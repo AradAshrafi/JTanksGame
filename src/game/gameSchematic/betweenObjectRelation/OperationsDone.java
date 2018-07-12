@@ -12,6 +12,8 @@ public interface OperationsDone {
 
     boolean isMouseMoved();
 
+    boolean isEnterPressed();
+
     void setMouseMoved(boolean sth);
 
     boolean getMouseMoved();

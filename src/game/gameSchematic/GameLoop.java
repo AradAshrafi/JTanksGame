@@ -1,6 +1,7 @@
 package game.gameSchematic;
 
 import game.FileOperation.Map;
+import game.SinglePlayerGame;
 
 /**
  * A very simple structure for the main game loop.
@@ -22,7 +23,7 @@ public class GameLoop implements Runnable {
      * Frame Per Second.
      * Higher is better, but any value above 24 is fine.
      */
-    public static final int FPS = 30;
+    private final int FPS = 30;
 
     private GameFrame canvas;
     private GameState state;
@@ -47,21 +48,9 @@ public class GameLoop implements Runnable {
 
     @Override
     public void run() {
-        boolean gameOver = false;
-        while (!gameOver) {
-            try {
-                long start = System.currentTimeMillis();
-                //
-                state.update();
-                canvas.render(state);
-                gameOver = state.gameOver;
-                //
-                long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
-                if (delay > 0)
-                    Thread.sleep(delay);
-            } catch (InterruptedException ex) {
-            }
+        int[] userSelectedData = canvas.renderMenu(state);
+        if (userSelectedData[0] == 0) {
+            new SinglePlayerGame(canvas, state, FPS);
         }
-        canvas.render(state);
     }
 }

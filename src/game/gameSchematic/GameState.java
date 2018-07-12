@@ -4,7 +4,6 @@ package game.gameSchematic; /*** In The Name of Allah ***/
 import game.FileOperation.Map;
 import game.gameObjects.*;
 import game.gameObjects.CannonBullet;
-import game.gameSchematic.betweenObjectRelation.GameCheatCode;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
@@ -34,11 +33,12 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
     private PlayerTank playerTank;
     private GameCamera camera;
-    private boolean gunType;
+    private boolean singleOrMultiplayer;
+
     public boolean gameOver;
     private int relativeMouseX;
     private int relativeMouseY;
-    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
+    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT, enterPressed;
     private boolean mousePressed;
     private boolean mouseMoved;
     private KeyHandler keyHandler;
@@ -76,6 +76,8 @@ public class GameState implements LocationsPlacement, OperationsDone {
         keyDOWN = false;
         keyRIGHT = false;
         keyLEFT = false;
+        enterPressed = false;
+
         //
         mousePressed = false;
         keyHandler = new KeyHandler();
@@ -112,7 +114,8 @@ public class GameState implements LocationsPlacement, OperationsDone {
 //            if(currentObject instanceof Bullet){
 //                if(currentObject.getLocX() || currentObject.getLocY() )
 //            }
-            if (currentObject instanceof DynamicObject) currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
+            if (currentObject instanceof DynamicObject)
+                currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
             currentObject.update(cameraNorthBorder, cameraWestBorder);
 
         }
@@ -153,6 +156,9 @@ public class GameState implements LocationsPlacement, OperationsDone {
                 case KeyEvent.VK_ESCAPE:
                     gameOver = true;
                     break;
+                case KeyEvent.VK_ENTER:
+                    enterPressed = true;
+                    break;
                 default:
                     break;
             }
@@ -172,6 +178,8 @@ public class GameState implements LocationsPlacement, OperationsDone {
                     break;
                 case KeyEvent.VK_RIGHT:
                     keyRIGHT = false;
+                case KeyEvent.VK_ENTER:
+                    enterPressed = false;
                     break;
             }
         }
@@ -222,6 +230,14 @@ public class GameState implements LocationsPlacement, OperationsDone {
 
     public PlayerTank getPlayerTank() {
         return playerTank;
+    }
+
+    public boolean isSingleOrMultiplayer() {
+        return singleOrMultiplayer;
+    }
+
+    public void setSingleOrMultiplayer(boolean singleOrMultiplayer) {
+        this.singleOrMultiplayer = singleOrMultiplayer;
     }
 
 
@@ -298,6 +314,11 @@ public class GameState implements LocationsPlacement, OperationsDone {
     @Override
     public boolean isMouseMoved() {
         return mouseMoved;
+    }
+
+    @Override
+    public boolean isEnterPressed() {
+        return enterPressed;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package game.gameSchematic.betweenObjectRelation;
+package game.gameSchematic;
 
 import java.awt.event.KeyEvent;
 

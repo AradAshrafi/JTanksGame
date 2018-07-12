@@ -2,12 +2,16 @@ package game.gameSchematic;
 
 import game.FileOperation.Map;
 import game.gameObjects.GameObject;
+import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 /**
@@ -49,6 +53,161 @@ public class GameFrame extends JFrame {
         bufferStrategy = getBufferStrategy();
     }
 
+
+    /**
+     * menu that renders before game starts
+     *
+     * @param state -- game state
+     * @return array with 2 arguments which first argument shows that game is multiPlayer or singlePlayer and
+     * second argument shows difficulty level
+     */
+    public int[] renderMenu(GameState state) {
+        int[] userSelectedData = new int[2];
+        boolean isMultiPlayer;
+        int difficultyLevel;
+        Graphics2D g2d = (Graphics2D) bufferStrategy.getDrawGraphics();
+        OperationsDone userOperation = state;
+        BufferedImage pointer = null;
+        try {
+            pointer = ImageIO.read(new File("icons/selector.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        isMultiPlayer = renderMenuSingleMultiSelection(g2d, state, pointer);
+        difficultyLevel = renderMenuDifficultySelection(g2d, state, pointer);
+
+        if (!isMultiPlayer) {
+            userSelectedData[0] = 0;
+        } else {
+            userSelectedData[0] = 1;
+        }
+        userSelectedData[1] = difficultyLevel;
+
+        return userSelectedData;
+    }
+
+    private boolean renderMenuSingleMultiSelection(Graphics2D g2d, OperationsDone userOperation, BufferedImage pointer) {
+        boolean gameModeIsChose = false;
+        boolean isMultiPlayer = false;
+        // Draw background
+        g2d.setColor(Color.cyan);
+        g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        g2d.setFont(g2d.getFont().deriveFont(18.0f));
+        String str1 = "Single Player";
+        String str2 = "Multi Player";
+        int str1Width = g2d.getFontMetrics().stringWidth(str1);
+        int str1Height = g2d.getFontMetrics().getHeight();
+        int str2Width = g2d.getFontMetrics().stringWidth(str2);
+        int str2Height = g2d.getFontMetrics().getHeight();
+        //Draw Menu
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(str1, (GAME_WIDTH - str1Width) / 2, str1Height + 300);
+        g2d.drawString(str2, (GAME_WIDTH - str2Width) / 2, str2Height + 450);
+
+        while (!gameModeIsChose) {
+            g2d.setColor(Color.BLACK);
+            if (userOperation.isKeyDownPressed() || userOperation.isKeyUpPressed())
+                isMultiPlayer = !isMultiPlayer;
+
+            if (userOperation.isEnterPressed())
+                gameModeIsChose = true;
+
+            if (!isMultiPlayer) {
+                g2d.drawImage(pointer, (GAME_WIDTH - str2Width) / 2 - 100, str2Height + 277, null);
+                g2d.setColor(Color.cyan);
+                g2d.fillRect((GAME_WIDTH - str2Width) / 2 - 100, str2Height + 427, 50, 50);
+            } else {
+                g2d.drawImage(pointer, (GAME_WIDTH - str2Width) / 2 - 100, str2Height + 427, null);
+                g2d.setColor(Color.cyan);
+                g2d.fillRect((GAME_WIDTH - str2Width) / 2 - 100, str2Height + 277, 50, 50);
+            }
+
+
+            bufferStrategy.show();
+            Toolkit.getDefaultToolkit().sync();
+
+
+            try {
+                Thread.sleep(150);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return isMultiPlayer;
+    }
+
+    private int renderMenuDifficultySelection(Graphics2D g2d, OperationsDone userOperation, BufferedImage pointer) {
+        boolean gameDifficultyIsChose = false;
+        int difficultyLevel = 0;
+        // Draw background
+        g2d.setColor(Color.cyan);
+        g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        g2d.setFont(g2d.getFont().deriveFont(18.0f));
+        String easy = "Easy";
+        String normal = "Normal";
+        String hard = "Hard";
+
+        int strHeight = g2d.getFontMetrics().getHeight();
+        int easyWidth = g2d.getFontMetrics().stringWidth(easy);
+        int normalWidth = g2d.getFontMetrics().stringWidth(normal);
+        int hardWidth = g2d.getFontMetrics().stringWidth(hard);
+
+
+        //Draw Menu
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(easy, (GAME_WIDTH - easyWidth) / 2, strHeight + 200);
+        g2d.drawString(normal, (GAME_WIDTH - normalWidth) / 2, strHeight + 300);
+        g2d.drawString(hard, (GAME_WIDTH - hardWidth) / 2, strHeight + 400);
+
+
+        //wait for user to press enter
+        while (!gameDifficultyIsChose) {
+            g2d.setColor(Color.BLACK);
+            if (userOperation.isKeyDownPressed())
+                difficultyLevel = ((difficultyLevel + 1) % 3);
+            if (userOperation.isKeyUpPressed()) {
+                if (difficultyLevel < 0)
+                    difficultyLevel += 3;
+                else
+                    difficultyLevel--;
+            }
+
+            if (userOperation.isEnterPressed())
+                gameDifficultyIsChose = true;
+
+
+            //if singleOrMultiPlayer is false it means singlePlayer otherwise its multiPlayer
+            if (difficultyLevel == 0) {
+                g2d.drawImage(pointer, (GAME_WIDTH - easyWidth) / 2 - 100, strHeight + 177, null);
+                g2d.setColor(Color.cyan);
+                g2d.fillRect((GAME_WIDTH - normalWidth) / 2 - 100, strHeight + 277, 50, 50);
+                g2d.fillRect((GAME_WIDTH - hardWidth) / 2 - 100, strHeight + 377, 50, 50);
+
+            } else if (difficultyLevel == 1) {
+                g2d.drawImage(pointer, (GAME_WIDTH - normalWidth) / 2 - 100, strHeight + 277, null);
+                g2d.setColor(Color.cyan);
+                g2d.fillRect((GAME_WIDTH - easyWidth) / 2 - 100, strHeight + 177, 50, 50);
+                g2d.fillRect((GAME_WIDTH - hardWidth) / 2 - 100, strHeight + 377, 50, 50);
+            } else {
+                g2d.drawImage(pointer, (GAME_WIDTH - hardWidth) / 2 - 100, strHeight + 377, null);
+                g2d.setColor(Color.cyan);
+                g2d.fillRect((GAME_WIDTH - easyWidth) / 2 - 100, strHeight + 177, 50, 50);
+                g2d.fillRect((GAME_WIDTH - normalWidth) / 2 - 100, strHeight + 277, 50, 50);
+            }
+
+
+            bufferStrategy.show();
+            Toolkit.getDefaultToolkit().sync();
+
+
+            try {
+                Thread.sleep(150);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return difficultyLevel;
+    }
 
     /**
      * Game rendering with triple-buffering using BufferStrategy.
