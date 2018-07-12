@@ -1,7 +1,12 @@
 package game.gameSchematic;
 
 import game.FileOperation.Map;
+import game.MultiPlayerGame;
 import game.SinglePlayerGame;
+import game.gameObjects.PlayerTank;
+import game.gameSchematic.betweenObjectRelation.OperationsDone;
+
+import javax.swing.*;
 
 /**
  * A very simple structure for the main game loop.
@@ -28,9 +33,12 @@ public class GameLoop implements Runnable {
     private GameFrame canvas;
     private GameState state;
     private Map gameMap;
+    private ThreadPool singlePlayerPool;
 
     public GameLoop(GameFrame frame) {
         canvas = frame;
+        singlePlayerPool = new ThreadPool();
+        singlePlayerPool.init();
     }
 
     /**
@@ -39,8 +47,8 @@ public class GameLoop implements Runnable {
     public void init() {
         gameMap = new Map();
         gameMap.readMap();
+        state = new GameState(gameMap.getMap(), gameMap.getOccupierObjects(), gameMap.getDynamicObjectsThreadPool(), 120, 30 * 120 - 240);
 
-        state = new GameState(gameMap);
         canvas.addKeyListener(state.getKeyListener());
         canvas.addMouseListener(state.getMouseListener());
         canvas.addMouseMotionListener(state.getMouseMotionListener());
@@ -50,7 +58,15 @@ public class GameLoop implements Runnable {
     public void run() {
         int[] userSelectedData = canvas.renderMenu(state);
         if (userSelectedData[0] == 0) {
-            new SinglePlayerGame(canvas, state, FPS);
+            singlePlayerPool.execute(new SinglePlayerGame(canvas, state, FPS));
+        }
+        if (userSelectedData[0] == 1) {
+            GameFrame canvas2 = new GameFrame("JTanks By Arad & Mohammad");
+            canvas2.setLocationRelativeTo(null); // put frame at center of screen
+            canvas2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            canvas2.setVisible(true);
+            canvas2.initBufferStrategy();
+            new MultiPlayerGame(canvas, canvas2, state, FPS);
         }
     }
 }

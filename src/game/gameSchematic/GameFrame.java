@@ -49,7 +49,7 @@ public class GameFrame extends JFrame {
      */
     public void initBufferStrategy() {
         // Triple-buffering
-        createBufferStrategy(3);
+        createBufferStrategy(10);
         bufferStrategy = getBufferStrategy();
     }
 

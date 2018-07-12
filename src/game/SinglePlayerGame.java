@@ -3,8 +3,19 @@ package game;
 import game.gameSchematic.GameFrame;
 import game.gameSchematic.GameState;
 
-public class SinglePlayerGame {
+public class SinglePlayerGame implements Runnable {
+    private GameFrame canvas;
+    private GameState state;
+    private int FPS;
+
     public SinglePlayerGame(GameFrame canvas, GameState state, int FPS) {
+        this.canvas = canvas;
+        this.state = state;
+        this.FPS = FPS;
+    }
+
+    @Override
+    public void run() {
         boolean gameOver = false;
         while (!gameOver) {
             try {

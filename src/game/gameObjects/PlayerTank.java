@@ -12,9 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class PlayerTank extends DynamicObject {
+public class PlayerTank extends Tank {
 
-    private int bulletSpeed;
     private int SIDE_LENGTH = 100;
     private int tankSpeed = 8;
     private OperationsDone userOperations;
@@ -25,27 +24,14 @@ public class PlayerTank extends DynamicObject {
     private int health = 5;
 
     /**
-     * 1 -> West
-     * 2 -> North West
-     * 3 -> North
-     * 4 -> North East
-     * 5 -> East
-     * 6 -> South East
-     * 7 -> South
-     * 8 -> South West
-     */
-    private int direction;
-
-    /**
      * @param locX
      * @param locY
      * @param pathName
      * @param bulletSpeed
      */
     public PlayerTank(int locX, int locY, String pathName, int bulletSpeed, OperationsDone userOperations) {
-        super(locX, locY, pathName);
+        super(locX, locY, pathName, bulletSpeed);
         //this.resizeImage(100, 100);
-        this.bulletSpeed = bulletSpeed;
         this.userOperations = userOperations;
         this.direction = 5;
         try {

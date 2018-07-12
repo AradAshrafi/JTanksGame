@@ -29,7 +29,7 @@ public class GameState implements LocationsPlacement, OperationsDone {
     private ArrayList<GameObject> mapOccupierObjects;
     private ThreadPool dynamicObjectsThreadPool;
 
-    //things like brick,prizes and ... -->
+//things like brick,prizes and ... -->
 
     private PlayerTank playerTank;
     private GameCamera camera;
@@ -59,12 +59,12 @@ public class GameState implements LocationsPlacement, OperationsDone {
         System.out.println(finalString);
         */
 
-    public GameState(Map mapOperation) {
+    public GameState(ArrayList<GameObject> map, ArrayList<GameObject> mapOccupierObjects, ThreadPool dynamicObjectsThreadPool, int playerTankLocX, int playerTankLocY) {
 
-        dynamicObjectsThreadPool = mapOperation.getDynamicObjectsThreadPool();
-        map = mapOperation.getMap();
-        mapOccupierObjects = mapOperation.getOccupierObjects();
-        playerTank = new PlayerTank(120, 30 * 120 - 240, "icons/PlayerTank.png", 20, (OperationsDone) (this));
+        this.map = map;
+        this.mapOccupierObjects = mapOccupierObjects;
+        this.dynamicObjectsThreadPool = dynamicObjectsThreadPool;
+        this.playerTank = new PlayerTank(playerTankLocX, playerTankLocY, "icons/PlayerTank.png", 20, (OperationsDone) (this));
         dynamicObjectsThreadPool.execute(playerTank);
         map.add(playerTank);
         relativeMouseX = 3 * Map.UNIT_PIXELS_NUMBER;
@@ -329,6 +329,14 @@ public class GameState implements LocationsPlacement, OperationsDone {
     @Override
     public boolean getMouseMoved() {
         return mouseMoved;
+    }
+
+    public ArrayList<GameObject> getMapOccupierObjects() {
+        return mapOccupierObjects;
+    }
+
+    public ThreadPool getDynamicObjectsThreadPool() {
+        return dynamicObjectsThreadPool;
     }
 }
 

@@ -15,7 +15,7 @@ public class Game {
         baseThread.init();
 
         // Show the game menu ...
-        
+
         // After the player clicks 'PLAY' ...
         EventQueue.invokeLater(new Runnable() {
             @Override
