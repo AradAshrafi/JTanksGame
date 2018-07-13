@@ -209,12 +209,12 @@ public class GameFrame extends JFrame {
             bufferStrategy.show();
             Toolkit.getDefaultToolkit().sync();
 
-
-            try {
-                Thread.sleep(150);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//
+//            try {
+//                Thread.sleep(150);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
         return isMultiPlayer;
     }

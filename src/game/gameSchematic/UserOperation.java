@@ -14,7 +14,7 @@ public class UserOperation implements OperationsDone {
     private GameCheatCode cheatCode;
     private int relativeMouseX;
     private int relativeMouseY;
-    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT, enterPressed;
+    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT, enterPressed, itemIsSelected;
     private boolean mousePressed;
     private boolean mouseMoved;
 
@@ -77,9 +77,8 @@ public class UserOperation implements OperationsDone {
                 case KeyEvent.VK_ESCAPE:
                     gameOver = true;
                     break;
-                case KeyEvent.VK_ENTER:
-                    enterPressed = true;
-                    break;
+//                case KeyEvent.VK_ENTER:
+//                    break;
                 default:
                     break;
             }
@@ -100,7 +99,7 @@ public class UserOperation implements OperationsDone {
                 case KeyEvent.VK_RIGHT:
                     keyRIGHT = false;
                 case KeyEvent.VK_ENTER:
-                    enterPressed = false;
+                    enterPressed = true;
                     break;
             }
         }
@@ -197,7 +196,9 @@ public class UserOperation implements OperationsDone {
 
     @Override
     public boolean isEnterPressed() {
-        return enterPressed;
+        boolean tmp = enterPressed;
+        enterPressed = false;
+        return tmp;
     }
 
     @Override
