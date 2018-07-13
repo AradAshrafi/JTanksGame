@@ -49,9 +49,6 @@ public class PlayerTank extends Tank {
     public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
         super.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
 
-        nextLocX = getLocX();
-        nextLocY = getLocY();
-
         if (userOperations.isKeyUpPressed()) {
             nextLocY -= tankSpeed;
             direction = 3;

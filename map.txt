@@ -19,12 +19,12 @@ W W W G G G G W W W W
 W W G G G G G W W W W
 W W W B B B B W W W W
 W W G G G G G G G W W
-W W W G G G G G G W W
+W W W G G 3 G G G W W
 W W W W W G G G G G W
 W W W W W G G G G G W
 W W W W W W G G G W W
 W W W W W W G G W W W
 W W W W W W G G W W W
 W G G G W G G G B G C
-W G G G G G G G B G G
+W G G G G G 3 G B G G
 W W W W W W W W W W W

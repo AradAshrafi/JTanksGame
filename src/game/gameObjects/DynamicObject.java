@@ -15,6 +15,17 @@ public abstract class DynamicObject extends GameObject implements Runnable {
     protected ArrayList<GameObject> occupierObjects;
     protected int nextLocX, nextLocY;
     protected int health;
+    /**
+     * 1 -> West
+     * 2 -> North West
+     * 3 -> North
+     * 4 -> North East
+     * 5 -> East
+     * 6 -> South East
+     * 7 -> South
+     * 8 -> South West
+     */
+    protected int direction;
 
     public DynamicObject(int locX, int locY, String pathName) {
         super(locX, locY, pathName);
@@ -53,6 +64,10 @@ public abstract class DynamicObject extends GameObject implements Runnable {
         this.cameraNorthBorder = cameraNorthBorder;
         this.cameraWestBorder = cameraWestBorder;
         this.occupierObjects = occupierObjects;
+
+        nextLocX = getLocX();
+        nextLocY = getLocY();
+
     }
 
 
