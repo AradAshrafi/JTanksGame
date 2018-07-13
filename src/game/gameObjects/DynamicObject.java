@@ -1,5 +1,6 @@
 package game.gameObjects;
 
+import game.FileOperation.Map;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import java.awt.*;
@@ -16,6 +17,7 @@ public abstract class DynamicObject extends GameObject implements Runnable {
 
     public DynamicObject(int locX, int locY, String pathName) {
         super(locX, locY, pathName);
+        setSideLength(100);
         occupierObjects = new ArrayList<>();
         nextLocX = locX;
         nextLocY = locY;
@@ -24,10 +26,16 @@ public abstract class DynamicObject extends GameObject implements Runnable {
 
     public void movementControl() {
         boolean movementIsAllowed = true;
+        int westBorder, eastBorder, northBorder, southBorder;
+
         for (int i = 0; i < occupierObjects.size(); i++) {
-            if (((nextLocX > (occupierObjects.get(i).getLocX() - 100) && nextLocX < (occupierObjects.get(i).getLocX() + 120))
-                    && (nextLocY > (occupierObjects.get(i).getLocY() - 100) && nextLocY < (occupierObjects.get(i).getLocY() + 120)))
-                    && !(occupierObjects.get(i) == this)) {
+            westBorder = occupierObjects.get(i).getLocX() - getSideLength();
+            eastBorder = occupierObjects.get(i).getLocX() + occupierObjects.get(i).getSideLength();
+            northBorder =occupierObjects.get(i).getLocY() - getSideLength();
+            southBorder = occupierObjects.get(i).getLocY() + occupierObjects.get(i).getSideLength();
+
+            if (((nextLocX > westBorder && nextLocX < eastBorder) && (nextLocY > northBorder && nextLocY < southBorder)
+                    && !(occupierObjects.get(i) == this))) {
                 movementIsAllowed = false;
                 break;
             }

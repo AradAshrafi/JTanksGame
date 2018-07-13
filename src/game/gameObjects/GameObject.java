@@ -16,6 +16,7 @@ public abstract class GameObject {
     private int locY;
     private int relativeLocX;
     private int relativeLocY;
+    private int sideLength;
     private BufferedImage objectImage;
 
     public GameObject(int locX, int locY, String pathName) {
@@ -90,5 +91,11 @@ public abstract class GameObject {
         }
     }
     */
+    public int getSideLength(){
+        return sideLength;
+    }
 
+    public void setSideLength(int sideLength) {
+        this.sideLength = sideLength;
+    }
 }
