@@ -1,10 +1,6 @@
 package game.gameSchematic;
 
 import game.FileOperation.Map;
-import game.MultiPlayerGame;
-import game.SinglePlayerGame;
-import game.gameObjects.PlayerTank;
-import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import javax.swing.*;
 
@@ -24,6 +20,10 @@ import javax.swing.*;
  */
 public class GameLoop implements Runnable {
 
+    private ClientState state;
+    private Map mapOperation;
+    private UserOperation userOperation;
+
     /**
      * Frame Per Second.
      * Higher is better, but any value above 24 is fine.
@@ -31,42 +31,43 @@ public class GameLoop implements Runnable {
     private final int FPS = 30;
 
     private GameFrame canvas;
-    private GameState state;
-    private Map gameMap;
-    private ThreadPool singlePlayerPool;
 
-    public GameLoop(GameFrame frame) {
+//    private ThreadPool singlePlayerPool;
+
+    public GameLoop(GameFrame frame, Map mapOperation, UserOperation userOperation) {
         canvas = frame;
-        singlePlayerPool = new ThreadPool();
-        singlePlayerPool.init();
+        this.mapOperation = mapOperation;
+        this.userOperation = userOperation;
+//        singlePlayerPool = new ThreadPool();
+//        singlePlayerPool.init();
     }
 
-    /**
-     * This must be called before the game loop starts.
-     */
-    public void init() {
-        gameMap = new Map();
-        gameMap.readMap();
-        state = new GameState(gameMap.getMap(), gameMap.getOccupierObjects(), gameMap.getDynamicObjectsThreadPool(), 120, 30 * 120 - 240);
-
-        canvas.addKeyListener(state.getKeyListener());
-        canvas.addMouseListener(state.getMouseListener());
-        canvas.addMouseMotionListener(state.getMouseMotionListener());
-    }
+//    /**
+//     * This must be called before the game loop starts.
+//     */
+//    public void init() {
+//
+//        canvas.addKeyListener(state.getKeyListener());
+//        canvas.addMouseListener(state.getMouseListener());
+//        canvas.addMouseMotionListener(state.getMouseMotionListener());
+//    }
 
     @Override
     public void run() {
-        int[] userSelectedData = canvas.renderMenu(state);
+        int[] userSelectedData = canvas.renderMenu();
         if (userSelectedData[0] == 0) {
-            singlePlayerPool.execute(new SinglePlayerGame(canvas, state, FPS));
+//            singlePlayerPool.execute(new SinglePlayerGame(canvas, state, FPS));
+            Client client = new Client(userOperation, mapOperation, canvas, 120, Map.MAP_HEIGHT - 240);
+            client.run();
+
         }
-        if (userSelectedData[0] == 1) {
-            GameFrame canvas2 = new GameFrame("JTanks By Arad & Mohammad");
-            canvas2.setLocationRelativeTo(null); // put frame at center of screen
-            canvas2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            canvas2.setVisible(true);
-            canvas2.initBufferStrategy();
-            new MultiPlayerGame(canvas, canvas2, state, FPS);
-        }
+//        if (userSelectedData[0] == 1) {
+//            GameFrame canvas2 = new GameFrame("JTanks By Arad & Mohammad");
+//            canvas2.setLocationRelativeTo(null); // put frame at center of screen
+//            canvas2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//            canvas2.setVisible(true);
+//            canvas2.initBufferStrategy();
+//            new MultiPlayerGame(canvas, canvas2, state, FPS);
+//        }
     }
 }

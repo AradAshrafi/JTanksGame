@@ -1,6 +1,7 @@
 package game.gameObjects;
 
 import game.FileOperation.Map;
+import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ public class PlayerTank extends Tank {
     private int SIDE_LENGTH = 100;
     private int tankSpeed = 8;
     private OperationsDone userOperations;
+    private LocationsPlacement locationsPlacement;
     private BufferedImage cannonGun;
     private BufferedImage machineGun;
     private boolean currentGun;
@@ -29,10 +31,11 @@ public class PlayerTank extends Tank {
      * @param pathName
      * @param bulletSpeed
      */
-    public PlayerTank(int locX, int locY, String pathName, int bulletSpeed, OperationsDone userOperations) {
+    public PlayerTank(int locX, int locY, String pathName, int bulletSpeed, OperationsDone userOperations, LocationsPlacement locationsPlacement) {
         super(locX, locY, pathName, bulletSpeed);
         //this.resizeImage(100, 100);
         this.userOperations = userOperations;
+        this.locationsPlacement = locationsPlacement;
         this.direction = 5;
         health = playerHealth;
         try {
@@ -78,14 +81,13 @@ public class PlayerTank extends Tank {
             direction = 8;
         }
 
-        tankGun.update(cameraNorthBorder, cameraWestBorder, getLocX(), getLocY(), SIDE_LENGTH, occupierObjects);
+        tankGun.update(cameraNorthBorder, cameraWestBorder, getLocX(), getLocY(), SIDE_LENGTH, occupierObjects, userOperations.getRelativeMouseX(), userOperations.getRelativeMouseY());
     }
 
 
     public void paint(Graphics2D g2d) {
         rotateImageAndPaint(direction, g2d, userOperations);
-        this.tankGun.rotateImageAndPaint(direction, g2d, userOperations);
+        tankGun.paint(g2d);
 
     }
-
 }

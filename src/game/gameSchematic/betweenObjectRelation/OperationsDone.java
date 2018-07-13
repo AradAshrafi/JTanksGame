@@ -10,7 +10,17 @@ public interface OperationsDone {
 
     boolean isKeyLeftPressed();
 
+    int getRelativeMouseX();
+
+    int getRelativeMouseY();
+
+    boolean isMousePressed();
+
+    void setMousePressed(boolean sth);
+
     boolean isMouseMoved();
+
+    boolean isGameOver();
 
     boolean isEnterPressed();
 

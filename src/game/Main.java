@@ -1,11 +1,6 @@
 package game;
 
-import game.gameSchematic.GameFrame;
-import game.gameSchematic.GameLoop;
-import game.gameSchematic.ThreadPool;
-
-import java.awt.*;
-import javax.swing.JFrame;
+import game.gameSchematic.Game;
 
 /**
  * Program start.

@@ -1,9 +1,6 @@
 package game.gameSchematic.betweenObjectRelation;
 
 public interface LocationsPlacement {
-    int getRelativeMouseX();
-
-    int getRelativeMouseY();
 
     int getTankLocX();
 

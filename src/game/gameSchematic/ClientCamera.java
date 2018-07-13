@@ -12,7 +12,7 @@ import java.awt.*;
  * @author Seyed Mohammad Hosseini Mojahed.
  */
 
-public class GameCamera {
+public class ClientCamera {
 
     private int cameraNorthBorder, cameraSouthBorder, cameraWestBorder, cameraEastBorder;
     private int mouseX, mouseY;
@@ -24,7 +24,7 @@ public class GameCamera {
     private LocationsPlacement necessaryLocations;
     private OperationsDone userOperations;
 
-    public GameCamera(LocationsPlacement importantLocations, OperationsDone userOperations) {
+    public ClientCamera(LocationsPlacement importantLocations, OperationsDone userOperations) {
         necessaryLocations = importantLocations;
         this.userOperations = userOperations;
 
@@ -36,15 +36,15 @@ public class GameCamera {
         try {
             Robot r = new Robot();
             for (int i = 0; i < 10; i++) {
-                r.mouseMove(288 + necessaryLocations.getRelativeMouseX(), 47 + necessaryLocations.getRelativeMouseY());
+                r.mouseMove(288 + userOperations.getRelativeMouseX(), 47 + userOperations.getRelativeMouseY());
             }
 
         } catch (AWTException e) {
             e.printStackTrace();
         }
 
-        mouseX = necessaryLocations.getRelativeMouseX();
-        mouseY = necessaryLocations.getRelativeMouseY() + Map.MAP_HEIGHT - GameFrame.GAME_HEIGHT;
+        mouseX = userOperations.getRelativeMouseX();
+        mouseY = userOperations.getRelativeMouseY() + Map.MAP_HEIGHT - GameFrame.GAME_HEIGHT;
 
         setPositionMode();
         setBorders();
@@ -160,8 +160,8 @@ public class GameCamera {
     }
 
     public void updateMouseLocation() {
-        mouseX = necessaryLocations.getRelativeMouseX() + cameraWestBorder;
-        mouseY = necessaryLocations.getRelativeMouseY() + cameraNorthBorder;
+        mouseX = userOperations.getRelativeMouseX() + cameraWestBorder;
+        mouseY = userOperations.getRelativeMouseY() + cameraNorthBorder;
     }
 
 
