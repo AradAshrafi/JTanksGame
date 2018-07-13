@@ -21,7 +21,7 @@ public class PlayerTank extends Tank {
     private BufferedImage machineGun;
     private boolean currentGun;
     private Gun tankGun;
-    private int health = 5;
+    private int playerHealth = 5;
 
     /**
      * @param locX
@@ -34,6 +34,7 @@ public class PlayerTank extends Tank {
         //this.resizeImage(100, 100);
         this.userOperations = userOperations;
         this.direction = 5;
+        health = playerHealth;
         try {
             this.cannonGun = ImageIO.read(new File("icons/TankCannon.png"));
             this.machineGun = ImageIO.read(new File("icons/TankMachineGun.png"));
@@ -50,6 +51,7 @@ public class PlayerTank extends Tank {
 
         nextLocX = getLocX();
         nextLocY = getLocY();
+
         if (userOperations.isKeyUpPressed()) {
             nextLocY -= tankSpeed;
             direction = 3;
@@ -89,30 +91,4 @@ public class PlayerTank extends Tank {
 
     }
 
-    public void secondaryUpdate() {
-
-        //  System.out.println("im here");
-        setRelativeLocY(getLocY() - cameraNorthBorder);
-        setRelativeLocX(getLocX() - cameraWestBorder);
-        //    System.out.println("rLY : " + getRelativeLocY() + "rLX : " + getRelativeLocX());
-    }
-
-    @Override
-    public void run() {
-        try {
-            while (health > 0) {
-                long start = System.currentTimeMillis();
-                long delay = (15 - (System.currentTimeMillis() - start));
-                //System.out.println("delay is : " + delay);
-                if (delay > 0) {
-                    Thread.sleep(delay);
-                    movementControl();
-                    secondaryUpdate();
-                }
-            }
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-    }
 }

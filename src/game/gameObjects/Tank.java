@@ -4,6 +4,7 @@ public abstract class Tank extends DynamicObject {
     private int bulletSpeed;
     private final int SIDE_LENGTH = 120;
     private Gun tankGun;
+
     /**
      * 1 -> West
      * 2 -> North West
@@ -22,17 +23,4 @@ public abstract class Tank extends DynamicObject {
         this.direction = 5;
     }
 
-    @Override
-    public void update(int cameraNorthBorder, int cameraWestBorder) {
-        super.update(cameraNorthBorder, cameraWestBorder);
-//        setLocY(getLocY() + 1);
-//        tankGun.update(cameraNorthBorder, cameraWestBorder);
-        setRelativeLocY(getLocY() - cameraNorthBorder);
-        setRelativeLocX(getLocX() - cameraWestBorder);
-    }
-
-    @Override
-    public void run() {
-
-    }
 }

@@ -11,9 +11,10 @@ import java.util.ArrayList;
 
 public abstract class DynamicObject extends GameObject implements Runnable {
     private int currentDegree;
-    protected int cameraNorthBorder, cameraWestBorder;
+    private int cameraNorthBorder, cameraWestBorder;
     protected ArrayList<GameObject> occupierObjects;
     protected int nextLocX, nextLocY;
+    protected int health;
 
     public DynamicObject(int locX, int locY, String pathName) {
         super(locX, locY, pathName);
@@ -31,7 +32,7 @@ public abstract class DynamicObject extends GameObject implements Runnable {
         for (int i = 0; i < occupierObjects.size(); i++) {
             westBorder = occupierObjects.get(i).getLocX() - getSideLength();
             eastBorder = occupierObjects.get(i).getLocX() + occupierObjects.get(i).getSideLength();
-            northBorder =occupierObjects.get(i).getLocY() - getSideLength();
+            northBorder = occupierObjects.get(i).getLocY() - getSideLength();
             southBorder = occupierObjects.get(i).getLocY() + occupierObjects.get(i).getSideLength();
 
             if (((nextLocX > westBorder && nextLocX < eastBorder) && (nextLocY > northBorder && nextLocY < southBorder)
@@ -106,21 +107,31 @@ public abstract class DynamicObject extends GameObject implements Runnable {
         g2d.drawImage(buffer, this.getRelativeLocX(), this.getRelativeLocY(), null);
     }
 
+    public void secondaryUpdate() {
+
+        //  System.out.println("im here");
+        setRelativeLocY(getLocY() - cameraNorthBorder);
+        setRelativeLocX(getLocX() - cameraWestBorder);
+        //    System.out.println("rLY : " + getRelativeLocY() + "rLX : " + getRelativeLocX());
+    }
+
     @Override
     public void run() {
-//        try {
-//            while (health > 0) {
-//                long start = System.currentTimeMillis();
-//                long delay = (15 - (System.currentTimeMillis() - start));
-//                if (delay > 0) {
-//                    Thread.sleep(delay);
-//                    System.out.println(getLocX() + "   asdfas" + getLocY());
-//                }
-//            }
-//        } catch (InterruptedException ex) {
-//            ex.printStackTrace();
-//        }
 
+        try {
+            while (health > 0) {
+                long start = System.currentTimeMillis();
+                long delay = (15 - (System.currentTimeMillis() - start));
+                //System.out.println("delay is : " + delay);
+                if (delay > 0) {
+                    Thread.sleep(delay);
+                    movementControl();
+                    secondaryUpdate();
+                }
+            }
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
 }
 
