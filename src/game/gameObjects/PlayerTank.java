@@ -15,8 +15,8 @@ public class PlayerTank extends Tank {
 
     private int SIDE_LENGTH = 100;
     private int tankSpeed = 8;
-    private OperationsDone userOperations;
-    private LocationsPlacement locationsPlacement;
+    private static OperationsDone userOperations;
+    private static LocationsPlacement locationsPlacement;
     private transient BufferedImage cannonGun;
     private transient BufferedImage machineGun;
     private boolean currentGun;
@@ -33,7 +33,7 @@ public class PlayerTank extends Tank {
         super(locX, locY, pathName, bulletSpeed);
         //this.resizeImage(100, 100);
         this.userOperations = userOperations;
-        System.out.println(this.userOperations);
+        System.out.println("Player " + this.userOperations);
 
         this.locationsPlacement = locationsPlacement;
         this.direction = 5;
@@ -45,15 +45,18 @@ public class PlayerTank extends Tank {
             e.printStackTrace();
         }
         this.tankGun = new Gun(locX + SIDE_LENGTH / 4, locY + SIDE_LENGTH / 4, "icons/TankCannon.png");
-        secondaryUpdate();
+//        setRelativeLocX(400);
+//        setRelativeLocY(400);
+
     }
 
     @Override
     public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
         super.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
-
-        System.out.println("pppp" + userOperations + locationsPlacement);
+        System.out.println(userOperations);
+//        System.out.println(getLocX() + "  " + getLocY() + "  " + "  " + cameraNorthBorder + "   " + cameraWestBorder + userOperations);
         if (userOperations.isKeyUpPressed()) {
+            System.out.println("KEYUP");
             nextLocY -= tankSpeed;
             direction = 3;
         }
@@ -66,6 +69,8 @@ public class PlayerTank extends Tank {
             direction = 1;
         }
         if (userOperations.isKeyRightPressed()) {
+            System.out.println("KEYRIGHT");
+
             nextLocX += tankSpeed;
             direction = 5;
         }
@@ -81,14 +86,24 @@ public class PlayerTank extends Tank {
         if (userOperations.isKeyDownPressed() && userOperations.isKeyLeftPressed()) {
             direction = 8;
         }
-
+        secondaryUpdate(cameraNorthBorder, cameraWestBorder);
+        locationsPlacement.setRelativeTankLocX(locationsPlacement.getTankLocX() - cameraWestBorder);
+        locationsPlacement.setRelativeTankLocY(locationsPlacement.getTankLocY() - cameraNorthBorder);
         tankGun.update(cameraNorthBorder, cameraWestBorder, getLocX(), getLocY(), SIDE_LENGTH, occupierObjects, userOperations.getRelativeMouseX(), userOperations.getRelativeMouseY());
     }
 
 
     public void paint(Graphics2D g2d) {
+//        System.out.println("painting taaaank " + getRelativeLocX() + " " + getRelativeLocY() + "  ======  " + getLocX() + "  " + getLocY());
         rotateImageAndPaint(direction, g2d, (OperationsDone) userOperations);
+        tankGun.setObjectImage();
         tankGun.paint(g2d);
 
     }
+
+//    public void setUserOperations(OperationsDone userOperations) {
+//        this.userOperations = userOperations;
+//        System.out.println(userOperations + "    " + this.userOperations);
+//    }
+
 }

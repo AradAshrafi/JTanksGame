@@ -136,8 +136,9 @@ public class GameFrame extends JFrame {
      */
     public int[] renderMenu() {
         this.g2d = (Graphics2D) bufferStrategy.getDrawGraphics();
-        int[] userSelectedData = new int[2];
+        int[] userSelectedData = new int[3];
         boolean isMultiPlayer;
+        boolean isServer = false;
         int difficultyLevel;
 //        OperationsDone userOperation = state;
         BufferedImage pointer = null;
@@ -148,22 +149,20 @@ public class GameFrame extends JFrame {
         }
         isMultiPlayer = renderMenuSingleMultiSelection(g2d, userOperation, pointer);
         if (isMultiPlayer) {
-            boolean isServer = renderConnectionOptionsMenu(g2d, userOperation, pointer);
+            isServer = renderConnectionOptionsMenu(g2d, userOperation, pointer);
             if (isServer) {
-
+                renderScreenAfterServerSelected(g2d);
             } else {
-
+                renderScreenAfterClientSelected(g2d);
             }
         }
 
         difficultyLevel = renderMenuDifficultySelection(g2d, userOperation, pointer);
 
-        if (!isMultiPlayer) {
-            userSelectedData[0] = 0;
-        } else {
-            userSelectedData[0] = 1;
-        }
+
+        userSelectedData[0] = isMultiPlayer ? 1 : 0;
         userSelectedData[1] = difficultyLevel;
+        userSelectedData[2] = isServer ? 1 : 0;
 
         return userSelectedData;
     }
@@ -172,7 +171,7 @@ public class GameFrame extends JFrame {
         boolean gameModeIsChose = false;
         boolean isMultiPlayer = false;
         // Draw background
-        g2d.setColor(Color.cyan);
+        g2d.setColor(Color.black);
         g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         g2d.setFont(g2d.getFont().deriveFont(18.0f));
         String str1 = "Single Player";
@@ -182,12 +181,12 @@ public class GameFrame extends JFrame {
         int str2Width = g2d.getFontMetrics().stringWidth(str2);
         int str2Height = g2d.getFontMetrics().getHeight();
         //Draw Menu
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.white);
         g2d.drawString(str1, (GAME_WIDTH - str1Width) / 2, str1Height + 300);
         g2d.drawString(str2, (GAME_WIDTH - str2Width) / 2, str2Height + 450);
 
         while (!gameModeIsChose) {
-            g2d.setColor(Color.BLACK);
+            g2d.setColor(Color.WHITE);
             if (userOperation.isKeyDownPressed() || userOperation.isKeyUpPressed())
                 isMultiPlayer = !isMultiPlayer;
 
@@ -196,7 +195,7 @@ public class GameFrame extends JFrame {
 
             if (!isMultiPlayer) {
                 g2d.drawImage(pointer, (GAME_WIDTH - str2Width) / 2 - 100, str2Height + 277, null);
-                g2d.setColor(Color.cyan);
+                g2d.setColor(Color.white);
                 g2d.fillRect((GAME_WIDTH - str2Width) / 2 - 100, str2Height + 427, 50, 50);
             } else {
                 g2d.drawImage(pointer, (GAME_WIDTH - str2Width) / 2 - 100, str2Height + 427, null);
@@ -295,7 +294,7 @@ public class GameFrame extends JFrame {
         boolean serverOrHostIsChose = false;
         boolean isServer = false;
         // Draw background
-        g2d.setColor(Color.cyan);
+        g2d.setColor(Color.white);
         g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         g2d.setFont(g2d.getFont().deriveFont(18.0f));
         String str1 = "Connect To Another Game";
@@ -341,7 +340,16 @@ public class GameFrame extends JFrame {
         return isServer;
     }
 
-    private void renderScreenAfterServerSelected() {
+    private void renderScreenAfterServerSelected(Graphics2D g2d) {
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        g2d.setFont(g2d.getFont().deriveFont(18.0f));
+        String str = "Waiting for Client To Join ... ";
+        int strWidth = g2d.getFontMetrics().stringWidth(str);
+        int strHeight = g2d.getFontMetrics().getHeight();
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, strHeight + 300);
+
 //        Socket client = null;
 //        try (ServerSocket server = new ServerSocket(7654)) {
 //            System.out.print("Server started.\nWaiting for a client ... ");
@@ -357,17 +365,21 @@ public class GameFrame extends JFrame {
 //        }
     }
 
-    private void renderScreenAfterClientSelected() {
-
+    private void renderScreenAfterClientSelected(Graphics2D g2d) {
+        g2d.setColor(Color.cyan);
+        g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        g2d.setFont(g2d.getFont().deriveFont(18.0f));
+        String str = "Trying to establish Connection ... ";
     }
 
 
     private void drawMap(Graphics2D g2d, ClientState state) {
         //get map from game state
-        ArrayList<GameObject> map = state.getMap();
+        ArrayList<GameObject> map = new ArrayList<>();
+        map.addAll(state.getUnderLayerObjects());
+        map.addAll(state.getMapOccupierObjects());
+
         System.out.println(map.size());
-
-
         for (int k = 0; k < map.size(); k++) {
             map.get(k).paint(g2d);
         }

@@ -41,7 +41,6 @@ public class GameLoop implements Runnable {
         canvas = frame;
         this.mapOperation = mapOperation;
         this.userOperation = userOperation;
-        System.out.println(this.userOperation);
 //        singlePlayerPool = new ThreadPool();
 //        singlePlayerPool.init();
     }
@@ -59,13 +58,25 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         int[] userSelectedData = canvas.renderMenu();
+        //single player
         if (userSelectedData[0] == 0) {
-            Thread singlePlayerServer = new Thread(new Server(mapOperation.getMap(), false, userOperation));
+            System.out.println(userOperation);
+            Thread singlePlayerServer = new Thread(new Server(mapOperation.getOccupierObjects(), false, userOperation));
             Thread singlePlayerClient = new Thread(new Client(Server.getPort(), userOperation, mapOperation, canvas, 120, Map.MAP_HEIGHT - 240));
             singlePlayerServer.start();
             singlePlayerClient.start();
 
-//            tr.start();
+            //multi player & it's host of the game
+        } else if (userSelectedData[2] == 1) {
+            Thread singlePlayerServer = new Thread(new Server(mapOperation.getOccupierObjects(), true, userOperation));
+            Thread singlePlayerClient = new Thread(new Client(Server.getPort(), userOperation, mapOperation, canvas, 120, Map.MAP_HEIGHT - 240));
+            singlePlayerServer.start();
+            singlePlayerClient.start();
+
+            //multi player & it's Client Of the game
+        } else if (userSelectedData[2] == 0) {
+            Thread singlePlayerClient = new Thread(new Client(Server.getPort(), userOperation, mapOperation, canvas, 120, Map.MAP_HEIGHT - 240));
+            singlePlayerClient.start();
         }
 //        if (userSelectedData[0] == 1) {
 //            GameFrame canvas2 = new GameFrame("JTanks By Arad & Mohammad");

@@ -9,8 +9,8 @@ import java.io.Serializable;
 
 public class UserOperation implements OperationsDone {
     public boolean gameOver;
-    private KeyHandler keyHandler;
-    private MouseHandler mouseHandler;
+    private static KeyHandler keyHandler;
+    private static MouseHandler mouseHandler;
     //new fields
     private GameCheatCode cheatCode;
     private int relativeMouseX;
@@ -62,6 +62,7 @@ public class UserOperation implements OperationsDone {
 
         @Override
         public void keyPressed(KeyEvent e) {
+            System.out.println("USEROPERATION");
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     keyUP = true;

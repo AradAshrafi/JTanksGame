@@ -12,13 +12,15 @@ import java.util.ArrayList;
  */
 public class Server implements Runnable {
     private ServerSocket server;
-    private ArrayList<GameObject> map;
-    private UserOperation userOperation;
+    //    private ArrayList<GameObject> upperLayerObjects;
+    private ArrayList<GameObject> mapOccupierObjects;
+    private static UserOperation userOperation;
     private static int port = 8080;
     private boolean isMultiPlayer;
 
-    public Server(ArrayList<GameObject> map, boolean isMultiPlayer, UserOperation userOperation) {
-        this.map = map;
+    public Server(ArrayList<GameObject> mapOccupierObjects, boolean isMultiPlayer, UserOperation userOperation) {
+//        this.upperLayerObjects = upperLayerObjects;
+        this.mapOccupierObjects = (ArrayList<GameObject>) mapOccupierObjects.clone();
         this.isMultiPlayer = isMultiPlayer;
         this.userOperation = userOperation;
     }
@@ -27,15 +29,17 @@ public class Server implements Runnable {
         return port;
     }
 
-    public ArrayList<GameObject> getMap() {
+//    public ArrayList<GameObject> getupperLayerObjects() {
+//        return upperLayerObjects;
+//    }
+//
+//    public void setupperLayerObjects(ArrayList<GameObject> upperLayerObjects) {
+//        this.upperLayerObjects = upperLayerObjects;
+//    }
 
-        return map;
-    }
-
-    public void setMap(ArrayList<GameObject> map) {
-        this.map = map;
-    }
-
+    /**
+     * it opens a ServerSocket and wait for clients to connect
+     */
     @Override
     public void run() {
         try {
@@ -65,31 +69,31 @@ public class Server implements Runnable {
 
         @Override
         public void run() {
-//            try {
-//                OutputStream out = client.getOutputStream();
-//                InputStream in = client.getInputStream();
             try {
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
-                out.writeObject(map);
-                out.flush();
+
                 PlayerTank clientTank = (PlayerTank) in.readObject();
-//                if (!map.contains(clientTank))
-//                    map.add(clientTank);
-                map.add(null);
+                mapOccupierObjects.add(clientTank);
+                Thread.sleep(500);
+                out.writeObject(mapOccupierObjects);
+                out.flush();
                 Thread.sleep(500);
 
-
                 while (!userOperation.isGameOver()) {
-                    System.out.println("init size: " + map.size());
-                    out.writeObject(map);
+                    System.out.println("init size: " + mapOccupierObjects.size());
+                    out.writeObject(mapOccupierObjects);
                     out.flush();
-                    System.out.println("SENT: " + map.size());
+                    System.out.println("SENT: " + mapOccupierObjects.size());
 
                     Object receivedObject = in.readObject();
-                    map = (ArrayList<GameObject>) receivedObject;
-                    Thread.sleep(500);
+//                    for (GameObject mapOccupierObject : mapOccupierObjects
+//                            ) {
+//                        System.out.println(mapOccupierObject);
+//                    }
+                    mapOccupierObjects = (ArrayList<GameObject>) receivedObject;
+                    Thread.sleep(1);
                 }
                 System.out.print("All messages sent.\nClosing client ... ");
 //                }

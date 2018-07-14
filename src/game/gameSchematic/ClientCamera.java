@@ -1,6 +1,7 @@
 package game.gameSchematic;
 
 import game.FileOperation.Map;
+import game.gameObjects.PlayerTank;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
@@ -15,34 +16,36 @@ import java.io.Serializable;
 
 public class ClientCamera implements Serializable {
 
-    private int cameraNorthBorder, cameraSouthBorder, cameraWestBorder, cameraEastBorder;
-    private int mouseX, mouseY;
-    private int positionMode = 9;//a number in range 1-9
+    private static int cameraNorthBorder, cameraSouthBorder, cameraWestBorder, cameraEastBorder;
+    private static int mouseX, mouseY;
+    private static int positionMode = 9;//a number in range 1-9
     private int innerRectangleWidth;
     private int innerRectangleHeight;
     private int innerXSpace;
     private int innerYSpace;
-    private LocationsPlacement necessaryLocations;
-    private OperationsDone userOperations;
+    private static LocationsPlacement necessaryLocations;
+    private static OperationsDone userOperations;
+    private static PlayerTank playerTank;
 
-    public ClientCamera(LocationsPlacement importantLocations, OperationsDone userOperations) {
+    public ClientCamera(LocationsPlacement importantLocations, OperationsDone userOperations, PlayerTank playerTank) {
         necessaryLocations = importantLocations;
         this.userOperations = userOperations;
+        this.playerTank = playerTank;
 
 
         /*
          * the below try and catch block set the mouse location at the firs point with the coordinate relativeMouseX and relativeMouseY.
          */
 
-        try {
-            Robot r = new Robot();
-            for (int i = 0; i < 10; i++) {
-                r.mouseMove(288 + userOperations.getRelativeMouseX(), 47 + userOperations.getRelativeMouseY());
-            }
-
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Robot r = new Robot();
+//            for (int i = 0; i < 10; i++) {
+//                r.mouseMove(288 + userOperations.getRelativeMouseX(), 47 + userOperations.getRelativeMouseY());
+//            }
+//
+//        } catch (AWTException e) {
+//            e.printStackTrace();
+//        }
 
         mouseX = userOperations.getRelativeMouseX();
         mouseY = userOperations.getRelativeMouseY() + Map.MAP_HEIGHT - GameFrame.GAME_HEIGHT;
@@ -148,6 +151,10 @@ public class ClientCamera implements Serializable {
             updateMouseLocation();
             setPositionMode();
             setBorders();
+            System.out.println(necessaryLocations.getRelativeTankLocX() + " ---  " + necessaryLocations.getRelativeTankLocY());
+//            necessaryLocations.setRelativeTankLocX(100);
+//            necessaryLocations.setRelativeTankLocY(100);
+//            System.out.println(necessaryLocations.getRelativeTankLocX() + " +++  " + necessaryLocations.getRelativeTankLocY());
 //            print();
         }
     }
@@ -170,16 +177,16 @@ public class ClientCamera implements Serializable {
      * this method prints the parameters need for debugging the camera updating.
      */
 
-//    public void print() {
-//        System.out.println("innerRectangleWidth" + innerRectangleWidth + innerRectangleHeight + "innerRectangleHeight");
-//        System.out.println("innerXSpace" + innerXSpace + "innerYSpace" + innerYSpace);
-//        System.out.println("relativeMouseX :" + necessaryLocations.getRelativeMouseX() + "relativeMouseY + " + necessaryLocations.getRelativeMouseY());
-//        System.out.println("mouseX = " + mouseX + "mouseY" + mouseY);
-//        System.out.println("tankLocX : " + necessaryLocations.getTankLocX() + "tankLocY :" + necessaryLocations.getTankLocY());
-//        System.out.println("relativeLocX" + necessaryLocations.getRelativeTankLocX() + ", relativeLocY" + necessaryLocations.getRelativeTankLocY());
-//        System.out.println("positionMode" + positionMode);
-//        System.out.println("cameraWestB = " + cameraWestBorder + "cameraNorthB = " + cameraNorthBorder);
-//    }
+    public void print() {
+        System.out.println("innerRectangleWidth" + innerRectangleWidth + innerRectangleHeight + "innerRectangleHeight");
+        System.out.println("innerXSpace" + innerXSpace + "innerYSpace" + innerYSpace);
+        System.out.println("relativeMouseX :" + userOperations.getRelativeMouseX() + "relativeMouseY + " + userOperations.getRelativeMouseY());
+        System.out.println("mouseX = " + mouseX + "mouseY" + mouseY);
+        System.out.println("tankLocX : " + necessaryLocations.getTankLocX() + "tankLocY :" + necessaryLocations.getTankLocY());
+        System.out.println("relativeLocX" + necessaryLocations.getRelativeTankLocX() + ", relativeLocY" + necessaryLocations.getRelativeTankLocY());
+        System.out.println("positionMode" + positionMode);
+        System.out.println("cameraWestB = " + cameraWestBorder + "cameraNorthB = " + cameraNorthBorder);
+    }
 }
 
 

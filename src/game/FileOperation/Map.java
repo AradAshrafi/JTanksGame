@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Map {
 
     private final String inputPath = "map.txt";
-    private ArrayList<GameObject> mapObjects;
+    //    private ArrayList<GameObject> mapObjects;
     private ArrayList<GameObject> underLayerObjects;
     private ArrayList<GameObject> upperLayerObjects;
     private ArrayList<GameObject> occupierObjects;
@@ -23,10 +23,11 @@ public class Map {
     public static final int MAP_WIDTH = MAP_COLUMNS_NUMBER * UNIT_PIXELS_NUMBER, MAP_HEIGHT = MAP_ROWS_NUMBER * UNIT_PIXELS_NUMBER;
 
     public Map() {
+
         dynamicObjectsThreadPool.init();
-        mapObjects = new ArrayList<>();
+//        mapObjects = new ArrayList<>();
         underLayerObjects = new ArrayList<>();
-        upperLayerObjects = new ArrayList<>();
+//        upperLayerObjects = new ArrayList<>();
         occupierObjects = new ArrayList<>();
     }
 
@@ -46,7 +47,7 @@ public class Map {
                 counter++;
             }
 
-            buildMap();
+//            buildMap();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -84,39 +85,38 @@ public class Map {
             switch (characters[j]) {
                 case ("B"):
                     Brick brick = new Brick(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(brick);
                     occupierObjects.add(brick);
                     break;
                 case ("C"):
                     CannonFill cannonFill = new CannonFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(cannonFill);
+                    occupierObjects.add(cannonFill);
                     break;
                 case ("D"):
                     MachineGunFill machineGunFill = new MachineGunFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(machineGunFill);
+                    occupierObjects.add(machineGunFill);
                     break;
                 case ("P"):
                     Plant plant = new Plant(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(plant);
+                    occupierObjects.add(plant);
                     break;
                 case ("U"):
                     CannonUpdate cannonUpdate = new CannonUpdate(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(cannonUpdate);
+                    occupierObjects.add(cannonUpdate);
                     break;
                 case ("1"):
                 case ("2"):
                 case ("4"):
-                    Ground tmp = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(tmp);
-                    occupierObjects.add(tmp);
+//                    Ground tmp = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+//                    upperLayerObjects.add(tmp);
+//                    occupierObjects.add(tmp);
                     break;
 
                 case ("3"):
                     BotTank dynamicEnemyTankType1 = new BotTank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
-                    upperLayerObjects.add(dynamicEnemyTankType1);
+//                    upperLayerObjects.add(dynamicEnemyTankType1);
                     occupierObjects.add(dynamicEnemyTankType1);
 //                    botCounter++;
-                    dynamicObjectsThreadPool.execute(dynamicEnemyTankType1);
+//                    dynamicObjectsThreadPool.execute(dynamicEnemyTankType1);
                     break;
             }
         }
@@ -127,20 +127,29 @@ public class Map {
         buildNthRowOfUnderLayer(row, characters);
         buildNthRowOfUpperLayer(row, characters);
     }
+//
+//    public void buildMap() {
+//        mapObjects.addAll(underLayerObjects);
+//        mapObjects.addAll(upperLayerObjects);
+//    }
 
-    public void buildMap() {
-        mapObjects.addAll(underLayerObjects);
-        mapObjects.addAll(upperLayerObjects);
-    }
-
-
-    public ArrayList<GameObject> getMap() {
-        return mapObjects;
-    }
+//
+//    public ArrayList<GameObject> getMap() {
+//        return mapObjects;
+//    }
 
     public ArrayList<GameObject> getOccupierObjects() {
         return occupierObjects;
     }
+
+
+    public ArrayList<GameObject> getUnderLayerObjects() {
+        return underLayerObjects;
+    }
+
+//    public ArrayList<GameObject> getUpperLayerObjects() {
+//        return upperLayerObjects;
+//    }
 
     public ThreadPool getDynamicObjectsThreadPool() {
         return dynamicObjectsThreadPool;

@@ -19,12 +19,14 @@ public abstract class GameObject implements Serializable {
     private int relativeLocY;
     private int sideLength;
     private transient BufferedImage objectImage;
+    private String pathName;
 
     public GameObject(int locX, int locY, String pathName) {
         this.locX = locX;
         this.locY = locY;
         this.relativeLocX = -1;
         this.relativeLocY = -1;
+        this.pathName = pathName;
         try {
             this.objectImage = ImageIO.read(new File(pathName));
         } catch (IOException e) {
@@ -68,6 +70,14 @@ public abstract class GameObject implements Serializable {
         return objectImage;
     }
 
+    public void setObjectImage() {
+        try {
+            this.objectImage = ImageIO.read(new File(pathName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * for non smart objects we set their relative position directly* --- for smart ones we set their relative position with their update method (check SmartObject Class for more details) ---
      *
@@ -84,6 +94,7 @@ public abstract class GameObject implements Serializable {
     }
 
     public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
+
     }
 
     /*

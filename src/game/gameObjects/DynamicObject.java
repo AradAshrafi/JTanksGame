@@ -8,9 +8,8 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public abstract class DynamicObject extends GameObject implements Runnable {
+public abstract class DynamicObject extends GameObject {
     private int currentDegree;
-    private int cameraNorthBorder, cameraWestBorder;
     protected ArrayList<GameObject> occupierObjects;
     protected int nextLocX, nextLocY;
     protected int health;
@@ -33,6 +32,7 @@ public abstract class DynamicObject extends GameObject implements Runnable {
         nextLocX = locX;
         nextLocY = locY;
         currentDegree = 0;
+
     }
 
     public void movementControl() {
@@ -52,17 +52,23 @@ public abstract class DynamicObject extends GameObject implements Runnable {
             }
         }
         if (movementIsAllowed) {
-            setLocY(nextLocY);
-            setLocX(nextLocX);
+            if (this instanceof PlayerTank) {
+                setLocY(nextLocY);
+                setLocX(nextLocX);
+            }
+
         }
     }
 
     @Override
     public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
-
-        this.cameraNorthBorder = cameraNorthBorder;
-        this.cameraWestBorder = cameraWestBorder;
+//        if (this instanceof PlayerTank)
+//            System.out.println("sadfasdfasdfasdfasdflnasldkfjalksdfjg  " + cameraNorthBorder + "   " + cameraWestBorder);
+//        this.cameraNorthBorder = cameraNorthBorder;
+//        this.cameraWestBorder = cameraWestBorder;
         this.occupierObjects = occupierObjects;
+        movementControl();
+        secondaryUpdate(cameraNorthBorder, cameraWestBorder);
 
         nextLocX = getLocX();
         nextLocY = getLocY();
@@ -112,41 +118,55 @@ public abstract class DynamicObject extends GameObject implements Runnable {
                 coefficientOfRotation = 3;
                 break;
         }
-//        tx.rotate(coefficientOfRotation * Math.PI / 4, buffer.getWidth() / 2, buffer.getHeight() / 2);
-//
-//        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-//        buffer = op.filter(buffer, null);
+        tx.rotate(coefficientOfRotation * Math.PI / 4, buffer.getWidth() / 2, buffer.getHeight() / 2);
+
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        buffer = op.filter(buffer, null);
         // <---------rotating finished
 
         g2d.drawImage(buffer, this.getRelativeLocX(), this.getRelativeLocY(), null);
     }
 
-    public void secondaryUpdate() {
-
-        //  System.out.println("im here");
+    public void secondaryUpdate(int cameraNorthBorder, int cameraWestBorder) {
         setRelativeLocY(getLocY() - cameraNorthBorder);
         setRelativeLocX(getLocX() - cameraWestBorder);
-        //    System.out.println("rLY : " + getRelativeLocY() + "rLX : " + getRelativeLocX());
+
+//        if (this instanceof PlayerTank) {
+//            System.out.println(getLocY() + "    " + cameraNorthBorder);
+//            System.out.println(getLocX() + "    " + cameraWestBorder);
+//            System.out.println(this + "rLY : " + getRelativeLocY() + "rLX : " + getRelativeLocX());
+//        }
     }
 
-    @Override
-    public void run() {
+//    public int getCameraNorthBorder() {
+//        return cameraNorthBorder;
+//    }
+//
+//    public int getCameraWestBorder() {
+//        return cameraWestBorder;
+//    }
 
-        try {
-            while (health > 0) {
-                long start = System.currentTimeMillis();
-                long delay = (15 - (System.currentTimeMillis() - start));
-                //System.out.println("delay is : " + delay);
-                if (delay > 0) {
-                    Thread.sleep(delay);
-                    movementControl();
-                    secondaryUpdate();
-                }
-            }
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-    }
+//    @Override
+//    public void run() {
+//        try {
+//            while (health > 0) {
+////                System.out.println("RUNNNNNNNNNN" + getCameraNorthBorder() + "   " + getCameraWestBorder());
+//                long start = System.currentTimeMillis();
+//                long delay = (15 - (System.currentTimeMillis() - start));
+//                //System.out.println("delay is : " + delay);
+//                if (delay > 0) {
+//                    Thread.sleep(delay);
+//                    //
+
+//                    secondaryUpdate();
+//                    if(this instanceof PlayerTank)
+//                    System.out.println(getRelativeLocY() + "------------  " + getRelativeLocX());
+//                }
+//            }
+//        } catch (InterruptedException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 }
 
 
