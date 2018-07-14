@@ -97,7 +97,8 @@ public abstract class RemovableObject extends GameObject implements Runnable {
                 ((PlayerTank)this).machineGunFill();
             }
             if (occupier instanceof GunUpdate){
-                ((PlayerTank)this).getUnitDamaged();
+                ((GunUpdate) occupier).getUnitDamaged();
+                ((PlayerTank)this).gunUpgrade();
             }
         }
     }
@@ -125,7 +126,7 @@ public abstract class RemovableObject extends GameObject implements Runnable {
      * 7 -> South
      * 8 -> South West
      */
-    void rotateImageAndPaint(int direction, Graphics2D g2d, OperationsDone userOperation) {
+    void rotateImageAndPaint(int direction, Graphics2D g2d) {
         //-> rotating start
         BufferedImage buffer = this.getObjectImage();
         AffineTransform tx = new AffineTransform();

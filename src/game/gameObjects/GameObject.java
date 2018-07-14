@@ -69,12 +69,8 @@ public abstract class GameObject {
         return objectImage;
     }
 
-    public void setObjectImage(String pathName) {
-        try {
-            this.objectImage = ImageIO.read(new File(pathName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setObjectImage(BufferedImage objectImage) {
+        this.objectImage = objectImage;
     }
 
     /**

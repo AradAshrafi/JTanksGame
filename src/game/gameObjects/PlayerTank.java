@@ -24,9 +24,10 @@ public class PlayerTank extends Tank {
     private BufferedImage machineGun;
     private PlayerGun playerGun;
     private int playerHealth = 15;
-    private int bulletSpeed = 20;
+    private int bulletSpeed = 10;
     private int canonShovel = 50;
     private int machineGunShovel = 300;
+//    private boolean gunIsUpdated
 
     /**
      * @param locX
@@ -42,12 +43,12 @@ public class PlayerTank extends Tank {
         this.direction = 5;
         health = playerHealth;
         try {
-            this.cannonGun = ImageIO.read(new File("icons/TankCannon.png"));
-            this.machineGun = ImageIO.read(new File("icons/TankMachineGun.png"));
+            this.cannonGun = ImageIO.read(new File("icons/tankCannon1.png"));
+            this.machineGun = ImageIO.read(new File("icons/tankMachineGun1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.playerGun = new PlayerGun(locX + SIDE_LENGTH / 4, locY + SIDE_LENGTH / 4, "icons/TankCannon.png");
+        this.playerGun = new PlayerGun(locX + SIDE_LENGTH / 4, locY + SIDE_LENGTH / 4, "icons/tankCannon1.png");
         gunType = 0;
     }
 
@@ -106,14 +107,14 @@ public class PlayerTank extends Tank {
 
     @Override
     public void paint(Graphics2D g2d) {
-        rotateImageAndPaint(direction, g2d, userOperations);
+        rotateImageAndPaint(direction, g2d);
         playerGun.paint(g2d);
 
     }
 
     public void changeGunType() {
-        if (gunType == 0) playerGun.setObjectImage("icons/TankMachineGun.png");
-        else playerGun.setObjectImage("icons/TankCannon1.png");
+        if (gunType == 0) playerGun.setObjectImage(machineGun);
+        else if (gunType == 1)playerGun.setObjectImage(cannonGun);
         this.gunType = Math.abs(1-gunType);
 
     }
@@ -127,6 +128,24 @@ public class PlayerTank extends Tank {
     }
 
     public void gunUpgrade(){
+        if (gunType == 0) {
+            try {
+                this.cannonGun = ImageIO.read(new File("icons/tankCannon2.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            playerGun.setObjectImage(cannonGun);
+            bulletSpeed = 20;
+        }
+        else {
+            try {
+                this.machineGun = ImageIO.read(new File("icons/tankMachineGun2.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            playerGun.setObjectImage(machineGun);
+            bulletSpeed = 20;
+        }
 
     }
 }

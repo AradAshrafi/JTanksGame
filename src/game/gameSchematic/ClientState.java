@@ -77,9 +77,12 @@ public class ClientState implements LocationsPlacement {
 //                if(currentObject.getLocX() || currentObject.getLocY() )
 //            }
             if (currentObject instanceof RemovableObject) {
-                currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
-            }
-            else
+                if (currentObject instanceof DynamicBotTank) {
+                    DynamicBotTank currentBotTank = (DynamicBotTank) currentObject;
+                    currentBotTank.update(cameraNorthBorder, cameraWestBorder, occupierObjects, this);
+                } else
+                    currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
+            } else
                 currentObject.update(cameraNorthBorder, cameraWestBorder);
 
         }
