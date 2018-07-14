@@ -1,10 +1,9 @@
 package game.gameObjects;
 
-public abstract class Tank extends DynamicObject {
+public abstract class Tank extends DamageableObjec {
     private int bulletSpeed;
     private final int SIDE_LENGTH = 120;
-    private Gun tankGun;
-
+    protected int gunType = 1;
 
     public Tank(int locX, int locY, String pathName, int bulletSpeed) {
         super(locX, locY, pathName);

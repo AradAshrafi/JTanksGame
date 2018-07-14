@@ -6,7 +6,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Bullet extends DynamicObject {
+public class Bullet extends DamageableObjec {
 
     private int aimPositionX;
     private int aimPositionY;

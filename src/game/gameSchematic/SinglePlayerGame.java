@@ -69,7 +69,7 @@ public class SinglePlayerGame{
 ////            if(currentObject instanceof Bullet){
 ////                if(currentObject.getLocX() || currentObject.getLocY() )
 ////            }
-//            if (currentObject instanceof DynamicObject)
+//            if (currentObject instanceof DamageableObjec)
 //                currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
 //            currentObject.update(cameraNorthBorder, cameraWestBorder);
 //

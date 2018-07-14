@@ -1,7 +1,5 @@
 package game.gameObjects;
 
-import game.FileOperation.Map;
-import game.gameSchematic.UserOperation;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import java.awt.*;
@@ -10,7 +8,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public abstract class DynamicObject extends GameObject implements Runnable {
+public abstract class DamageableObjec extends GameObject implements Runnable {
     private int currentDegree;
     protected int cameraNorthBorder, cameraWestBorder;
     protected ArrayList<GameObject> occupierObjects;
@@ -28,7 +26,7 @@ public abstract class DynamicObject extends GameObject implements Runnable {
      */
     protected int direction;
 
-    public DynamicObject(int locX, int locY, String pathName) {
+    public DamageableObjec(int locX, int locY, String pathName) {
         super(locX, locY, pathName);
 //        setSideLength(100);
         occupierObjects = new ArrayList<>();
@@ -57,22 +55,31 @@ public abstract class DynamicObject extends GameObject implements Runnable {
         if (movementIsAllowed) {
             setLocY(nextLocY);
             setLocX(nextLocX);
-        }
-        else checkDamageAndGetDamaged(i);
+        } else checkDamageAndGetDamaged(i);
     }
 
-    public void checkDamageAndGetDamaged(int occupierObjectNumber){
+    public void checkDamageAndGetDamaged(int occupierObjectNumber) {
         if (this instanceof CannonBullet) {
             ((CannonBullet) this).hit();
-            if (occupierObjects.get(occupierObjectNumber) instanceof PlayerTank || occupierObjects.get(occupierObjectNumber) instanceof BotTank) {
+            if (occupierObjects.get(occupierObjectNumber) instanceof Tank) {
                 for (int j = 0; j < 3; j++) {
                     ((Tank) occupierObjects.get(occupierObjectNumber)).getUnitDamaged();
                 }
             }
+            if (occupierObjects.get(occupierObjectNumber) instanceof Brick) {
+                for (int j = 0; j < 3; j++) {
+                    ((Brick) occupierObjects.get(occupierObjectNumber)).getUnitDamaged();
+                }
+            }
         } else if (this instanceof MachineGunBullet) {
             ((MachineGunBullet) this).hit();
-            if (occupierObjects.get(occupierObjectNumber) instanceof PlayerTank || occupierObjects.get(occupierObjectNumber) instanceof BotTank) {
+            if (occupierObjects.get(occupierObjectNumber) instanceof Tank) {
                 ((Tank) occupierObjects.get(occupierObjectNumber)).getUnitDamaged();
+
+            }
+            if (occupierObjects.get(occupierObjectNumber) instanceof Brick) {
+                ((Brick) occupierObjects.get(occupierObjectNumber)).getUnitDamaged();
+
             }
         }
     }
@@ -154,6 +161,7 @@ public abstract class DynamicObject extends GameObject implements Runnable {
         try {
             System.out.println(health);
             while (health > 0) {
+                if (this instanceof Brick) System.out.println("jhnhjjjjjjjjjjjj"+health);
                 long start = System.currentTimeMillis();
                 long delay = (15 - (System.currentTimeMillis() - start));
                 //System.out.println("delay is : " + delay);
@@ -161,6 +169,7 @@ public abstract class DynamicObject extends GameObject implements Runnable {
                     Thread.sleep(delay);
                     movementControl();
                     secondaryUpdate();
+
                 }
             }
             System.out.println("to remove");

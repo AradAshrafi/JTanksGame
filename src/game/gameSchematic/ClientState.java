@@ -1,11 +1,9 @@
 package game.gameSchematic;
 
-import game.FileOperation.Map;
 import game.gameObjects.*;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -67,8 +65,9 @@ public class ClientState implements LocationsPlacement {
 //            if(currentObject instanceof Bullet){
 //                if(currentObject.getLocX() || currentObject.getLocY() )
 //            }
-            if (currentObject instanceof DynamicObject)
+            if (currentObject instanceof DamageableObjec) {
                 currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
+            }
             else
                 currentObject.update(cameraNorthBorder, cameraWestBorder);
 
@@ -77,7 +76,7 @@ public class ClientState implements LocationsPlacement {
         while (it2.hasNext()) {
             GameObject currentObject = it2.next();
 
-            if (currentObject instanceof DynamicObject)
+            if (currentObject instanceof DamageableObjec)
                 currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
             else
                 currentObject.update(cameraNorthBorder, cameraWestBorder);

@@ -5,8 +5,8 @@ import game.FileOperation.Map;
 
 import java.util.ArrayList;
 
-public class BotTank extends Tank {
-    private int botHealth = 3;
+public class DynamicBotTank extends Tank {
+    private int botHealth = 6;
     private int counterLimit = Map.UNIT_PIXELS_NUMBER/2;
     private int movementUnitsCounter;
     private int tankSpeed = 8;
@@ -22,7 +22,7 @@ public class BotTank extends Tank {
      * 8 -> South West
      */
     private int nextMovementDirection;
-    public BotTank(int locX, int locY, String pathName, int bulletSpeed) {
+    public DynamicBotTank(int locX, int locY, String pathName, int bulletSpeed) {
         super(locX, locY, pathName, bulletSpeed);
         health = botHealth;
         movementUnitsCounter = 0;

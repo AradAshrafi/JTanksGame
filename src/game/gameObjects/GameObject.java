@@ -18,12 +18,14 @@ public abstract class GameObject {
     private int relativeLocY;
     private int sideLength;
     private BufferedImage objectImage;
+    private String pathName;
 
     public GameObject(int locX, int locY, String pathName) {
         this.locX = locX;
         this.locY = locY;
         this.relativeLocX = -1;
         this.relativeLocY = -1;
+        this.pathName = pathName;
         try {
             this.objectImage = ImageIO.read(new File(pathName));
         } catch (IOException e) {
@@ -67,6 +69,14 @@ public abstract class GameObject {
         return objectImage;
     }
 
+    public void setObjectImage(String pathName) {
+        try {
+            this.objectImage = ImageIO.read(new File(pathName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * for non smart objects we set their relative position directly* --- for smart ones we set their relative position with their update method (check SmartObject Class for more details) ---
      *
@@ -98,4 +108,5 @@ public abstract class GameObject {
     public void setSideLength(int sideLength) {
         this.sideLength = sideLength;
     }
+
 }

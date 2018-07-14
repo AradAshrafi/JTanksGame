@@ -86,6 +86,8 @@ public class Map {
                     Brick brick = new Brick(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(brick);
                     occupierObjects.add(brick);
+                    dynamicObjectsThreadPool.execute(brick);
+
                     break;
                 case ("C"):
                     CannonFill cannonFill = new CannonFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
@@ -116,7 +118,7 @@ public class Map {
                     break;
 
                 case ("3"):
-                    BotTank dynamicEnemyTankType1 = new BotTank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
+                    DynamicBotTank dynamicEnemyTankType1 = new DynamicBotTank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
                     upperLayerObjects.add(dynamicEnemyTankType1);
                     occupierObjects.add(dynamicEnemyTankType1);
 //                    botCounter++;

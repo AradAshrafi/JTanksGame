@@ -24,8 +24,7 @@ public class PlayerTank extends Tank {
     private BufferedImage machineGun;
     private boolean currentGun;
     private PlayerGun playerGun;
-    private int playerHealth = 5;
-    private int gunType = 1;
+    private int playerHealth = 15;
     private int bulletSpeed = 20;
 
     /**
@@ -48,6 +47,7 @@ public class PlayerTank extends Tank {
             e.printStackTrace();
         }
         this.playerGun = new PlayerGun(locX + SIDE_LENGTH / 4, locY + SIDE_LENGTH / 4, "icons/TankCannon.png");
+        gunType = 0;
     }
 
     @Override
@@ -111,6 +111,9 @@ public class PlayerTank extends Tank {
     }
 
     public void changeGunType() {
+        if (gunType == 0) playerGun.setObjectImage("icons/TankMachineGun.png");
+        else playerGun.setObjectImage("icons/TankCannon.png");
         this.gunType = Math.abs(1-gunType);
+
     }
 }
