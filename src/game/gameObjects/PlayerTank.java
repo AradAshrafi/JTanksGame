@@ -22,10 +22,11 @@ public class PlayerTank extends Tank {
     private LocationsPlacement locationsPlacement;
     private BufferedImage cannonGun;
     private BufferedImage machineGun;
-    private boolean currentGun;
     private PlayerGun playerGun;
     private int playerHealth = 15;
     private int bulletSpeed = 20;
+    private int canonShovel = 50;
+    private int machineGunShovel = 300;
 
     /**
      * @param locX
@@ -112,8 +113,20 @@ public class PlayerTank extends Tank {
 
     public void changeGunType() {
         if (gunType == 0) playerGun.setObjectImage("icons/TankMachineGun.png");
-        else playerGun.setObjectImage("icons/TankCannon.png");
+        else playerGun.setObjectImage("icons/TankCannon1.png");
         this.gunType = Math.abs(1-gunType);
+
+    }
+
+    public void cannonFill(){
+        canonShovel = 50;
+    }
+
+    public void machineGunFill(){
+        machineGunShovel = 300;
+    }
+
+    public void gunUpgrade(){
 
     }
 }

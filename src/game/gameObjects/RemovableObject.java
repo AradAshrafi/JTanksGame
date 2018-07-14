@@ -60,10 +60,10 @@ public abstract class RemovableObject extends GameObject implements Runnable {
         if (movementIsAllowed) {
             setLocY(nextLocY);
             setLocX(nextLocX);
-        } else checkDamageAndGetDamaged(occupier);
+        } else checkRemovableObjects(occupier);
     }
 
-    public void checkDamageAndGetDamaged(GameObject occupier) {
+    public void checkRemovableObjects(GameObject occupier) {
         if (this instanceof CannonBullet) {
             ((CannonBullet) this).hit();
             if (occupier instanceof Tank) {
@@ -87,7 +87,19 @@ public abstract class RemovableObject extends GameObject implements Runnable {
 
             }
         }
-//        else if (this instanceof )
+        else if (this instanceof PlayerTank){
+            if (occupier instanceof CannonFill) {
+                ((CannonFill) occupier).getUnitDamaged();
+                ((PlayerTank)this).cannonFill();
+            }
+            if (occupier instanceof MachineGunFill){
+                ((MachineGunFill) occupier).getUnitDamaged();
+                ((PlayerTank)this).machineGunFill();
+            }
+            if (occupier instanceof GunUpdate){
+                ((PlayerTank)this).getUnitDamaged();
+            }
+        }
     }
 
     @Override

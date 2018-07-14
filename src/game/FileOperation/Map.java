@@ -108,7 +108,7 @@ public class Map {
                     occupierObjects.add(plant);
                     break;
                 case ("U"):
-                    CannonUpdate cannonUpdate = new CannonUpdate(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
+                    GunUpdate cannonUpdate = new GunUpdate(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
 //                    upperLayerObjects.add(cannonUpdate);
                     occupierObjects.add(cannonUpdate);
                     dynamicObjectsThreadPool.execute(cannonUpdate);
