@@ -1,6 +1,7 @@
 package game.gameSchematic; /*** In The Name of Allah ***/
 
 
+import java.io.Serializable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

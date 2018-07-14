@@ -1,6 +1,8 @@
 package game.gameSchematic.betweenObjectRelation;
 
-public interface LocationsPlacement {
+import java.io.Serializable;
+
+public interface LocationsPlacement extends Serializable {
 
     int getTankLocX();
 

@@ -1,6 +1,5 @@
 package game.gameObjects;
 
-import game.FileOperation.Map;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import java.awt.*;
@@ -113,10 +112,10 @@ public abstract class DynamicObject extends GameObject implements Runnable {
                 coefficientOfRotation = 3;
                 break;
         }
-        tx.rotate(coefficientOfRotation * Math.PI / 4, buffer.getWidth() / 2, buffer.getHeight() / 2);
-
-        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        buffer = op.filter(buffer, null);
+//        tx.rotate(coefficientOfRotation * Math.PI / 4, buffer.getWidth() / 2, buffer.getHeight() / 2);
+//
+//        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+//        buffer = op.filter(buffer, null);
         // <---------rotating finished
 
         g2d.drawImage(buffer, this.getRelativeLocX(), this.getRelativeLocY(), null);

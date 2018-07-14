@@ -5,6 +5,7 @@ import game.FileOperation.Map;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import java.awt.event.*;
+import java.io.Serializable;
 
 public class UserOperation implements OperationsDone {
     public boolean gameOver;
@@ -57,7 +58,7 @@ public class UserOperation implements OperationsDone {
     /**
      * The keyboard handler.
      */
-    class KeyHandler extends KeyAdapter {
+    class KeyHandler extends KeyAdapter implements Serializable {
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -113,7 +114,7 @@ public class UserOperation implements OperationsDone {
     /**
      * The mouse handler.
      */
-    class MouseHandler extends MouseAdapter {
+    class MouseHandler extends MouseAdapter implements Serializable {
 
         @Override
         public void mousePressed(MouseEvent e) {

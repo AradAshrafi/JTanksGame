@@ -8,16 +8,17 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
 
     private int locX;
     private int locY;
     private int relativeLocX;
     private int relativeLocY;
     private int sideLength;
-    private BufferedImage objectImage;
+    private transient BufferedImage objectImage;
 
     public GameObject(int locX, int locY, String pathName) {
         this.locX = locX;
@@ -79,8 +80,11 @@ public abstract class GameObject {
     }
 
 
-    public void update(int cameraNorthBorder, int cameraWestBorder) { }
-    public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) { }
+    public void update(int cameraNorthBorder, int cameraWestBorder) {
+    }
+
+    public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
+    }
 
     /*
     protected void resizeImage(int newW, int newH) {
@@ -91,7 +95,7 @@ public abstract class GameObject {
         }
     }
     */
-    public int getSideLength(){
+    public int getSideLength() {
         return sideLength;
     }
 

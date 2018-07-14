@@ -3,16 +3,15 @@ package game.gameSchematic;
 import game.gameObjects.GameObject;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 
 /**
  * The window on which the rendering is performed.

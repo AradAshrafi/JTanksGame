@@ -8,6 +8,7 @@ import game.gameObjects.PlayerTank;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
+
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,19 +16,25 @@ import java.util.Iterator;
 public class ClientState implements LocationsPlacement {
     private ArrayList<GameObject> map;
     private ArrayList<GameObject> mapOccupierObjects;
-    private ThreadPool dynamicObjectsThreadPool;
+    private transient ThreadPool dynamicObjectsThreadPool;
     private PlayerTank playerTank;
-    private UserOperation userOperation;
+    private OperationsDone userOperation;
     private ClientCamera camera;
 
-    public ClientState(UserOperation userOperation, ArrayList<GameObject> map, ArrayList<GameObject> mapOccupierObjects, ThreadPool dynamicObjectsThreadPool, int playerTankLocX, int playerTankLocY) {
+    public ClientState(OperationsDone userOperation, ArrayList<GameObject> map, ArrayList<GameObject> mapOccupierObjects, ThreadPool dynamicObjectsThreadPool, int playerTankLocX, int playerTankLocY) {
         this.map = map;
+        System.out.println("map init size: " + map.size());
+        this.dynamicObjectsThreadPool = dynamicObjectsThreadPool;
         this.userOperation = userOperation;
+
+        System.out.println((OperationsDone) this.userOperation);
+
         this.mapOccupierObjects = mapOccupierObjects;
-        this.playerTank = new PlayerTank(playerTankLocX, playerTankLocY, "icons/PlayerTank.png", 20, (OperationsDone) (userOperation), (LocationsPlacement) this);
+        this.playerTank = new PlayerTank(playerTankLocX, playerTankLocY, "icons/PlayerTank.png", 20, (userOperation), (LocationsPlacement) this);
         this.camera = new ClientCamera((LocationsPlacement) (this), (OperationsDone) (userOperation));
         dynamicObjectsThreadPool.execute(playerTank);
         map.add(playerTank);
+        System.out.println("map final size " + map.size());
     }
 
     /**
@@ -44,7 +51,6 @@ public class ClientState implements LocationsPlacement {
             map.add(newCannonBullet);
             userOperation.setMousePressed(false);
         }
-        ;
         camera.update();
         // cameraAndMyTank.updateByMouse();
         updateGameObjects(camera.getCameraNorthBorder(), camera.getCameraWestBorder(), mapOccupierObjects);
@@ -69,6 +75,10 @@ public class ClientState implements LocationsPlacement {
 
     public ArrayList<GameObject> getMap() {
         return map;
+    }
+
+    public void setMap(ArrayList<GameObject> map) {
+        this.map = map;
     }
 
     public PlayerTank getPlayerTank() {

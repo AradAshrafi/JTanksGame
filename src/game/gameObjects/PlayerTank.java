@@ -1,13 +1,11 @@
 package game.gameObjects;
 
-import game.FileOperation.Map;
+import game.gameSchematic.UserOperation;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +17,8 @@ public class PlayerTank extends Tank {
     private int tankSpeed = 8;
     private OperationsDone userOperations;
     private LocationsPlacement locationsPlacement;
-    private BufferedImage cannonGun;
-    private BufferedImage machineGun;
+    private transient BufferedImage cannonGun;
+    private transient BufferedImage machineGun;
     private boolean currentGun;
     private Gun tankGun;
     private int playerHealth = 5;
@@ -35,6 +33,8 @@ public class PlayerTank extends Tank {
         super(locX, locY, pathName, bulletSpeed);
         //this.resizeImage(100, 100);
         this.userOperations = userOperations;
+        System.out.println(this.userOperations);
+
         this.locationsPlacement = locationsPlacement;
         this.direction = 5;
         health = playerHealth;
@@ -52,6 +52,7 @@ public class PlayerTank extends Tank {
     public void update(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
         super.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
 
+        System.out.println("pppp" + userOperations + locationsPlacement);
         if (userOperations.isKeyUpPressed()) {
             nextLocY -= tankSpeed;
             direction = 3;
@@ -86,7 +87,7 @@ public class PlayerTank extends Tank {
 
 
     public void paint(Graphics2D g2d) {
-        rotateImageAndPaint(direction, g2d, userOperations);
+        rotateImageAndPaint(direction, g2d, (OperationsDone) userOperations);
         tankGun.paint(g2d);
 
     }

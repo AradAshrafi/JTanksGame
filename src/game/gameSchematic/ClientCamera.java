@@ -5,6 +5,7 @@ import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * This class calculates and holds camera borders which is needed in the map loading and drawing.
@@ -12,7 +13,7 @@ import java.awt.*;
  * @author Seyed Mohammad Hosseini Mojahed.
  */
 
-public class ClientCamera {
+public class ClientCamera implements Serializable {
 
     private int cameraNorthBorder, cameraSouthBorder, cameraWestBorder, cameraEastBorder;
     private int mouseX, mouseY;

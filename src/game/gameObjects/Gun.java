@@ -51,15 +51,15 @@ public class Gun extends DynamicObject {
     public void paint(Graphics2D g2d) {
         if ((this.getRelativeLocX() >= 0 && this.getRelativeLocX() <= 960) && ((this.getRelativeLocY() >= 0 && this.getRelativeLocY() <= 720))) {
             //-----> rotating Gun
-            BufferedImage buffer = this.getObjectImage();
-            AffineTransform tx = new AffineTransform();
-            System.out.println(deltaX + "  " + deltaY + "  " + degree);
-            tx.rotate(degree, buffer.getWidth() * 1.0 / 4, buffer.getHeight() * 1.0 / 4);
-            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-            buffer = op.filter(buffer, null);
+//            BufferedImage buffer = this.getObjectImage();
+//            AffineTransform tx = new AffineTransform();
+//            System.out.println(deltaX + "  " + deltaY + "  " + degree);
+//            tx.rotate(degree, buffer.getWidth() * 1.0 / 4, buffer.getHeight() * 1.0 / 4);
+//            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+//            buffer = op.filter(buffer, null);
             // <---------rotating finished
 
-            g2d.drawImage(buffer, this.getRelativeLocX(), this.getRelativeLocY(), null);
+//            g2d.drawImage(buffer, this.getRelativeLocX(), this.getRelativeLocY(), null);
         }
     }
 }

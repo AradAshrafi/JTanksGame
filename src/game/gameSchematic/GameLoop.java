@@ -1,8 +1,11 @@
 package game.gameSchematic;
 
 import game.FileOperation.Map;
+import game.gameObjects.GameObject;
+import game.gameObjects.PlayerTank;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * A very simple structure for the main game loop.
@@ -38,6 +41,7 @@ public class GameLoop implements Runnable {
         canvas = frame;
         this.mapOperation = mapOperation;
         this.userOperation = userOperation;
+        System.out.println(this.userOperation);
 //        singlePlayerPool = new ThreadPool();
 //        singlePlayerPool.init();
     }
@@ -56,10 +60,12 @@ public class GameLoop implements Runnable {
     public void run() {
         int[] userSelectedData = canvas.renderMenu();
         if (userSelectedData[0] == 0) {
-//            singlePlayerPool.execute(new SinglePlayerGame(canvas, state, FPS));
-            Client client = new Client(userOperation, mapOperation, canvas, 120, Map.MAP_HEIGHT - 240);
-            client.run();
+            Thread singlePlayerServer = new Thread(new Server(mapOperation.getMap(), false, userOperation));
+            Thread singlePlayerClient = new Thread(new Client(Server.getPort(), userOperation, mapOperation, canvas, 120, Map.MAP_HEIGHT - 240));
+            singlePlayerServer.start();
+            singlePlayerClient.start();
 
+//            tr.start();
         }
 //        if (userSelectedData[0] == 1) {
 //            GameFrame canvas2 = new GameFrame("JTanks By Arad & Mohammad");

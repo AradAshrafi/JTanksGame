@@ -1,6 +1,8 @@
 package game.gameSchematic.betweenObjectRelation;
 
-public interface OperationsDone {
+import java.io.Serializable;
+
+public interface OperationsDone extends Serializable {
 
     boolean isKeyUpPressed();
 
