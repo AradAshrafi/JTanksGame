@@ -22,8 +22,8 @@ public class Bullet extends RemovableObject {
         float hypotenuse = (float) Math.sqrt(Math.pow(aimPositionX - this.getLocX(), 2) + Math.pow(aimPositionY - this.getLocY(), 2));
         this.cos = (aimPositionX - this.getLocX()) / hypotenuse;
         this.sin = (aimPositionY - this.getLocY()) / hypotenuse;
-        setLocX(getLocX() + (int)(100*cos));
-        setLocY(getLocY() + (int)(100*sin));
+        setLocX(getLocX() + 50 + (int) (120 * cos));
+        setLocY(getLocY() + 50 + (int) (120 * sin));
         setSideLength(1);
         health = 1;
     }
@@ -64,7 +64,7 @@ public class Bullet extends RemovableObject {
         }
     }
 
-    public void hit(){
+    public void hit() {
         health = 0;
     }
 }

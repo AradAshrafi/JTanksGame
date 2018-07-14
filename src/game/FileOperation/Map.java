@@ -122,7 +122,7 @@ public class Map {
                     break;
 
                 case ("3"):
-                    DynamicBotTank dynamicEnemyTankType1 = new DynamicBotTank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
+                    DynamicBotTankType1 dynamicEnemyTankType1 = new DynamicBotTankType1(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
 //                    upperLayerObjects.add(dynamicEnemyTankType1);
                     occupierObjects.add(dynamicEnemyTankType1);
                     dynamicObjectsThreadPool.execute(dynamicEnemyTankType1);

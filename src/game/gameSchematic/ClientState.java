@@ -41,7 +41,7 @@ public class ClientState implements LocationsPlacement {
         if (userOperation.isMouseLeftPressed()) {
             updateGameObjects(camera.getCameraNorthBorder(), camera.getCameraWestBorder(), mapOccupierObjects);
             dynamicObjectsThreadPool.init();
-            playerTank.shot(map, mapOccupierObjects, dynamicObjectsThreadPool);
+            playerTank.shot(mapOccupierObjects, dynamicObjectsThreadPool, camera.getCameraWestBorder() + userOperation.getRelativeMouseX(), camera.getCameraNorthBorder() + userOperation.getRelativeMouseY());
             //System.out.println(playerTank.getLocX() + "  " + playerTank.getLocY() + "  " + (getCameraWestBorder() + relativeMouseX) + "  " + (getCameraNorthBorder() + relativeMouseY) + "  ");
             //mapOccupierObjects.add(newCannonBullet);
             userOperation.setMouseLeftPressed(false);
@@ -69,9 +69,11 @@ public class ClientState implements LocationsPlacement {
                 currentObject.update(cameraNorthBorder, cameraWestBorder);
         }
 
-        Iterator<GameObject> it = occupierObjects.iterator();
-        while (it.hasNext()) {
-            GameObject currentObject = it.next();
+//        Iterator<GameObject> it = occupierObjects.iterator();
+//        while (it.hasNext()) {
+        int occupierSize = occupierObjects.size();
+        for (int i = 0; i < occupierSize; i++) {
+            GameObject currentObject = occupierObjects.get(i);
             //TODO: will be completed in future to remove bullet if its passing forbidden part of map
 //            if(currentObject instanceof Bullet){
 //                if(currentObject.getLocX() || currentObject.getLocY() )
@@ -79,13 +81,14 @@ public class ClientState implements LocationsPlacement {
             if (currentObject instanceof RemovableObject) {
                 if (currentObject instanceof DynamicBotTank) {
                     DynamicBotTank currentBotTank = (DynamicBotTank) currentObject;
-                    currentBotTank.update(cameraNorthBorder, cameraWestBorder, occupierObjects, this);
+                    currentBotTank.update(cameraNorthBorder, cameraWestBorder, occupierObjects, dynamicObjectsThreadPool, this);
                 } else
                     currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
             } else
                 currentObject.update(cameraNorthBorder, cameraWestBorder);
-
         }
+
+//        }
     }
 
 
