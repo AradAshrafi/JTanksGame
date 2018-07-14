@@ -1,6 +1,7 @@
 package game.gameObjects;
 
 import game.FileOperation.Map;
+import game.gameSchematic.ThreadPool;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
@@ -22,8 +23,10 @@ public class PlayerTank extends Tank {
     private BufferedImage cannonGun;
     private BufferedImage machineGun;
     private boolean currentGun;
-    private Gun tankGun;
+    private PlayerGun playerGun;
     private int playerHealth = 5;
+    private int gunType = 1;
+    private int bulletSpeed = 20;
 
     /**
      * @param locX
@@ -44,8 +47,7 @@ public class PlayerTank extends Tank {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.tankGun = new Gun(locX + SIDE_LENGTH / 4, locY + SIDE_LENGTH / 4, "icons/TankCannon.png");
-        secondaryUpdate();
+        this.playerGun = new PlayerGun(locX + SIDE_LENGTH / 4, locY + SIDE_LENGTH / 4, "icons/TankCannon.png");
     }
 
     @Override
@@ -81,13 +83,34 @@ public class PlayerTank extends Tank {
             direction = 8;
         }
 
-        tankGun.update(cameraNorthBorder, cameraWestBorder, getLocX(), getLocY(), SIDE_LENGTH, occupierObjects, userOperations.getRelativeMouseX(), userOperations.getRelativeMouseY());
+        playerGun.update(cameraNorthBorder, cameraWestBorder, getLocX(), getLocY(), SIDE_LENGTH, occupierObjects, userOperations.getRelativeMouseX(), userOperations.getRelativeMouseY());
     }
 
+    public void shot(ArrayList<GameObject> map, ArrayList<GameObject> occupierObjects, ThreadPool dynamicObjectsThreadPool){
+        if (gunType == 0){
+            CannonBullet newCannonBullet = new CannonBullet(getLocX()+50, getLocY()+50,
+                    cameraWestBorder + userOperations.getRelativeMouseX(), cameraNorthBorder + userOperations.getRelativeMouseY()
+                    , bulletSpeed);
+            occupierObjects.add(newCannonBullet);
+            dynamicObjectsThreadPool.execute(newCannonBullet);
+        }
+        else {
+            MachineGunBullet newMachineGunBullet = new MachineGunBullet(getLocX()+50, getLocY()+50,
+                    cameraWestBorder + userOperations.getRelativeMouseX(), cameraNorthBorder + userOperations.getRelativeMouseY()
+                    , bulletSpeed);
+            occupierObjects.add(newMachineGunBullet);
+            dynamicObjectsThreadPool.execute(newMachineGunBullet);
+        }
+    }
 
+    @Override
     public void paint(Graphics2D g2d) {
         rotateImageAndPaint(direction, g2d, userOperations);
-        tankGun.paint(g2d);
+        playerGun.paint(g2d);
 
+    }
+
+    public void changeGunType() {
+        this.gunType = Math.abs(1-gunType);
     }
 }

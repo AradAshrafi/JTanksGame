@@ -13,7 +13,7 @@ public class Client implements Runnable {
 
     public Client(UserOperation userOperation, Map map, GameFrame canvas, int playerTankLocX, int playerTankLocY) {
         this.userOperation = userOperation;
-        state = new ClientState(userOperation, map.getMap(), map.getOccupierObjects(), map.getDynamicObjectsThreadPool(), playerTankLocX, playerTankLocY);
+        state = new ClientState(userOperation, map.getUnderLayerObjects(), map.getOccupierObjects(), map.getDynamicObjectsThreadPool(), playerTankLocX, playerTankLocY);
         this.canvas = canvas;
     }
 

@@ -189,7 +189,7 @@ public class GameFrame extends JFrame {
 
         while (!gameModeIsChose) {
             g2d.setColor(Color.BLACK);
-            if (userOperation.isKeyDownPressed() || userOperation.isKeyUpPressed())
+            if (userOperation.isKeyDown2Pressed() || userOperation.isKeyUp2Pressed())
                 isMultiPlayer = !isMultiPlayer;
 
             if (userOperation.isEnterPressed())
@@ -246,9 +246,9 @@ public class GameFrame extends JFrame {
         //wait for user to press enter
         while (!gameDifficultyIsChose) {
             g2d.setColor(Color.BLACK);
-            if (userOperation.isKeyDownPressed())
+            if (userOperation.isKeyDown2Pressed())
                 difficultyLevel = ((difficultyLevel + 1) % 3);
-            if (userOperation.isKeyUpPressed()) {
+            if (userOperation.isKeyUp2Pressed()) {
                 if (difficultyLevel < 0)
                     difficultyLevel += 3;
                 else
@@ -365,7 +365,9 @@ public class GameFrame extends JFrame {
 
     private void drawMap(Graphics2D g2d, ClientState state) {
         //get map from game state
-        ArrayList<GameObject> map = state.getMap();
+        ArrayList<GameObject> map = new ArrayList<>();
+        map.addAll(state.getUnderLayerObject());
+        map.addAll(state.getMapOccupierObjects());
         System.out.println(map.size());
 
 

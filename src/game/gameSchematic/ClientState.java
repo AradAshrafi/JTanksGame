@@ -1,10 +1,7 @@
 package game.gameSchematic;
 
 import game.FileOperation.Map;
-import game.gameObjects.CannonBullet;
-import game.gameObjects.DynamicObject;
-import game.gameObjects.GameObject;
-import game.gameObjects.PlayerTank;
+import game.gameObjects.*;
 import game.gameSchematic.betweenObjectRelation.LocationsPlacement;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
@@ -15,19 +12,24 @@ import java.util.Iterator;
 public class ClientState implements LocationsPlacement {
     private ArrayList<GameObject> map;
     private ArrayList<GameObject> mapOccupierObjects;
+    private ArrayList<GameObject> underLayerObject;
     private ThreadPool dynamicObjectsThreadPool;
     private PlayerTank playerTank;
     private UserOperation userOperation;
     private ClientCamera camera;
 
-    public ClientState(UserOperation userOperation, ArrayList<GameObject> map, ArrayList<GameObject> mapOccupierObjects, ThreadPool dynamicObjectsThreadPool, int playerTankLocX, int playerTankLocY) {
-        this.map = map;
+    public ClientState(UserOperation userOperation, ArrayList<GameObject> underLayerObject, ArrayList<GameObject> mapOccupierObjects, ThreadPool dynamicObjectsThreadPool, int playerTankLocX, int playerTankLocY) {
+        this.underLayerObject = underLayerObject;
         this.userOperation = userOperation;
         this.mapOccupierObjects = mapOccupierObjects;
+        this.dynamicObjectsThreadPool = dynamicObjectsThreadPool;
+        dynamicObjectsThreadPool.init();
         this.playerTank = new PlayerTank(playerTankLocX, playerTankLocY, "icons/PlayerTank.png", 20, (OperationsDone) (userOperation), (LocationsPlacement) this);
         this.camera = new ClientCamera((LocationsPlacement) (this), (OperationsDone) (userOperation));
         dynamicObjectsThreadPool.execute(playerTank);
-        map.add(playerTank);
+//        map.add(playerTank);
+        mapOccupierObjects.add(playerTank);
+//        mapOccupierObjects.add(playerTank);
     }
 
     /**
@@ -36,15 +38,21 @@ public class ClientState implements LocationsPlacement {
     public void update() {
 
         // cheatCode.update(kE);
-        if (userOperation.isMousePressed()) {
-            System.out.println("tiir");
-            CannonBullet newCannonBullet = new CannonBullet(playerTank.getLocX(), playerTank.getLocY(),
-                    camera.getCameraWestBorder() + userOperation.getRelativeMouseX(), camera.getCameraNorthBorder() + userOperation.getRelativeMouseY(), 20);
-//            System.out.println(playerTank.getLocX() + "  " + playerTank.getLocY() + "  " + (getCameraWestBorder() + relativeMouseX) + "  " + (getCameraNorthBorder() + relativeMouseY) + "  ");
-            map.add(newCannonBullet);
-            userOperation.setMousePressed(false);
+        camera.update();
+
+        if (userOperation.isMouseLeftPressed()) {
+            updateGameObjects(camera.getCameraNorthBorder(), camera.getCameraWestBorder(), mapOccupierObjects);
+            dynamicObjectsThreadPool.init();
+            playerTank.shot(map, mapOccupierObjects, dynamicObjectsThreadPool);
+            //System.out.println(playerTank.getLocX() + "  " + playerTank.getLocY() + "  " + (getCameraWestBorder() + relativeMouseX) + "  " + (getCameraNorthBorder() + relativeMouseY) + "  ");
+            //mapOccupierObjects.add(newCannonBullet);
+            userOperation.setMouseLeftPressed(false);
         }
-        ;
+        if (userOperation.isMouseRightPressed()) {
+            playerTank.changeGunType();
+            userOperation.setMouseRightPressed(false);
+        }
+
         camera.update();
         // cameraAndMyTank.updateByMouse();
         updateGameObjects(camera.getCameraNorthBorder(), camera.getCameraWestBorder(), mapOccupierObjects);
@@ -52,7 +60,7 @@ public class ClientState implements LocationsPlacement {
 
 
     private void updateGameObjects(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
-        Iterator<GameObject> it = map.iterator();
+        Iterator<GameObject> it = occupierObjects.iterator();
         while (it.hasNext()) {
             GameObject currentObject = it.next();
             //TODO: will be completed in future to remove bullet if its passing forbidden part of map
@@ -61,8 +69,18 @@ public class ClientState implements LocationsPlacement {
 //            }
             if (currentObject instanceof DynamicObject)
                 currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
-            currentObject.update(cameraNorthBorder, cameraWestBorder);
+            else
+                currentObject.update(cameraNorthBorder, cameraWestBorder);
 
+        }
+        Iterator<GameObject> it2 = underLayerObject.iterator();
+        while (it2.hasNext()) {
+            GameObject currentObject = it2.next();
+
+            if (currentObject instanceof DynamicObject)
+                currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
+            else
+                currentObject.update(cameraNorthBorder, cameraWestBorder);
         }
     }
 
@@ -86,38 +104,42 @@ public class ClientState implements LocationsPlacement {
         return playerTank.getLocY();
     }
 
-    @Override
-    public void setTankLocX(int amount) {
-        playerTank.setLocX(amount);
-    }
-
-    @Override
-    public void setTankLocY(int amount) {
-        playerTank.setLocY(amount);
-    }
-
-    @Override
-    public int getRelativeTankLocX() {
-        return playerTank.getRelativeLocX();
-    }
-
-    @Override
-    public int getRelativeTankLocY() {
-        return playerTank.getRelativeLocY();
-    }
-
-    @Override
-    public void setRelativeTankLocX(int amount) {
-        playerTank.setRelativeLocX(amount);
-    }
-
-    @Override
-    public void setRelativeTankLocY(int amount) {
-        playerTank.setRelativeLocY(amount);
-    }
+//    @Override
+//    public void setTankLocX(int amount) {
+//        playerTank.setLocX(amount);
+//    }
+//
+//    @Override
+//    public void setTankLocY(int amount) {
+//        playerTank.setLocY(amount);
+//    }
+//
+//    @Override
+//    public int getRelativeTankLocX() {
+//        return playerTank.getRelativeLocX();
+//    }
+//
+//    @Override
+//    public int getRelativeTankLocY() {
+//        return playerTank.getRelativeLocY();
+//    }
+//
+//    @Override
+//    public void setRelativeTankLocX(int amount) {
+//        playerTank.setRelativeLocX(amount);
+//    }
+//
+//    @Override
+//    public void setRelativeTankLocY(int amount) {
+//        playerTank.setRelativeLocY(amount);
+//    }
 
     public ArrayList<GameObject> getMapOccupierObjects() {
         return mapOccupierObjects;
+    }
+
+    public ArrayList<GameObject> getUnderLayerObject() {
+        return underLayerObject;
     }
 
     public ThreadPool getDynamicObjectsThreadPool() {

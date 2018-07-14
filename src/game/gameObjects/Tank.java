@@ -10,6 +10,11 @@ public abstract class Tank extends DynamicObject {
         super(locX, locY, pathName);
         this.bulletSpeed = bulletSpeed;
         this.direction = 5;
+        setSideLength(100);
+    }
+
+    public void getUnitDamaged(){
+        health --;
     }
 
 }

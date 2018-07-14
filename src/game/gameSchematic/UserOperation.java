@@ -4,6 +4,7 @@ package game.gameSchematic;
 import game.FileOperation.Map;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
+import javax.swing.*;
 import java.awt.event.*;
 
 public class UserOperation implements OperationsDone {
@@ -14,8 +15,8 @@ public class UserOperation implements OperationsDone {
     private GameCheatCode cheatCode;
     private int relativeMouseX;
     private int relativeMouseY;
-    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT, enterPressed, itemIsSelected;
-    private boolean mousePressed;
+    private boolean keyUP, keyDOWN, keyLEFT, keyRIGHT, keyUP2, keyDOWN2, keyLEFT2, keyRIGHT2, enterPressed, itemIsSelected;
+    private boolean mousePressed, mouseRightPressed, mouseLeftPressed;
     private boolean mouseMoved;
 
 
@@ -31,6 +32,12 @@ public class UserOperation implements OperationsDone {
         keyDOWN = false;
         keyRIGHT = false;
         keyLEFT = false;
+        //
+        keyUP2 = false;
+        keyDOWN2 = false;
+        keyLEFT2 = false;
+        keyRIGHT2 = false;
+        //
         enterPressed = false;
         //
         mousePressed = false;
@@ -77,8 +84,6 @@ public class UserOperation implements OperationsDone {
                 case KeyEvent.VK_ESCAPE:
                     gameOver = true;
                     break;
-//                case KeyEvent.VK_ENTER:
-//                    break;
                 default:
                     break;
             }
@@ -89,15 +94,19 @@ public class UserOperation implements OperationsDone {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     keyUP = false;
+                    keyUP2 = true;
                     break;
                 case KeyEvent.VK_DOWN:
                     keyDOWN = false;
+                    keyDOWN2 = true;
                     break;
                 case KeyEvent.VK_LEFT:
                     keyLEFT = false;
+                    keyLEFT2 = true;
                     break;
                 case KeyEvent.VK_RIGHT:
                     keyRIGHT = false;
+                    keyRIGHT2 = true;
                 case KeyEvent.VK_ENTER:
                     enterPressed = true;
                     break;
@@ -117,16 +126,16 @@ public class UserOperation implements OperationsDone {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if (!mousePressed) {
-                relativeMouseX = e.getX();
-                relativeMouseY = e.getY();
-                mousePressed = true;
-            }
+            mousePressed = true;
+            mouseRightPressed = SwingUtilities.isRightMouseButton(e);
+            mouseLeftPressed = SwingUtilities.isLeftMouseButton(e);
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
             mousePressed = false;
+            mouseLeftPressed = false;
+            mouseRightPressed = false;
         }
 
         @Override
@@ -155,8 +164,39 @@ public class UserOperation implements OperationsDone {
     }
 
     @Override
+    public int getMouseX() {
+        return 0;
+    }
+
+    @Override
+    public int getMouseY() {
+        return 0;
+    }
+
+    @Override
     public boolean isMousePressed() {
         return mousePressed;
+    }
+
+    @Override
+    public boolean isMouseRightPressed() {
+        return mouseRightPressed;
+    }
+
+    @Override
+    public void setMouseRightPressed(boolean trueOrFalse) {
+        mouseRightPressed = trueOrFalse;
+
+    }
+
+    @Override
+    public void setMouseLeftPressed(boolean trueOrFalse) {
+        mouseLeftPressed = trueOrFalse;
+    }
+
+    @Override
+    public boolean isMouseLeftPressed() {
+        return mouseLeftPressed;
     }
 
     @Override
@@ -183,6 +223,34 @@ public class UserOperation implements OperationsDone {
     public boolean isKeyLeftPressed() {
         return keyLEFT;
     }
+
+    @Override
+    public boolean isKeyUp2Pressed() {
+        boolean tmp = keyUP2;
+        keyUP2 = false;
+        return tmp;
+    }
+
+    @Override
+    public boolean isKeyDown2Pressed() {
+        boolean tmp = keyDOWN2;
+        keyDOWN2 = false;
+        return tmp;
+    }
+
+//    @Override
+//    public boolean isKeyRight2Pressed() {
+//        boolean tmp = keyRIGHT2;
+//        keyRIGHT2 = false;
+//        return tmp;
+//    }
+//
+//    @Override
+//    public boolean isKeyLeft2Pressed() {
+//        boolean tmp = keyLEFT2;
+//        keyLEFT2 = false;
+//        return tmp;
+//    }
 
     @Override
     public boolean isMouseMoved() {

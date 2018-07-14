@@ -37,7 +37,6 @@ public class BotTank extends Tank {
 
     public void updateNextDirection(){
         nextMovementDirection = (int)(nextMovementDirection + (Math.random()*8 +1))%8+1;
-        System.out.println(nextMovementDirection);
     }
 
     public void updateNextLocation(){
@@ -71,12 +70,4 @@ public class BotTank extends Tank {
                 nextLocY += tankSpeed;
         }
     }
-
-    //    @Override
-//    public void update(int cameraNorthBorder, int cameraWestBorder) {
-//        super.update(cameraNorthBorder, cameraWestBorder);
-//        tankGun.update(cameraNorthBorder, cameraWestBorder);
-//        setRelativeLocY(getLocY() - cameraNorthBorder);
-//        setRelativeLocX(getLocX() - cameraWestBorder);
-//    }
 }

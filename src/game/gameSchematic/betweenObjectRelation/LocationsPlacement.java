@@ -6,15 +6,15 @@ public interface LocationsPlacement {
 
     int getTankLocY();
 
-    void setTankLocX(int amount);
-
-    void setTankLocY(int amount);
-
-    int getRelativeTankLocX();
-
-    int getRelativeTankLocY();
-
-    void setRelativeTankLocX(int amount);
-
-    void setRelativeTankLocY(int amount);
+//    void setTankLocX(int amount);
+//
+//    void setTankLocY(int amount);
+//
+//    int getRelativeTankLocX();
+//
+//    int getRelativeTankLocY();
+//
+//    void setRelativeTankLocX(int amount);
+//
+//    void setRelativeTankLocY(int amount);
 }

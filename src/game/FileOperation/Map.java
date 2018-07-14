@@ -90,18 +90,22 @@ public class Map {
                 case ("C"):
                     CannonFill cannonFill = new CannonFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(cannonFill);
+                    occupierObjects.add(cannonFill);
                     break;
                 case ("D"):
                     MachineGunFill machineGunFill = new MachineGunFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(machineGunFill);
+                    occupierObjects.add(machineGunFill);
                     break;
                 case ("P"):
                     Plant plant = new Plant(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(plant);
+                    occupierObjects.add(plant);
                     break;
                 case ("U"):
                     CannonUpdate cannonUpdate = new CannonUpdate(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     upperLayerObjects.add(cannonUpdate);
+                    occupierObjects.add(cannonUpdate);
                     break;
                 case ("1"):
                 case ("2"):
@@ -130,7 +134,7 @@ public class Map {
 
     public void buildMap() {
         mapObjects.addAll(underLayerObjects);
-        mapObjects.addAll(upperLayerObjects);
+        mapObjects.addAll(occupierObjects);
     }
 
 
@@ -144,5 +148,9 @@ public class Map {
 
     public ThreadPool getDynamicObjectsThreadPool() {
         return dynamicObjectsThreadPool;
+    }
+
+    public ArrayList<GameObject> getUnderLayerObjects() {
+        return underLayerObjects;
     }
 }
