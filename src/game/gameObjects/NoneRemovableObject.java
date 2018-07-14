@@ -2,9 +2,9 @@ package game.gameObjects;
 
 import game.FileOperation.Map;
 
-public abstract class StaticObject extends GameObject {
+public abstract class NoneRemovableObject extends GameObject {
 
-    public StaticObject(int locX, int locY, String pathName) {
+    public NoneRemovableObject(int locX, int locY, String pathName) {
         super(locX, locY, pathName);
         setSideLength(120);
     }

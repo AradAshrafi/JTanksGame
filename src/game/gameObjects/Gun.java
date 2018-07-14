@@ -2,7 +2,7 @@ package game.gameObjects;
 
 import java.util.ArrayList;
 
-public class Gun extends DamageableObjec {
+public class Gun extends RemovableObject {
     protected int aimLocX, aimLocY;
     protected int deltaX, deltaY;
     protected double degree = 0;

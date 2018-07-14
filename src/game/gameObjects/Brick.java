@@ -1,7 +1,7 @@
 package game.gameObjects;
 
-public class Brick extends DamageableObjec {
-    private final int SIDE_LENGTH = 120;
+public class Brick extends RemovableObject {
+
     public Brick(int locX, int locY) {
         super(locX, locY, "icons/Brick.png");
         setSideLength(120);

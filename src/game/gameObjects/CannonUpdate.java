@@ -1,7 +1,13 @@
 package game.gameObjects;
 
-import game.FileOperation.Map;
+public class CannonUpdate extends RemovableObject {
+    public CannonUpdate(int locX, int locY) {
+        super(locX, locY, "icons/CannonUpdate.png");
+        setSideLength(80);
+        health = 1;
+    }
 
-public class CannonUpdate extends StaticObject {
-    public CannonUpdate(int locX, int locY) { super(locX, locY, "icons/CannonUpdate.png"); }
+    public void getUnitDamaged() {
+        health--;
+    }
 }

@@ -1,6 +1,6 @@
 package game.gameObjects;
 
-public abstract class Tank extends DamageableObjec {
+public abstract class Tank extends RemovableObject {
     private int bulletSpeed;
     private final int SIDE_LENGTH = 120;
     protected int gunType = 1;

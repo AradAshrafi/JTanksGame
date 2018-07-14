@@ -1,7 +1,14 @@
 package game.gameObjects;
 
-import game.FileOperation.Map;
+public class CannonFill extends RemovableObject {
 
-public class CannonFill extends StaticObject {
-    public CannonFill(int locX, int locY) {super(locX, locY, "icons/CannonFood.png");}
+    public CannonFill(int locX, int locY) {
+        super(locX, locY, "icons/CannonFood.png");
+        setSideLength(80);
+        health = 1;
+    }
+    public void getUnitDamaged(){
+        health --;
+    }
+
 }

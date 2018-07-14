@@ -58,6 +58,17 @@ public class ClientState implements LocationsPlacement {
 
 
     private void updateGameObjects(int cameraNorthBorder, int cameraWestBorder, ArrayList<GameObject> occupierObjects) {
+
+        Iterator<GameObject> it2 = underLayerObject.iterator();
+        while (it2.hasNext()) {
+            GameObject currentObject = it2.next();
+
+            if (currentObject instanceof RemovableObject)
+                currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
+            else
+                currentObject.update(cameraNorthBorder, cameraWestBorder);
+        }
+
         Iterator<GameObject> it = occupierObjects.iterator();
         while (it.hasNext()) {
             GameObject currentObject = it.next();
@@ -65,21 +76,12 @@ public class ClientState implements LocationsPlacement {
 //            if(currentObject instanceof Bullet){
 //                if(currentObject.getLocX() || currentObject.getLocY() )
 //            }
-            if (currentObject instanceof DamageableObjec) {
+            if (currentObject instanceof RemovableObject) {
                 currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
             }
             else
                 currentObject.update(cameraNorthBorder, cameraWestBorder);
 
-        }
-        Iterator<GameObject> it2 = underLayerObject.iterator();
-        while (it2.hasNext()) {
-            GameObject currentObject = it2.next();
-
-            if (currentObject instanceof DamageableObjec)
-                currentObject.update(cameraNorthBorder, cameraWestBorder, occupierObjects);
-            else
-                currentObject.update(cameraNorthBorder, cameraWestBorder);
         }
     }
 

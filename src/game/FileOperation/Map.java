@@ -67,6 +67,7 @@ public class Map {
                     Wall wall = new Wall(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
                     underLayerObjects.add(wall);
                     occupierObjects.add(wall);
+
                     break;
                 case ("G"):
                     Ground ground = new Ground(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
@@ -84,30 +85,33 @@ public class Map {
             switch (characters[j]) {
                 case ("B"):
                     Brick brick = new Brick(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(brick);
+//                    upperLayerObjects.add(brick);
                     occupierObjects.add(brick);
                     dynamicObjectsThreadPool.execute(brick);
 
                     break;
                 case ("C"):
                     CannonFill cannonFill = new CannonFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(cannonFill);
+//                    upperLayerObjects.add(cannonFill);
                     occupierObjects.add(cannonFill);
+                    dynamicObjectsThreadPool.execute(cannonFill);
                     break;
                 case ("D"):
                     MachineGunFill machineGunFill = new MachineGunFill(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(machineGunFill);
+//                    upperLayerObjects.add(machineGunFill);
                     occupierObjects.add(machineGunFill);
+                    dynamicObjectsThreadPool.execute(machineGunFill);
                     break;
                 case ("P"):
                     Plant plant = new Plant(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(plant);
+//                    upperLayerObjects.add(plant);
                     occupierObjects.add(plant);
                     break;
                 case ("U"):
                     CannonUpdate cannonUpdate = new CannonUpdate(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER);
-                    upperLayerObjects.add(cannonUpdate);
+//                    upperLayerObjects.add(cannonUpdate);
                     occupierObjects.add(cannonUpdate);
+                    dynamicObjectsThreadPool.execute(cannonUpdate);
                     break;
                 case ("1"):
                 case ("2"):
@@ -119,9 +123,8 @@ public class Map {
 
                 case ("3"):
                     DynamicBotTank dynamicEnemyTankType1 = new DynamicBotTank(j * UNIT_PIXELS_NUMBER, row * UNIT_PIXELS_NUMBER, "icons/BigEnemy.png", 15);
-                    upperLayerObjects.add(dynamicEnemyTankType1);
+//                    upperLayerObjects.add(dynamicEnemyTankType1);
                     occupierObjects.add(dynamicEnemyTankType1);
-//                    botCounter++;
                     dynamicObjectsThreadPool.execute(dynamicEnemyTankType1);
                     break;
             }

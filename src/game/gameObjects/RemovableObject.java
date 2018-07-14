@@ -1,5 +1,6 @@
 package game.gameObjects;
 
+import game.gameSchematic.Game;
 import game.gameSchematic.betweenObjectRelation.OperationsDone;
 
 import java.awt.*;
@@ -7,8 +8,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public abstract class DamageableObjec extends GameObject implements Runnable {
+public abstract class RemovableObject extends GameObject implements Runnable {
     private int currentDegree;
     protected int cameraNorthBorder, cameraWestBorder;
     protected ArrayList<GameObject> occupierObjects;
@@ -26,7 +28,7 @@ public abstract class DamageableObjec extends GameObject implements Runnable {
      */
     protected int direction;
 
-    public DamageableObjec(int locX, int locY, String pathName) {
+    public RemovableObject(int locX, int locY, String pathName) {
         super(locX, locY, pathName);
 //        setSideLength(100);
         occupierObjects = new ArrayList<>();
@@ -39,49 +41,53 @@ public abstract class DamageableObjec extends GameObject implements Runnable {
         boolean movementIsAllowed = true;
         int westBorder, eastBorder, northBorder, southBorder;
 
-        int i;
-        for (i = 0; i < occupierObjects.size(); i++) {
-            westBorder = occupierObjects.get(i).getLocX() - getSideLength();
-            eastBorder = occupierObjects.get(i).getLocX() + occupierObjects.get(i).getSideLength();
-            northBorder = occupierObjects.get(i).getLocY() - getSideLength();
-            southBorder = occupierObjects.get(i).getLocY() + occupierObjects.get(i).getSideLength();
+        GameObject occupier = null;
+        Iterator<GameObject> iterator = occupierObjects.iterator();
+        while (iterator.hasNext()) {
+            GameObject currentObject = iterator.next();
+            westBorder = currentObject.getLocX() - getSideLength();
+            eastBorder = currentObject.getLocX() + currentObject.getSideLength();
+            northBorder = currentObject.getLocY() - getSideLength();
+            southBorder = currentObject.getLocY() + currentObject.getSideLength();
 
             if (((nextLocX > westBorder && nextLocX < eastBorder) && (nextLocY > northBorder && nextLocY < southBorder)
-                    && !(occupierObjects.get(i) == this))) {
+                    && !(currentObject == this))) {
                 movementIsAllowed = false;
+                occupier = currentObject;
                 break;
             }
         }
         if (movementIsAllowed) {
             setLocY(nextLocY);
             setLocX(nextLocX);
-        } else checkDamageAndGetDamaged(i);
+        } else checkDamageAndGetDamaged(occupier);
     }
 
-    public void checkDamageAndGetDamaged(int occupierObjectNumber) {
+    public void checkDamageAndGetDamaged(GameObject occupier) {
         if (this instanceof CannonBullet) {
             ((CannonBullet) this).hit();
-            if (occupierObjects.get(occupierObjectNumber) instanceof Tank) {
+            if (occupier instanceof Tank) {
                 for (int j = 0; j < 3; j++) {
-                    ((Tank) occupierObjects.get(occupierObjectNumber)).getUnitDamaged();
+                    ((Tank) occupier).getUnitDamaged();
                 }
             }
-            if (occupierObjects.get(occupierObjectNumber) instanceof Brick) {
+            if (occupier instanceof Brick) {
                 for (int j = 0; j < 3; j++) {
-                    ((Brick) occupierObjects.get(occupierObjectNumber)).getUnitDamaged();
+                    ((Brick)occupier).getUnitDamaged();
                 }
             }
         } else if (this instanceof MachineGunBullet) {
             ((MachineGunBullet) this).hit();
-            if (occupierObjects.get(occupierObjectNumber) instanceof Tank) {
-                ((Tank) occupierObjects.get(occupierObjectNumber)).getUnitDamaged();
+            if (occupier instanceof Tank) {
+                ((Tank) occupier).getUnitDamaged();
 
             }
-            if (occupierObjects.get(occupierObjectNumber) instanceof Brick) {
-                ((Brick) occupierObjects.get(occupierObjectNumber)).getUnitDamaged();
+            if (occupier instanceof Brick) {
+                ((Brick) occupier).getUnitDamaged();
 
             }
         }
+//        else if (this instanceof )
     }
 
     @Override
@@ -161,7 +167,6 @@ public abstract class DamageableObjec extends GameObject implements Runnable {
         try {
             System.out.println(health);
             while (health > 0) {
-                if (this instanceof Brick) System.out.println("jhnhjjjjjjjjjjjj"+health);
                 long start = System.currentTimeMillis();
                 long delay = (15 - (System.currentTimeMillis() - start));
                 //System.out.println("delay is : " + delay);
